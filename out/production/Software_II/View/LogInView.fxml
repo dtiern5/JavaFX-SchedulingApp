@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
@@ -8,9 +9,18 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 
-<AnchorPane fx:id="label" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.LogInController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.LogInController">
    <children>
-      <Button layoutX="273.0" layoutY="200.0" mnemonicParsing="false" onAction="#OnButtonAction" text="Button" />
-      <Label fx:id="TheLabel" layoutX="286.0" layoutY="112.0" text="Label" />
+      <Label layoutX="30.0" layoutY="28.0" text="Scheduling App">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="34.0" layoutY="97.0" text="Username" />
+      <Label layoutX="36.0" layoutY="163.0" text="Password" />
+      <Button layoutX="215.0" layoutY="224.0" mnemonicParsing="false" onAction="#loginButtonPushed" text="Login" />
+      <Button fx:id="exitButton" layoutX="156.0" layoutY="224.0" mnemonicParsing="false" onAction="#exitButtonPushed" text="Exit" />
+      <TextField fx:id="userNameTF" layoutX="103.0" layoutY="92.0" />
+      <TextField fx:id="passwordTF" layoutX="103.0" layoutY="158.0" />
    </children>
 </AnchorPane>
