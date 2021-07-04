@@ -31,26 +31,29 @@ public class Main extends Application {
     public static void main(String[] args) throws SQLException {
         Connection conn = DBConnection.startConnection(); // Connect to database
 
-        String insertStatement = "INSERT INTO countries(Country, Create_Date, Created_By, Last_Updated_By) VALUES(?, ?, ?, ?)";
+        String updateStatement = "UPDATE countries SET Country = ?, Created_By = ? WHERE Country = ?";
 
-        DBQuery.setPreparedStatement(conn, insertStatement); // Create preparedStatement
+        DBQuery.setPreparedStatement(conn, updateStatement); // Create preparedStatement
 
         PreparedStatement ps = DBQuery.getPreparedStatement();
 
-        String countryName;
-        String createDate = "2021-06-02";
-        String createdBy = "admin";
-        String lastUpdatedBy = "admin";
+        String countryName, newCountry, createdBy;
 
         // Get keyboard input
         Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter country to update: ");
         countryName = scanner.nextLine();
 
-        // key-value mapping
-        ps.setString(1, countryName);
-        ps.setString(2, createDate);
-        ps.setString(3, createdBy);
-        ps.setString(4, lastUpdatedBy);
+        System.out.print("Enter new country: ");
+        newCountry = scanner.nextLine();
+
+        System.out.print("Enter user: ");
+        createdBy = scanner.nextLine();
+
+        ps.setString(1, newCountry);
+        ps.setString(2, createdBy);
+        ps.setString(3, countryName);
 
         ps.execute(); // Execute PreparedStatement
 
