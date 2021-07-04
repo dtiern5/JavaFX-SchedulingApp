@@ -30,34 +30,6 @@ public class Main extends Application {
      */
     public static void main(String[] args) throws SQLException {
         Connection conn = DBConnection.startConnection(); // Connect to database
-
-        String selectStatement = "SELECT * FROM countries";
-
-        DBQuery.setPreparedStatement(conn, selectStatement); // Create preparedStatement
-
-        PreparedStatement ps = DBQuery.getPreparedStatement();
-
-        ps.execute();
-
-        ResultSet rs = ps.getResultSet();
-
-        // Forward scroll ResultSet
-        while(rs.next()) {
-            int countryId = rs.getInt("Country_ID");
-            String countryName = rs.getString("Country");
-            LocalDate date = rs.getDate("Create_Date").toLocalDate();
-            LocalTime time = rs.getTime("Create_Date").toLocalTime();
-            String createdBy = rs.getString("Created_By");
-            LocalDateTime lastUpdate = rs.getTimestamp("Last_Update").toLocalDateTime();
-
-            // Display record
-            System.out.println(countryId + " | " +
-                    countryName + " | " +
-                    date + " " + time + " | " +
-                    createdBy + " | " +
-                    lastUpdate);
-        }
-
         launch(args);
         DBConnection.closeConnection();
     }

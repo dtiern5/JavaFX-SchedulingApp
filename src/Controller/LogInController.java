@@ -1,21 +1,34 @@
 package Controller;
 
 import DBAccess.DBCountries;
+import DBAccess.DBUsers;
 import Database.DBConnection;
+import Database.DBQuery;
 import Model.Countries;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 
 import javax.swing.*;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Hashtable;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class LogInController implements Initializable {
+
+    @FXML
+    private TextField userNameTextField;
+    @FXML
+    private TextField passwordTextField;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -41,8 +54,19 @@ public class LogInController implements Initializable {
         }
     }
 
-    public void loginButtonPushed(ActionEvent event) {
+    public void loginButtonPushed(ActionEvent event) throws Exception {
+        String passwordAttempt = passwordTextField.getText();
+        if (passwordAttempt.equals(DBUsers.getPassword(userNameTextField.getText()))) {
+            System.out.println("Logged in!");
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Information not found");
+            alert.setContentText("Incorrect user name or password");
+            alert.showAndWait();
+
+        }
 
     }
 
 }
+
