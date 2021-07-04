@@ -31,27 +31,31 @@ public class Main extends Application {
     public static void main(String[] args) throws SQLException {
         Connection conn = DBConnection.startConnection(); // Connect to database
 
-        String deleteStatement = "DELETE FROM countries WHERE Country = ?";
+        String selectStatement = "SELECT * FROM countries";
 
-        DBQuery.setPreparedStatement(conn, deleteStatement); // Create preparedStatement
+        DBQuery.setPreparedStatement(conn, selectStatement); // Create preparedStatement
 
         PreparedStatement ps = DBQuery.getPreparedStatement();
 
-        // Get keyboard input
-        Scanner scanner = new Scanner(System.in);
+        ps.execute();
 
-        System.out.print("Enter country to delete: ");
-        String countryName = scanner.nextLine();
+        ResultSet rs = ps.getResultSet();
 
-        ps.setString(1, countryName);
+        // Forward scroll ResultSet
+        while(rs.next()) {
+            int countryId = rs.getInt("Country_ID");
+            String countryName = rs.getString("Country");
+            LocalDate date = rs.getDate("Create_Date").toLocalDate();
+            LocalTime time = rs.getTime("Create_Date").toLocalTime();
+            String createdBy = rs.getString("Created_By");
+            LocalDateTime lastUpdate = rs.getTimestamp("Last_Update").toLocalDateTime();
 
-        ps.execute(); // Execute PreparedStatement
-
-        // Check rows affected
-        if(ps.getUpdateCount() > 0) {
-            System.out.println(ps.getUpdateCount() + " row(s) affected");
-        } else {
-            System.out.println("No change");
+            // Display record
+            System.out.println(countryId + " | " +
+                    countryName + " | " +
+                    date + " " + time + " | " +
+                    createdBy + " | " +
+                    lastUpdate);
         }
 
         launch(args);
