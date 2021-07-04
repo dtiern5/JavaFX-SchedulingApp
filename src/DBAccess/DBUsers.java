@@ -9,6 +9,21 @@ import java.sql.ResultSet;
 
 public class DBUsers {
 
+    public static boolean findUserName(String userName) throws Exception {
+        Connection conn = DBConnection.getConnection();
+        String selectStatement = "SELECT 1 FROM users WHERE User_Name = ?";
+
+        DBQuery.setPreparedStatement(conn, selectStatement);
+        PreparedStatement ps = DBQuery.getPreparedStatement();
+        ps.setString(1, userName);
+        ps.execute();
+
+        ResultSet rs = ps.executeQuery();
+
+        return rs.next();
+    }
+
+
     public static String getPassword(String userName) throws Exception {
         Connection conn = DBConnection.getConnection();
         String selectStatement = "SELECT Password FROM users WHERE User_Name = ?";
@@ -20,7 +35,7 @@ public class DBUsers {
 
         ResultSet rs = ps.getResultSet();
         String passCheck = null;
-        while(rs.next()) {
+        while (rs.next()) {
             passCheck = rs.getString("Password");
         }
         return passCheck;

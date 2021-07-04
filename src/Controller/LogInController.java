@@ -54,16 +54,34 @@ public class LogInController implements Initializable {
         }
     }
 
+    /**
+     *
+     * @param event
+     * @throws Exception
+     */
     public void loginButtonPushed(ActionEvent event) throws Exception {
-        String passwordAttempt = passwordTextField.getText();
-        if (passwordAttempt.equals(DBUsers.getPassword(userNameTextField.getText()))) {
-            System.out.println("Logged in!");
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Information not found");
-            alert.setContentText("Incorrect user name or password");
-            alert.showAndWait();
 
+        String userNameAttempt = userNameTextField.getText();
+        String passwordAttempt = passwordTextField.getText();
+
+        /*
+        * First check if user name is in the database
+        * If so, check if the associated password is correct
+        */
+        if (!DBUsers.findUserName(userNameAttempt)) {
+            Alert userNameAlert = new Alert(Alert.AlertType.ERROR);
+            userNameAlert.setTitle("Incorrect user name");
+            userNameAlert.setContentText("User name not found in database");
+            userNameAlert.showAndWait();
+        } else {
+            if (passwordAttempt.equals(DBUsers.getPassword(userNameAttempt))) {
+                System.out.println("Logged in!");
+            } else {
+                Alert passwordAlert = new Alert(Alert.AlertType.ERROR);
+                passwordAlert.setTitle("Information not found");
+                passwordAlert.setHeaderText("Incorrect password");
+                passwordAlert.showAndWait();
+            }
         }
 
     }
