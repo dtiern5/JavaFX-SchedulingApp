@@ -31,29 +31,19 @@ public class Main extends Application {
     public static void main(String[] args) throws SQLException {
         Connection conn = DBConnection.startConnection(); // Connect to database
 
-        String updateStatement = "UPDATE countries SET Country = ?, Created_By = ? WHERE Country = ?";
+        String deleteStatement = "DELETE FROM countries WHERE Country = ?";
 
-        DBQuery.setPreparedStatement(conn, updateStatement); // Create preparedStatement
+        DBQuery.setPreparedStatement(conn, deleteStatement); // Create preparedStatement
 
         PreparedStatement ps = DBQuery.getPreparedStatement();
-
-        String countryName, newCountry, createdBy;
 
         // Get keyboard input
         Scanner scanner = new Scanner(System.in);
 
-        System.out.print("Enter country to update: ");
-        countryName = scanner.nextLine();
+        System.out.print("Enter country to delete: ");
+        String countryName = scanner.nextLine();
 
-        System.out.print("Enter new country: ");
-        newCountry = scanner.nextLine();
-
-        System.out.print("Enter user: ");
-        createdBy = scanner.nextLine();
-
-        ps.setString(1, newCountry);
-        ps.setString(2, createdBy);
-        ps.setString(3, countryName);
+        ps.setString(1, countryName);
 
         ps.execute(); // Execute PreparedStatement
 
