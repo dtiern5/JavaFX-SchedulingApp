@@ -29,7 +29,6 @@ public class LogInController implements Initializable {
         for (Countries C : countryList) {
             System.out.println("Country ID : " + C.getCountryID() + "   Name : " + C.getCountryName());
         }
-
     }
 
     public void exitButtonPushed() {
@@ -42,8 +41,8 @@ public class LogInController implements Initializable {
         }
     }
 
-    public void loginButtonPushed() {
-        
+    public void loginButtonPushed(ActionEvent event) {
+
     }
 
 }
