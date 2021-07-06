@@ -1,5 +1,6 @@
 package View;
 
+import DBAccess.DBCustomers;
 import Database.DBConnection;
 import Database.DBQuery;
 import Model.Appointments;
@@ -40,6 +41,10 @@ public class MainScreenController implements Initializable {
     @FXML
     private TableColumn<Customers, String> customerAddressColumn;
     @FXML
+    private TableColumn<Customers, String> customerDivisionColumn;
+    @FXML
+    private TableColumn<Customers, String> customerCountryColumn;
+    @FXML
     private TableColumn<Customers, String> customerPhoneColumn;
 
     @FXML
@@ -63,33 +68,13 @@ public class MainScreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        Connection conn = DBConnection.getConnection();
-
-        String selectStatement = "SELECT * FROM customers";
-
-        try {
-            DBQuery.setPreparedStatement(conn, selectStatement);
-
-            PreparedStatement ps = DBQuery.getPreparedStatement();
-            ps.execute();
-
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                customerList.add(new Customers(rs.getInt("Customer_Id"),
-                        rs.getString("Customer_Name"),
-                        rs.getString("Address"),
-                        rs.getString("Phone")));
-            }
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
+        customerList = DBCustomers.getCustomers();
 
         customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
         customerNameColumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
         customerAddressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
+        customerDivisionColumn.setCellValueFactory(new PropertyValueFactory<>("division"));
+        customerCountryColumn.setCellValueFactory(new PropertyValueFactory<>("country"));
         customerPhoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
         /*
         appointmentsIdColumn.setCellFactory(new PropertyValueFactory<>("appointmentId"));
