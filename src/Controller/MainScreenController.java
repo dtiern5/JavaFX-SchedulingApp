@@ -1,8 +1,7 @@
-package View;
+package Controller;
 
+import DBAccess.DBAppointments;
 import DBAccess.DBCustomers;
-import Database.DBConnection;
-import Database.DBQuery;
 import Model.Appointments;
 import Model.Customers;
 import javafx.collections.FXCollections;
@@ -20,10 +19,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -54,21 +49,25 @@ public class MainScreenController implements Initializable {
     @FXML
     private TableColumn<Appointments, String> appointmentsTitleColumn;
     @FXML
+    private TableColumn<Appointments, String> appointmentsDescriptionColumn;
+    @FXML
     private TableColumn<Appointments, String> appointmentsLocationColumn;
     @FXML
-    private TableColumn<Appointments, String> appointmentsDescriptionColumn;
+    private TableColumn<Appointments, String> appointmentsContactColumn;
+    @FXML
+    private TableColumn<Appointments, String> appointmentsTypeColumn;
     @FXML
     private TableColumn<Appointments, String> appointmentsStartTimeColumn;
     @FXML
     private TableColumn<Appointments, String> appointmentsEndTimeColumn;
-
-    ObservableList<Customers> customerList = FXCollections.observableArrayList();
+    @FXML
+    private TableColumn<Appointments, Integer> appointmentsCustomerIdColumn;
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        customerList = DBCustomers.getCustomers();
+        ObservableList<Customers> customerList = DBCustomers.populateCustomersTable();
 
         customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
         customerNameColumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
@@ -76,19 +75,23 @@ public class MainScreenController implements Initializable {
         customerDivisionColumn.setCellValueFactory(new PropertyValueFactory<>("division"));
         customerCountryColumn.setCellValueFactory(new PropertyValueFactory<>("country"));
         customerPhoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
-        /*
-        appointmentsIdColumn.setCellFactory(new PropertyValueFactory<>("appointmentId"));
-        appointmentsTitleColumn.setCellFactory(new PropertyValueFactory<>("title"));
-        appointmentsLocationColumn.setCellFactory(new PropertyValueFactory<>("location"));
-        appointmentsDescriptionColumn.setCellFactory(new PropertyValueFactory<>("description"));
-        appointmentsStartTimeColumn.setCellFactory(new PropertyValueFactory<>("startTime"));
-        appointmentsEndTimeColumn.setCellFactory(new PropertyValueFactory<>("endTime"));
-        */
 
         customersTableView.setItems(customerList);
 
-    }
+        ObservableList<Appointments> appointmentList = DBAppointments.populateAppointmentsTable();
 
+        appointmentsIdColumn.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
+        appointmentsTitleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+        appointmentsDescriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+        appointmentsLocationColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
+        appointmentsContactColumn.setCellValueFactory(new PropertyValueFactory<>("contact"));
+        appointmentsTypeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+        appointmentsStartTimeColumn.setCellValueFactory(new PropertyValueFactory<>("startTime"));
+        appointmentsEndTimeColumn.setCellValueFactory(new PropertyValueFactory<>("endTime"));
+        appointmentsCustomerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+
+        appointmentsTableView.setItems(appointmentList);
+    }
 
     /**
      * Reverts back to log in screen.
@@ -108,6 +111,14 @@ public class MainScreenController implements Initializable {
             window.setScene(mainViewScene);
             window.show();
         }
+    }
+
+    public void addCustomerHandler(ActionEvent event) throws IOException {
+        Parent addCustomerViewParent = FXMLLoader.load(getClass().getResource("../View/AddCustomerView.fxml"));
+        Scene AddCustomerScene = new Scene(addCustomerViewParent);
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        window.setScene(AddCustomerScene);
+        window.show();
     }
 
 

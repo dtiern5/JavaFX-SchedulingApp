@@ -13,14 +13,14 @@ import java.sql.SQLException;
 
 public class DBCustomers {
 
-    public static ObservableList getCustomers() {
+    public static ObservableList populateCustomersTable() {
 
         ObservableList<Customers> customerList = FXCollections.observableArrayList();
 
         Connection conn = DBConnection.getConnection();
         String selectStatement = "SELECT customers.Customer_ID, customers.Customer_Name, customers.Address, first_level_divisions.Division, countries.Country, customers.Phone FROM customers\n" +
-                "JOIN first_level_divisions ON customers.Division_ID=first_level_divisions.Division_ID\n" +
-                "JOIN countries ON first_level_divisions.Country_ID=countries.Country_ID";
+                "JOIN first_level_divisions ON customers.Division_ID = first_level_divisions.Division_ID\n" +
+                "JOIN countries ON first_level_divisions.Country_ID = countries.Country_ID";
 
         try {
             DBQuery.setPreparedStatement(conn, selectStatement);

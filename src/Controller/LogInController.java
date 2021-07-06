@@ -12,6 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.Locale;
@@ -78,7 +79,6 @@ public class LogInController implements Initializable {
     }
 
     /**
-     *
      * @param event
      * @throws Exception
      */
@@ -88,9 +88,9 @@ public class LogInController implements Initializable {
         String passwordAttempt = passwordTextField.getText();
 
         /*
-        * First check if user name is in the database
-        * If so, check if the associated password is correct
-        */
+         * First check if user name is in the database
+         * If so, check if the associated password is correct
+         */
         if (!DBUsers.findUserName(userNameAttempt)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText(userNameNotFound);
@@ -98,7 +98,7 @@ public class LogInController implements Initializable {
         } else {
             if (passwordAttempt.equals(DBUsers.getPassword(userNameAttempt))) {
                 System.out.println("Logged in!");
-                openAddProducts(event);
+                openMainScreen(event);
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText(incorrectPassword);
@@ -114,13 +114,14 @@ public class LogInController implements Initializable {
      * @param event for changing scene on click
      * @throws IOException signals I/O exception has occurred
      */
-    public void openAddProducts(ActionEvent event) throws IOException {
+    public void openMainScreen(ActionEvent event) throws IOException {
         Parent mainScreenViewParent = FXMLLoader.load(getClass().getResource("../View/MainScreenView.fxml"));
         Scene mainViewScene = new Scene(mainScreenViewParent);
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(mainViewScene);
         window.show();
     }
+
 
 }
 

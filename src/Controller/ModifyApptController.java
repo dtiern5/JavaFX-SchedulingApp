@@ -5,7 +5,7 @@ import javafx.fxml.Initializable;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class EditApptController implements Initializable {
+public class ModifyApptController implements Initializable {
 
 
     @Override

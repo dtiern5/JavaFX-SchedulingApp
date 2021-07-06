@@ -6,9 +6,18 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="Controller.AddCustomerController"
-            prefHeight="400.0" prefWidth="600.0">
 
+<AnchorPane prefHeight="400.0" prefWidth="397.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AddCustomerController">
+   <children>
+      <TextField layoutX="111.0" layoutY="87.0" />
+      <Label layoutX="111.0" layoutY="64.0" text="Name" />
+      <Label layoutX="111.0" layoutY="126.0" text="Address" />
+      <TextField layoutX="111.0" layoutY="149.0" />
+      <TextField layoutX="111.0" layoutY="210.0" />
+      <Label layoutX="111.0" layoutY="187.0" text="Postal Code" />
+      <TextField layoutX="111.0" layoutY="272.0" />
+      <Label layoutX="111.0" layoutY="249.0" text="Phone Number" />
+      <Button layoutX="108.0" layoutY="315.0" mnemonicParsing="false" text="Add Customer" />
+      <Button layoutX="220.0" layoutY="315.0" mnemonicParsing="false" onAction="#goBackHandler" text="Go Back" />
+   </children>
 </AnchorPane>
