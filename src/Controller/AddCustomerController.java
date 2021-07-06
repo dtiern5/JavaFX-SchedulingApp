@@ -1,8 +1,6 @@
 package Controller;
 
-import DBAccess.DBDivisions;
-import Model.Divisions;
-import javafx.collections.ObservableList;
+import Model.Division;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,7 +21,7 @@ import java.util.ResourceBundle;
 public class AddCustomerController implements Initializable {
 
     @FXML
-    private ComboBox<Divisions> divisionComboBox;
+    private ComboBox<Division> divisionComboBox;
 
 
     @Override

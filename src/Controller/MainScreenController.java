@@ -2,9 +2,8 @@ package Controller;
 
 import DBAccess.DBAppointments;
 import DBAccess.DBCustomers;
-import Model.Appointments;
-import Model.Customers;
-import javafx.collections.FXCollections;
+import Model.Appointment;
+import Model.Customer;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -28,46 +27,46 @@ import java.util.ResourceBundle;
 public class MainScreenController implements Initializable {
 
     @FXML
-    private TableView<Customers> customersTableView;
+    private TableView<Customer> customersTableView;
     @FXML
-    private TableColumn<Customers, Integer> customerIdColumn;
+    private TableColumn<Customer, Integer> customerIdColumn;
     @FXML
-    private TableColumn<Customers, String> customerNameColumn;
+    private TableColumn<Customer, String> customerNameColumn;
     @FXML
-    private TableColumn<Customers, String> customerAddressColumn;
+    private TableColumn<Customer, String> customerAddressColumn;
     @FXML
-    private TableColumn<Customers, String> customerDivisionColumn;
+    private TableColumn<Customer, String> customerDivisionColumn;
     @FXML
-    private TableColumn<Customers, String> customerCountryColumn;
+    private TableColumn<Customer, String> customerCountryColumn;
     @FXML
-    private TableColumn<Customers, String> customerPhoneColumn;
+    private TableColumn<Customer, String> customerPhoneColumn;
 
     @FXML
-    private TableView<Appointments> appointmentsTableView;
+    private TableView<Appointment> appointmentsTableView;
     @FXML
-    private TableColumn<Appointments, Integer> appointmentsIdColumn;
+    private TableColumn<Appointment, Integer> appointmentsIdColumn;
     @FXML
-    private TableColumn<Appointments, String> appointmentsTitleColumn;
+    private TableColumn<Appointment, String> appointmentsTitleColumn;
     @FXML
-    private TableColumn<Appointments, String> appointmentsDescriptionColumn;
+    private TableColumn<Appointment, String> appointmentsDescriptionColumn;
     @FXML
-    private TableColumn<Appointments, String> appointmentsLocationColumn;
+    private TableColumn<Appointment, String> appointmentsLocationColumn;
     @FXML
-    private TableColumn<Appointments, String> appointmentsContactColumn;
+    private TableColumn<Appointment, String> appointmentsContactColumn;
     @FXML
-    private TableColumn<Appointments, String> appointmentsTypeColumn;
+    private TableColumn<Appointment, String> appointmentsTypeColumn;
     @FXML
-    private TableColumn<Appointments, String> appointmentsStartTimeColumn;
+    private TableColumn<Appointment, String> appointmentsStartTimeColumn;
     @FXML
-    private TableColumn<Appointments, String> appointmentsEndTimeColumn;
+    private TableColumn<Appointment, String> appointmentsEndTimeColumn;
     @FXML
-    private TableColumn<Appointments, Integer> appointmentsCustomerIdColumn;
+    private TableColumn<Appointment, Integer> appointmentsCustomerIdColumn;
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        ObservableList<Customers> customerList = DBCustomers.populateCustomersTable();
+        ObservableList<Customer> customerList = DBCustomers.populateCustomersTable();
 
         customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
         customerNameColumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
@@ -78,7 +77,7 @@ public class MainScreenController implements Initializable {
 
         customersTableView.setItems(customerList);
 
-        ObservableList<Appointments> appointmentList = DBAppointments.populateAppointmentsTable();
+        ObservableList<Appointment> appointmentList = DBAppointments.populateAppointmentsTable();
 
         appointmentsIdColumn.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
         appointmentsTitleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));

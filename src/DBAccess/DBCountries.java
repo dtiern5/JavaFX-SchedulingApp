@@ -1,7 +1,7 @@
 package DBAccess;
 
 import Database.DBConnection;
-import Model.Countries;
+import Model.Country;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -9,10 +9,10 @@ import java.sql.*;
 
 public class DBCountries {
 
-    public static ObservableList<Countries> getAllCountries() {
+    public static ObservableList<Country> getAllCountries() {
 
         // Code from Getting The DBConnection Class Project Ready
-        ObservableList<Countries> clist = FXCollections.observableArrayList();
+        ObservableList<Country> clist = FXCollections.observableArrayList();
         // Using 'try' because we don't want to throw any SQL exceptions in the data access code
         // Instead we want to catch and deal with them inside the DB Handler
         try {
@@ -25,7 +25,7 @@ public class DBCountries {
             while (rs.next()) {
                 int countryId = rs.getInt("Country_ID");
                 String countryName = rs.getString("Country");
-                Countries newCountry = new Countries(countryId, countryName);
+                Country newCountry = new Country(countryId, countryName);
 
                 clist.add(newCountry);
             }
