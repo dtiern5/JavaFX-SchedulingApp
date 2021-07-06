@@ -1,22 +1,19 @@
 package Controller;
 
-import DBAccess.DBCountries;
+
 import DBAccess.DBUsers;
 import Database.DBConnection;
-import Database.DBQuery;
-import Model.Countries;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
-
-import javax.swing.*;
+import javafx.stage.Stage;
+import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.Hashtable;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -37,6 +34,7 @@ public class LogInController implements Initializable {
     private TextField userNameTextField;
     @FXML
     private TextField passwordTextField;
+
     private String exitPrompt;
     private String closeAlertTitle;
     private String userNameNotFound;
@@ -100,6 +98,7 @@ public class LogInController implements Initializable {
         } else {
             if (passwordAttempt.equals(DBUsers.getPassword(userNameAttempt))) {
                 System.out.println("Logged in!");
+                openAddProducts(event);
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText(incorrectPassword);
@@ -107,6 +106,20 @@ public class LogInController implements Initializable {
             }
         }
 
+    }
+
+    /**
+     * Switches to Main scene.
+     *
+     * @param event for changing scene on click
+     * @throws IOException signals I/O exception has occurred
+     */
+    public void openAddProducts(ActionEvent event) throws IOException {
+        Parent mainScreenViewParent = FXMLLoader.load(getClass().getResource("../View/MainScreenView.fxml"));
+        Scene mainViewScene = new Scene(mainScreenViewParent);
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        window.setScene(mainViewScene);
+        window.show();
     }
 
 }

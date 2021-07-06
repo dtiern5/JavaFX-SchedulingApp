@@ -22,5 +22,6 @@
       <Button fx:id="exitButton" layoutX="117.0" layoutY="224.0" mnemonicParsing="false" onAction="#exitButtonPushed" />
       <TextField fx:id="userNameTextField" layoutX="36.0" layoutY="98.0" />
       <TextField fx:id="passwordTextField" layoutX="36.0" layoutY="168.0" />
+      <Button fx:id="bypassButton" layoutX="262.0" layoutY="38.0" mnemonicParsing="false" onAction="#openAddProducts" text="Bypass" />
    </children>
 </AnchorPane>
