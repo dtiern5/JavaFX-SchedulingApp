@@ -13,12 +13,14 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import java.util.Scanner;
 
 public class Main extends Application {
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("../View/LogInView.fxml"));
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
@@ -30,6 +32,8 @@ public class Main extends Application {
      */
     public static void main(String[] args) throws SQLException {
         Connection conn = DBConnection.startConnection(); // Connect to database
+
+
         launch(args);
         DBConnection.closeConnection();
     }
