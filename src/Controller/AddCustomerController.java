@@ -83,6 +83,11 @@ public class AddCustomerController implements Initializable {
             throwables.printStackTrace();
         }
 
+        populateTableView();
+
+    }
+
+    private void populateTableView() {
         ObservableList<Customer> customerList = null;
         try {
             customerList = DBCustomers.populateCustomerTable();
@@ -98,9 +103,6 @@ public class AddCustomerController implements Initializable {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
-
-
     }
 
 
@@ -152,13 +154,15 @@ public class AddCustomerController implements Initializable {
             if (nameTF.getText().isEmpty() ||
                     addressTF.getText().isEmpty() ||
                     postalCodeTF.getText().isEmpty() ||
-                    phoneNumberTF.getText().isEmpty()) {
+                    phoneNumberTF.getText().isEmpty() ||
+                    divisionComboBox.getSelectionModel().isEmpty()) {
                 alert.setContentText("All fields require values");
                 alert.showAndWait();
             }
 
-            String insertStatement = "INSERT INTO customers(Customer_Name, Address, Postal_Code, Phone)" +
-                    "VALUES(?, ?, ?, ?)";
+            String insertStatement = "INSERT INTO customers(Customer_Name, Address, Postal_Code, Phone, " +
+                    "Create_Date, Created_By, Last_Update, Last_Updated_By, Division_ID)" +
+                    "VALUES(?, ?, ?, ?, NOW(), ?, NOW(), ?, ?)";
 
             DBQuery.setPreparedStatement(conn, insertStatement);
 
@@ -168,13 +172,20 @@ public class AddCustomerController implements Initializable {
             String address = addressTF.getText();
             String postalCode = postalCodeTF.getText();
             String phoneNumber = phoneNumberTF.getText();
+            int divisionId = divisionComboBox.getValue().getDivisionId();
 
             ps.setString(1, customerName);
             ps.setString(2, address);
             ps.setString(3, postalCode);
             ps.setString(4, phoneNumber);
+            ps.setString(5, currentUser.toString());
+            ps.setString(6, currentUser.toString());
+            ps.setInt(7, divisionId);
 
             ps.execute();
+
+            populateTableView();
+
 
         } catch (Exception e) {
             System.out.println("Input error: " + e.getMessage());
