@@ -31,6 +31,16 @@ public class Customer {
         this.divisionId = divisionId;
     }
 
+    public Customer(int customerId, String customerName, String address,
+                    String division, String country, String phone) {
+        this.customerId = customerId;
+        this.customerName = customerName;
+        this.address = address;
+        this.division = division;
+        this.country = country;
+        this.phone = phone;
+    }
+
     public String getDivision() {
         return division;
     }
@@ -46,17 +56,6 @@ public class Customer {
     public void setCountry(String country) {
         this.country = country;
     }
-
-    public Customer(int customerId, String customerName, String address,
-                    String division, String country, String phone) {
-        this.customerId = customerId;
-        this.customerName = customerName;
-        this.address = address;
-        this.division = division;
-        this.country = country;
-        this.phone = phone;
-    }
-
 
     public int getCustomerId() {
         return customerId;

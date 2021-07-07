@@ -22,12 +22,29 @@ public class Appointment {
 
     private String contact;
 
-    public Appointment(int appointmentId, String title, String description, String location, String type, String startTime, String endTime, String createDate, String createdBy, String lastUpdate, String lastUpdatedBy, int customerId, int userId, int contactId) {
+    public Appointment(int appointmentId, String title, String description,
+                       String location, String type, String startTime, String endTime,
+                       String createDate, String createdBy, String lastUpdate,
+                       String lastUpdatedBy, int customerId, int userId, int contactId) {
         this.appointmentId = appointmentId;
-
+        this.title = title;
+        this.description = description;
+        this.location = location;
+        this.type = type;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.createDate = createDate;
+        this.createdBy = createdBy;
+        this.lastUpdate = lastUpdate;
+        this.lastUpdatedBy = lastUpdatedBy;
+        this.customerId = customerId;
+        this.userId = userId;
+        this.contactId = contactId;
     }
 
-    public Appointment(int appointmentId, String title, String description, String location, String contact, String type, String startTime, String endTime, int customerId, int userId, int contactId) {
+    public Appointment(int appointmentId, String title, String description,
+                       String location, String contact, String type, String startTime,
+                       String endTime, int customerId, int userId, int contactId) {
         this.appointmentId = appointmentId;
         this.title = title;
         this.description = description;
