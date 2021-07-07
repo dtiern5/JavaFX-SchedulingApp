@@ -1,5 +1,6 @@
 package Controller;
 
+import DBAccess.DBCountries;
 import DBAccess.DBDivisions;
 import Database.DBConnection;
 import Database.DBQuery;
@@ -56,6 +57,18 @@ public class AddCustomerController implements Initializable {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+    }
+
+    /**
+     * On changing the division ComboBox, the getCountry method will be called on
+     * the division's countryId. The toString() method will be called on that country
+     * and displayed in the countryTF.
+     *
+     * @param event for changing country to match division
+     * @throws SQLException signals SQLException has occurred
+     */
+    public void countryHandler(ActionEvent event) throws SQLException {
+        countryTF.setText(DBCountries.getCountry(divisionComboBox.getValue().getCountryId()).toString());
     }
 
     /**
