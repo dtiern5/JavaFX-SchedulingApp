@@ -128,5 +128,13 @@ public class MainScreenController implements Initializable {
         window.show();
     }
 
+    public void addAppointmentHandler(ActionEvent event) throws IOException {
+        Parent addAppointmentViewParent = FXMLLoader.load(getClass().getResource("../View/AddAppointmentView.fxml"));
+        Scene AddAppointmentScene = new Scene(addAppointmentViewParent);
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        window.setScene(AddAppointmentScene);
+        window.show();
+    }
+
 
 }

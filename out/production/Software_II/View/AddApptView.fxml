@@ -10,7 +10,7 @@
 
 <AnchorPane fx:id="label" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AddApptController">
    <children>
-      <Button layoutX="273.0" layoutY="200.0" mnemonicParsing="false" onAction="#OnButtonAction" text="Button" />
-      <Label fx:id="TheLabel" layoutX="286.0" layoutY="112.0" text="Label" />
+      <Button layoutX="510.0" layoutY="343.0" mnemonicParsing="false" onAction="#cancelHandler" text="Cancel" />
+      <ComboBox fx:id="comboBox1" layoutX="225.0" layoutY="87.0" prefWidth="150.0" />
    </children>
 </AnchorPane>

@@ -51,6 +51,7 @@ public class AddCustomerController implements Initializable {
         try {
             ObservableList<Division> divisionList = DBDivisions.getAllDivisions();
             divisionComboBox.setItems(divisionList);
+            divisionComboBox.setPromptText("First Level Division");
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();

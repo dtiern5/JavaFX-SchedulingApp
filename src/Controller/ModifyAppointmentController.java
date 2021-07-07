@@ -5,7 +5,7 @@ import javafx.fxml.Initializable;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class AddApptController implements Initializable {
+public class ModifyAppointmentController implements Initializable {
 
 
     @Override
