@@ -1,5 +1,12 @@
 package Model;
 
+import DBAccess.DBCountries;
+import DBAccess.DBDivisions;
+
+import java.sql.Date;
+import java.sql.SQLException;
+import java.time.LocalDate;
+
 public class Customer {
 
     private int customerId;
@@ -7,18 +14,18 @@ public class Customer {
     private String address;
     private String postalCode;
     private String phone;
-    private String createDate;
+    private LocalDate createDate;
     private String createdBy;
-    private String lastUpdate;
+    private LocalDate lastUpdate;
     private String lastUpdatedBy;
     private int divisionId;
 
-    private String division;
-    private String country;
+    private Division division;
+    private Country country;
 
     public Customer(int customerId, String customerName, String address,
-                    String postalCode, String phone, String createDate,
-                    String createdBy, String lastUpdate, String lastUpdatedBy, int divisionId) {
+                    String postalCode, String phone, LocalDate createDate,
+                    String createdBy, LocalDate lastUpdate, String lastUpdatedBy, int divisionId) {
         this.customerId = customerId;
         this.customerName = customerName;
         this.address = address;
@@ -29,32 +36,28 @@ public class Customer {
         this.lastUpdate = lastUpdate;
         this.lastUpdatedBy = lastUpdatedBy;
         this.divisionId = divisionId;
+
+        try {
+            this.division = DBDivisions.getDivision(divisionId);
+            this.country = DBCountries.getCountry(division.getCountryId());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
-    public Customer(int customerId, String customerName, String address, String postalCode,
-                    String division, String country, String phone) {
-        this.customerId = customerId;
-        this.customerName = customerName;
-        this.address = address;
-        this.postalCode = postalCode;
-        this.division = division;
-        this.country = country;
-        this.phone = phone;
-    }
-
-    public String getDivision() {
+    public Division getDivision() {
         return division;
     }
 
-    public void setDivision(String division) {
+    public void setDivision(Division division) {
         this.division = division;
     }
 
-    public String getCountry() {
+    public Country getCountry() {
         return country;
     }
 
-    public void setCountry(String country) {
+    public void setCountry(Country country) {
         this.country = country;
     }
 
@@ -98,11 +101,11 @@ public class Customer {
         this.phone = phone;
     }
 
-    public String getCreateDate() {
+    public LocalDate getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(String createDate) {
+    public void setCreateDate(LocalDate createDate) {
         this.createDate = createDate;
     }
 
@@ -114,11 +117,11 @@ public class Customer {
         this.createdBy = createdBy;
     }
 
-    public String getLastUpdate() {
+    public LocalDate getLastUpdate() {
         return lastUpdate;
     }
 
-    public void setLastUpdate(String lastUpdate) {
+    public void setLastUpdate(LocalDate lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 

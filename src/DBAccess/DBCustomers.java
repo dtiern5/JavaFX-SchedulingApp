@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 public class DBCustomers {
 
@@ -31,9 +32,9 @@ public class DBCustomers {
             String address = rs.getString("Address");
             String postalCode = rs.getString("Postal_Code");
             String phone = rs.getString("Phone");
-            String createDate = rs.getString("Create_Date");
+            LocalDate createDate = rs.getDate("Create_Date").toLocalDate();
             String createdBy = rs.getString("Created_By");
-            String lastUpdate = rs.getString("Last_Update");
+            LocalDate lastUpdate = rs.getDate("Last_Update").toLocalDate();
             String lastUpdatedBy = rs.getString("Last_Updated_By");
             int divisionId = rs.getInt("Division_ID");
 
@@ -62,9 +63,9 @@ public class DBCustomers {
                     rs.getString("Address"),
                     rs.getString("Postal_Code"),
                     rs.getString("Phone"),
-                    rs.getString("Create_Date"),
+                    rs.getDate("Create_Date").toLocalDate(),
                     rs.getString("Created_By"),
-                    rs.getString("Last_Update"),
+                    rs.getDate("Last_Update").toLocalDate(),
                     rs.getString("Last_Updated_By"),
                     rs.getInt("Division_ID")));
         }
@@ -73,9 +74,7 @@ public class DBCustomers {
 
     public static ObservableList populateCustomerTable() throws SQLException {
         Connection conn = DBConnection.getConnection();
-        String selectStatement = "SELECT customers.Customer_ID, customers.Customer_Name, customers.Address, customers.Postal_Code, first_level_divisions.Division, countries.Country, customers.Phone FROM customers\n" +
-                "JOIN first_level_divisions ON customers.Division_ID=first_level_divisions.Division_ID\n" +
-                "JOIN countries ON first_level_divisions.Country_ID = countries.Country_ID";
+        String selectStatement = "SELECT * FROM customers";
 
         DBQuery.setPreparedStatement(conn, selectStatement);
 
@@ -89,9 +88,12 @@ public class DBCustomers {
                     rs.getString("Customer_Name"),
                     rs.getString("Address"),
                     rs.getString("Postal_Code"),
-                    rs.getString("Division"),
-                    rs.getString("Country"),
-                    rs.getString("Phone")));
+                    rs.getString("Phone"),
+                    rs.getDate("Create_Date").toLocalDate(),
+                    rs.getString("Created_By"),
+                    rs.getDate("Last_Update").toLocalDate(),
+                    rs.getString("Last_Updated_By"),
+                    rs.getInt("Division_ID")));
         }
         return customerList;
     }

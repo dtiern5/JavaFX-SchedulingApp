@@ -1,7 +1,11 @@
 package Model;
 
+import DBAccess.DBContacts;
+
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class Appointment {
 
@@ -10,21 +14,21 @@ public class Appointment {
     private String description;
     private String location;
     private String type;
-    private String startTime;
-    private String endTime;
-    private String createDate;
+    private LocalTime startTime;
+    private LocalTime endTime;
+    private LocalDate createDate;
     private String createdBy;
-    private String lastUpdate;
+    private LocalDate lastUpdate;
     private String lastUpdatedBy;
     private int customerId;
     private int userId;
     private int contactId;
 
-    private String contact;
+    private Contact contact;
 
     public Appointment(int appointmentId, String title, String description,
-                       String location, String type, String startTime, String endTime,
-                       String createDate, String createdBy, String lastUpdate,
+                       String location, String type, LocalTime startTime, LocalTime endTime,
+                       LocalDate createDate, String createdBy, LocalDate lastUpdate,
                        String lastUpdatedBy, int customerId, int userId, int contactId) {
         this.appointmentId = appointmentId;
         this.title = title;
@@ -40,29 +44,20 @@ public class Appointment {
         this.customerId = customerId;
         this.userId = userId;
         this.contactId = contactId;
+
+        try {
+            this.contact = DBContacts.getContact(contactId);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
     }
 
-    public Appointment(int appointmentId, String title, String description,
-                       String location, String contact, String type, String startTime,
-                       String endTime, int customerId, int userId, int contactId) {
-        this.appointmentId = appointmentId;
-        this.title = title;
-        this.description = description;
-        this.location = location;
-        this.contact = contact;
-        this.type = type;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.customerId = customerId;
-        this.userId = userId;
-        this.contactId = contactId;
-    }
-
-    public String getContact() {
+    public Contact getContact() {
         return contact;
     }
 
-    public void setContact(String contact) {
+    public void setContact(Contact contact) {
         this.contact = contact;
     }
 
@@ -106,27 +101,27 @@ public class Appointment {
         this.type = type;
     }
 
-    public String getStartTime() {
+    public LocalTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(String startTime) {
+    public void setStartTime(LocalTime startTime) {
         this.startTime = startTime;
     }
 
-    public String getEndTime() {
+    public LocalTime getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(String endTime) {
+    public void setEndTime(LocalTime endTime) {
         this.endTime = endTime;
     }
 
-    public String getCreateDate() {
+    public LocalDate getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(String createDate) {
+    public void setCreateDate(LocalDate createDate) {
         this.createDate = createDate;
     }
 
@@ -138,11 +133,11 @@ public class Appointment {
         this.createdBy = createdBy;
     }
 
-    public String getLastUpdate() {
+    public LocalDate getLastUpdate() {
         return lastUpdate;
     }
 
-    public void setLastUpdate(String lastUpdate) {
+    public void setLastUpdate(LocalDate lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 

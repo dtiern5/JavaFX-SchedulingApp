@@ -10,6 +10,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Calendar;
 
 public class DBAppointments {
@@ -31,11 +33,11 @@ public class DBAppointments {
             String description = rs.getString("Description");
             String location = rs.getString("Location");
             String type = rs.getString("Type");
-            String startTime = rs.getString("Start");
-            String endTime = rs.getString("End");
-            String createDate = rs.getString("Create_Date");
+            LocalTime startTime = rs.getTime("Start").toLocalTime();
+            LocalTime endTime = rs.getTime("End").toLocalTime();
+            LocalDate createDate = rs.getDate("Create_Date").toLocalDate();
             String createdBy = rs.getString("Created_By");
-            String lastUpdate = rs.getString("Last_Update");
+            LocalDate lastUpdate = rs.getDate("Last_Update").toLocalDate();
             String lastUpdatedBy = rs.getString("Last_Updated_By");
             int customerId = rs.getInt("Customer_ID");
             int userId = rs.getInt("User_ID");
@@ -68,11 +70,11 @@ public class DBAppointments {
                     rs.getString("Description"),
                     rs.getString("Location"),
                     rs.getString("Type"),
-                    rs.getString("Start"),
-                    rs.getString("End"),
-                    rs.getString("Create_Date"),
+                    rs.getTime("Start").toLocalTime(),
+                    rs.getTime("End").toLocalTime(),
+                    rs.getDate("Create_Date").toLocalDate(),
                     rs.getString("Created_By"),
-                    rs.getString("Last_Update"),
+                    rs.getDate("Last_Update").toLocalDate(),
                     rs.getString("Last_Updated_By"),
                     rs.getInt("Customer_ID"),
                     rs.getInt("User_ID"),
@@ -86,11 +88,7 @@ public class DBAppointments {
         ObservableList<Appointment> appointmentList = FXCollections.observableArrayList();
 
         Connection conn = DBConnection.getConnection();
-        String selectStatement = "SELECT appointments.Appointment_ID, appointments.Title, " +
-                "appointments.Description, appointments.Location, contacts.Contact_Name, " +
-                "appointments.Type, appointments.Start, appointments.End, appointments.Customer_ID, " +
-                "appointments.User_ID, appointments.Contact_ID FROM appointments " +
-                "JOIN contacts ON contacts.Contact_ID = appointments.Contact_ID";
+        String selectStatement = "SELECT * FROM appointments";
 
         try {
             DBQuery.setPreparedStatement(conn, selectStatement);
@@ -103,10 +101,13 @@ public class DBAppointments {
                         rs.getString("Title"),
                         rs.getString("Description"),
                         rs.getString("Location"),
-                        rs.getString("Contact_Name"),
                         rs.getString("Type"),
-                        rs.getString("Start"),
-                        rs.getString("End"),
+                        rs.getTime("Start").toLocalTime(),
+                        rs.getTime("End").toLocalTime(),
+                        rs.getDate("Create_Date").toLocalDate(),
+                        rs.getString("Created_By"),
+                        rs.getDate("Last_Update").toLocalDate(),
+                        rs.getString("Last_Updated_By"),
                         rs.getInt("Customer_ID"),
                         rs.getInt("User_ID"),
                         rs.getInt("Contact_ID")));
