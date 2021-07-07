@@ -103,15 +103,16 @@ public class ModifyCustomerController implements Initializable {
     public void confirmHandler(ActionEvent event) {
         Connection conn = DBConnection.getConnection();
 
-        Alert alert = new Alert(Alert.AlertType.ERROR);
         try {
-            alert.setTitle("Customer not modified");
+
 
             if (nameTF.getText().isEmpty() ||
                     addressTF.getText().isEmpty() ||
                     postalCodeTF.getText().isEmpty() ||
                     phoneNumberTF.getText().isEmpty() ||
                     divisionComboBox.getSelectionModel().isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Customer not modified");
                 alert.setContentText("All fields require values");
                 alert.showAndWait();
             }
@@ -141,9 +142,7 @@ public class ModifyCustomerController implements Initializable {
             System.out.println("Success");
 
         } catch (Exception e) {
-            System.out.println("Input error (modifyButton): " + e.getMessage());
-            alert.setTitle("Input error");
-            alert.setContentText("Placeholder");
+            System.out.println("Input error : " + e.getMessage());
         }
     }
 
