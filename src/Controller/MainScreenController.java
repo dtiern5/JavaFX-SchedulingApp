@@ -66,6 +66,7 @@ public class MainScreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        /*
         ObservableList<Customer> customerList = DBCustomers.populateCustomersTable();
 
         customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
@@ -90,6 +91,8 @@ public class MainScreenController implements Initializable {
         appointmentsCustomerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
 
         appointmentsTableView.setItems(appointmentList);
+        */
+
     }
 
     /**

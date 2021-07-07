@@ -4,12 +4,20 @@ public class Division {
 
     private int divisionId;
     private String division;
-    private int COUNTRY_ID;
+    private String createDate;
+    private String createdBy;
+    private String lastUpdate;
+    private String lastUpdatedBy;
+    private int countryId;
 
-    public Division(int divisionId, String division, int COUNTRY_ID) {
+    public Division(int divisionId, String division, String createDate, String createdBy, String lastUpdate, String lastUpdatedBy, int countryId) {
         this.divisionId = divisionId;
         this.division = division;
-        this.COUNTRY_ID = COUNTRY_ID;
+        this.createDate = createDate;
+        this.createdBy = createdBy;
+        this.lastUpdate = lastUpdate;
+        this.lastUpdatedBy = lastUpdatedBy;
+        this.countryId = countryId;
     }
 
     public int getDivisionId() {
@@ -28,12 +36,43 @@ public class Division {
         this.division = division;
     }
 
-    public int getCOUNTRY_ID() {
-        return COUNTRY_ID;
+    public String getCreateDate() {
+        return createDate;
     }
 
-    public void setCOUNTRY_ID(int COUNTRY_ID) {
-        this.COUNTRY_ID = COUNTRY_ID;
+    public void setCreateDate(String createDate) {
+        this.createDate = createDate;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public String getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(String lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+
+    public String getLastUpdatedBy() {
+        return lastUpdatedBy;
+    }
+
+    public void setLastUpdatedBy(String lastUpdatedBy) {
+        this.lastUpdatedBy = lastUpdatedBy;
+    }
+
+    public int getCountryId() {
+        return countryId;
+    }
+
+    public void setCountryId(int countryId) {
+        this.countryId = countryId;
     }
 }
-

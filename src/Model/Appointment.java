@@ -9,26 +9,20 @@ public class Appointment {
     private String title;
     private String description;
     private String location;
-    private String contact;
     private String type;
     private String startTime;
     private String endTime;
+    private String createDate;
+    private String createdBy;
+    private String lastUpdate;
+    private String lastUpdatedBy;
     private int customerId;
     private int userId;
     private int contactId;
 
-    public Appointment(int appointmentId, String title, String description, String location, String contact, String type, String startTime, String endTime, int customerId, int userId, int contactId) {
+    public Appointment(int appointmentId, String title, String description, String location, String type, String startTime, String endTime, String createDate, String createdBy, String lastUpdate, String lastUpdatedBy, int customerId, int userId, int contactId) {
         this.appointmentId = appointmentId;
-        this.title = title;
-        this.description = description;
-        this.location = location;
-        this.contact = contact;
-        this.type = type;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.customerId = customerId;
-        this.userId = userId;
-        this.contactId = contactId;
+
     }
 
     public int getAppointmentId() {
@@ -63,14 +57,6 @@ public class Appointment {
         this.location = location;
     }
 
-    public String getContact() {
-        return contact;
-    }
-
-    public void setContact(String contact) {
-        this.contact = contact;
-    }
-
     public String getType() {
         return type;
     }
@@ -87,6 +73,54 @@ public class Appointment {
         this.startTime = startTime;
     }
 
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+
+    public String getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(String createDate) {
+        this.createDate = createDate;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public String getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(String lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+
+    public String getLastUpdatedBy() {
+        return lastUpdatedBy;
+    }
+
+    public void setLastUpdatedBy(String lastUpdatedBy) {
+        this.lastUpdatedBy = lastUpdatedBy;
+    }
+
+    public int getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
+    }
+
     public int getUserId() {
         return userId;
     }
@@ -101,21 +135,5 @@ public class Appointment {
 
     public void setContactId(int contactId) {
         this.contactId = contactId;
-    }
-
-    public String getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(String endTime) {
-        this.endTime = endTime;
-    }
-
-    public int getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
     }
 }

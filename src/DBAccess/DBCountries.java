@@ -1,6 +1,8 @@
 package DBAccess;
 
 import Database.DBConnection;
+import Database.DBQuery;
+import Model.Contact;
 import Model.Country;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,32 +11,57 @@ import java.sql.*;
 
 public class DBCountries {
 
-    public static ObservableList<Country> getAllCountries() {
+    public static Country getCountry(int countryId) throws SQLException {
+        Connection conn = DBConnection.getConnection();
+        String selectStatement = "SELECT * FROM countries WHERE Country_ID = " + Integer.toString(countryId);
 
-        // Code from Getting The DBConnection Class Project Ready
-        ObservableList<Country> clist = FXCollections.observableArrayList();
-        // Using 'try' because we don't want to throw any SQL exceptions in the data access code
-        // Instead we want to catch and deal with them inside the DB Handler
-        try {
-            String sql = "SELECT * FROM countries";
+        DBQuery.setPreparedStatement(conn, selectStatement);
 
-            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
+        Country countryResult = null;
 
-            ResultSet rs = ps.executeQuery();
+        PreparedStatement ps = DBQuery.getPreparedStatement();
+        ResultSet rs = ps.executeQuery();
 
-            while (rs.next()) {
-                int countryId = rs.getInt("Country_ID");
-                String countryName = rs.getString("Country");
-                Country newCountry = new Country(countryId, countryName);
+        while (rs.next()) {
+            int countryId1 = rs.getInt("Country_ID");
+            String countryName = rs.getString("Country");
+            String createDate = rs.getString("Create_Date");
+            String createdBy = rs.getString("Created_By");
+            String lastUpdate = rs.getString("Last_Update");
+            String lastUpdatedBy = rs.getString("Last_Updated_By");
 
-                clist.add(newCountry);
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            countryResult = new Country(countryId1, countryName, createDate, createdBy,
+                    lastUpdate, lastUpdatedBy);
+
+            return countryResult;
         }
-
-        return clist;
+        return null;
     }
+
+
+    public static ObservableList getAllACountries() throws SQLException {
+        Connection conn = DBConnection.getConnection();
+        String selectStatement = "SELECT * FROM countries";
+
+        DBQuery.setPreparedStatement(conn, selectStatement);
+
+        PreparedStatement ps = DBQuery.getPreparedStatement();
+        ResultSet rs = ps.executeQuery();
+
+        ObservableList<Country> countryList = FXCollections.observableArrayList();
+
+        while (rs.next()) {
+            countryList.add(new Country(rs.getInt("Country_ID"),
+                    rs.getString("Country"),
+                    rs.getString("Create_Date"),
+                    rs.getString("Created_By"),
+                    rs.getString("Last_Update"),
+                    rs.getString("Last_Updated_By")));
+        }
+        return countryList;
+    }
+
+
 
     // Code from Getting The DBConnection Class Project Ready
     public static void checkDateConversion() {

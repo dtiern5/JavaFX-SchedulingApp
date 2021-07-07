@@ -5,18 +5,27 @@ public class Customer {
     private int customerId;
     private String customerName;
     private String address;
-    private String division;
-    private String country;
+    private String postalCode;
     private String phone;
+    private String createDate;
+    private String createdBy;
+    private String lastUpdate;
+    private String lastUpdatedBy;
+    private int divisionId;
 
-
-    public Customer(int customerId, String customerName, String address, String division, String country, String phone) {
+    public Customer(int customerId, String customerName, String address,
+                    String postalCode, String phone, String createDate,
+                    String createdBy, String lastUpdate, String lastUpdatedBy, int divisionId) {
         this.customerId = customerId;
         this.customerName = customerName;
         this.address = address;
-        this.division = division;
-        this.country = country;
+        this.postalCode = postalCode;
         this.phone = phone;
+        this.createDate = createDate;
+        this.createdBy = createdBy;
+        this.lastUpdate = lastUpdate;
+        this.lastUpdatedBy = lastUpdatedBy;
+        this.divisionId = divisionId;
     }
 
     public int getCustomerId() {
@@ -43,18 +52,12 @@ public class Customer {
         this.address = address;
     }
 
-    public String getDivision() {
-        return division;
+    public String getPostalCode() {
+        return postalCode;
     }
 
-    public void setDivision(String division) { this.division = division; }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
     }
 
     public String getPhone() {
@@ -65,4 +68,43 @@ public class Customer {
         this.phone = phone;
     }
 
+    public String getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(String createDate) {
+        this.createDate = createDate;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public String getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(String lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+
+    public String getLastUpdatedBy() {
+        return lastUpdatedBy;
+    }
+
+    public void setLastUpdatedBy(String lastUpdatedBy) {
+        this.lastUpdatedBy = lastUpdatedBy;
+    }
+
+    public int getDivisionId() {
+        return divisionId;
+    }
+
+    public void setDivisionId(int divisionId) {
+        this.divisionId = divisionId;
+    }
 }
