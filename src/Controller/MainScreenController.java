@@ -4,6 +4,7 @@ import DBAccess.DBAppointments;
 import DBAccess.DBCustomers;
 import Model.Appointment;
 import Model.Customer;
+import Model.User;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -26,6 +27,8 @@ import java.util.ResourceBundle;
  * Controller for the main screen
  */
 public class MainScreenController implements Initializable {
+
+    public User currentUser;
 
     @FXML
     private TableView<Customer> customersTableView;
@@ -63,6 +66,14 @@ public class MainScreenController implements Initializable {
     @FXML
     private TableColumn<Appointment, Integer> appointmentsCustomerIdColumn;
 
+    @FXML
+    private Label userLabel;
+
+
+    public void initData(User user) {
+        currentUser = user;
+        userLabel.setText("Current user: " + currentUser);
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

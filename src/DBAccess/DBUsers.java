@@ -2,7 +2,6 @@ package DBAccess;
 
 import Database.DBConnection;
 import Database.DBQuery;
-import Model.Division;
 import Model.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -46,12 +45,6 @@ public class DBUsers {
         return passCheck;
     }
 
-
-
-
-
-
-
     public static User getUser(int userId) throws SQLException {
         Connection conn = DBConnection.getConnection();
         String selectStatement = "SELECT * FROM users WHERE User_ID = " + Integer.toString(userId);
@@ -73,6 +66,33 @@ public class DBUsers {
             String lastUpdatedBy = rs.getString("Last_Updated_By");
 
             userResult = new User(userId1, userName, password,
+                    createDate, createdBy, lastUpdate, lastUpdatedBy);
+
+            return userResult;
+        }
+        return null;
+    }
+
+    public static User getUserByName(String userName) throws SQLException {
+        Connection conn = DBConnection.getConnection();
+        String selectStatement = "SELECT * FROM users WHERE User_Name = '" + userName + "'";
+
+        DBQuery.setPreparedStatement(conn, selectStatement);
+
+        User userResult;
+
+        PreparedStatement ps = DBQuery.getPreparedStatement();
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            int userId = rs.getInt("User_ID");
+            String password = rs.getString("Password");
+            String createDate = rs.getString("Create_Date");
+            String createdBy = rs.getString("Created_By");
+            String lastUpdate = rs.getString("Last_Update");
+            String lastUpdatedBy = rs.getString("Last_Updated_By");
+
+            userResult = new User(userId, userName, password,
                     createDate, createdBy, lastUpdate, lastUpdatedBy);
 
             return userResult;
@@ -103,11 +123,4 @@ public class DBUsers {
         }
         return userList;
     }
-
-
-
-
-
-
-
 }

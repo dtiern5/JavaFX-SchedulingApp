@@ -97,6 +97,13 @@ public class DBCustomers {
     }
 
 
+/*
+    public static void addCustomer() {
+        Connection conn = DBConnection.getConnection();
 
+        String insertStatement = "INSERT INTO"
+
+    }
+*/
 
 }

@@ -36,7 +36,10 @@
             <Font name="Avenir Roman" size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="customerIdTF" editable="false" layoutX="180.0" layoutY="73.0" prefHeight="27.0" prefWidth="150.0" />
+      <TextField fx:id="customerIdTF" editable="false" layoutX="180.0" layoutY="73.0" prefHeight="27.0" prefWidth="150.0" text="Auto Generated">
+         <font>
+            <Font name="System Italic" size="13.0" />
+         </font></TextField>
       <TextField fx:id="phoneNumberTF" layoutX="180.0" layoutY="343.0" prefHeight="27.0" prefWidth="150.0" />
       <TextField fx:id="postalCodeTF" layoutX="180.0" layoutY="207.0" prefHeight="27.0" prefWidth="150.0" />
       <TextField fx:id="addressTF" layoutX="180.0" layoutY="163.0" prefHeight="27.0" prefWidth="150.0" />

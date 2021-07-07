@@ -3,6 +3,7 @@ package Controller;
 
 import DBAccess.DBUsers;
 import Database.DBConnection;
+import Model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,6 +22,13 @@ import java.util.ResourceBundle;
 
 public class LogInController implements Initializable {
 
+    public User user;
+
+    private String exitPrompt;
+    private String closeAlertTitle;
+    private String userNameNotFound;
+    private String incorrectPassword;
+
     @FXML
     private Label appName;
     @FXML
@@ -35,11 +43,6 @@ public class LogInController implements Initializable {
     private TextField userNameTextField;
     @FXML
     private TextField passwordTextField;
-
-    private String exitPrompt;
-    private String closeAlertTitle;
-    private String userNameNotFound;
-    private String incorrectPassword;
 
 
     @Override
@@ -82,7 +85,7 @@ public class LogInController implements Initializable {
      * @param event
      * @throws Exception
      */
-    public void loginButtonPushed(ActionEvent event) throws Exception {
+    public void handleLogin(ActionEvent event) throws Exception {
 
         String userNameAttempt = userNameTextField.getText();
         String passwordAttempt = passwordTextField.getText();
@@ -98,6 +101,7 @@ public class LogInController implements Initializable {
         } else {
             if (passwordAttempt.equals(DBUsers.getPassword(userNameAttempt))) {
                 System.out.println("Logged in!");
+                user = DBUsers.getUserByName(userNameAttempt);
                 openMainScreen(event);
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -115,11 +119,19 @@ public class LogInController implements Initializable {
      * @throws IOException signals I/O exception has occurred
      */
     public void openMainScreen(ActionEvent event) throws IOException {
-        Parent mainScreenViewParent = FXMLLoader.load(getClass().getResource("../View/MainScreenView.fxml"));
-        Scene mainViewScene = new Scene(mainScreenViewParent);
+        FXMLLoader loader = new FXMLLoader();
+
+        loader.setLocation(getClass().getResource("../View/MainScreenView.fxml"));
+        Parent scene = loader.load();
+        Scene mainViewScene = new Scene(scene);
+
+        MainScreenController controller = loader.getController();
+        controller.initData(user);
+
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(mainViewScene);
         window.show();
+
     }
 
 
