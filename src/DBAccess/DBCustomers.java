@@ -45,7 +45,6 @@ public class DBCustomers {
         return null;
     }
 
-
     public static ObservableList getAllCustomers() throws SQLException {
         Connection conn = DBConnection.getConnection();
         String selectStatement = "SELECT * FROM customers";
@@ -95,6 +94,26 @@ public class DBCustomers {
                     rs.getString("Phone")));
         }
         return customerList;
+    }
+
+    public static void modifyCustomer(String customerName, String address, String postalCode, String phoneNumber, String currentUser, int divisionId, int customerId) throws SQLException {
+        Connection conn = DBConnection.getConnection();
+
+        String updateStatement = "UPDATE customers SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, Last_Update = NOW(), Last_Updated_By = ?, Division_ID = ? WHERE Customer_ID = ?";
+
+        DBQuery.setPreparedStatement(conn, updateStatement);
+
+        PreparedStatement ps = DBQuery.getPreparedStatement();
+
+        ps.setString(1, customerName);
+        ps.setString(2, address);
+        ps.setString(3, postalCode);
+        ps.setString(4, phoneNumber);
+        ps.setString(5, currentUser.toString());
+        ps.setInt(6, divisionId);
+        ps.setInt(7, customerId);
+
+        ps.execute();
     }
 
 

@@ -1,6 +1,7 @@
 package Controller;
 
 import DBAccess.DBCountries;
+import DBAccess.DBCustomers;
 import DBAccess.DBDivisions;
 import Database.DBConnection;
 import Database.DBQuery;
@@ -117,12 +118,6 @@ public class ModifyCustomerController implements Initializable {
                 alert.showAndWait();
             }
 
-            String updateStatement = "UPDATE customers SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, Last_Update = NOW(), Last_Updated_By = ?, Division_ID = ? WHERE Customer_ID = ?";
-
-            DBQuery.setPreparedStatement(conn, updateStatement);
-
-            PreparedStatement ps = DBQuery.getPreparedStatement();
-
             String customerName = nameTF.getText();
             String address = addressTF.getText();
             String postalCode = postalCodeTF.getText();
@@ -130,15 +125,8 @@ public class ModifyCustomerController implements Initializable {
             int divisionId = divisionComboBox.getValue().getDivisionId();
             int customerId = Integer.valueOf(customerIdTF.getText());
 
-            ps.setString(1, customerName);
-            ps.setString(2, address);
-            ps.setString(3, postalCode);
-            ps.setString(4, phoneNumber);
-            ps.setString(5, currentUser.toString());
-            ps.setInt(6, divisionId);
-            ps.setInt(7, customerId);
+            DBCustomers.modifyCustomer(customerName, address, postalCode, phoneNumber, currentUser.toString(), divisionId, customerId);
 
-            ps.execute();
             System.out.println("Success");
 
         } catch (Exception e) {
