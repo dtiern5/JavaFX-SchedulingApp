@@ -20,9 +20,33 @@ public class Appointment {
     private int userId;
     private int contactId;
 
+    private String contact;
+
     public Appointment(int appointmentId, String title, String description, String location, String type, String startTime, String endTime, String createDate, String createdBy, String lastUpdate, String lastUpdatedBy, int customerId, int userId, int contactId) {
         this.appointmentId = appointmentId;
 
+    }
+
+    public Appointment(int appointmentId, String title, String description, String location, String contact, String type, String startTime, String endTime, int customerId, int userId, int contactId) {
+        this.appointmentId = appointmentId;
+        this.title = title;
+        this.description = description;
+        this.location = location;
+        this.contact = contact;
+        this.type = type;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.customerId = customerId;
+        this.userId = userId;
+        this.contactId = contactId;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
     }
 
     public int getAppointmentId() {

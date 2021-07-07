@@ -18,6 +18,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -66,33 +67,37 @@ public class MainScreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        /*
-        ObservableList<Customer> customerList = DBCustomers.populateCustomersTable();
 
-        customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
-        customerNameColumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
-        customerAddressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
-        customerDivisionColumn.setCellValueFactory(new PropertyValueFactory<>("division"));
-        customerCountryColumn.setCellValueFactory(new PropertyValueFactory<>("country"));
-        customerPhoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
+        ObservableList<Customer> customerList = null;
+        ObservableList<Appointment> appointmentList = null;
 
-        customersTableView.setItems(customerList);
 
-        ObservableList<Appointment> appointmentList = DBAppointments.populateAppointmentsTable();
+        try {
+            customerList = DBCustomers.populateCustomerTable();
+            customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+            customerNameColumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
+            customerAddressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
+            customerDivisionColumn.setCellValueFactory(new PropertyValueFactory<>("division"));
+            customerCountryColumn.setCellValueFactory(new PropertyValueFactory<>("country"));
+            customerPhoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
+            customersTableView.setItems(customerList);
 
-        appointmentsIdColumn.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
-        appointmentsTitleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
-        appointmentsDescriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
-        appointmentsLocationColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
-        appointmentsContactColumn.setCellValueFactory(new PropertyValueFactory<>("contact"));
-        appointmentsTypeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
-        appointmentsStartTimeColumn.setCellValueFactory(new PropertyValueFactory<>("startTime"));
-        appointmentsEndTimeColumn.setCellValueFactory(new PropertyValueFactory<>("endTime"));
-        appointmentsCustomerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
 
-        appointmentsTableView.setItems(appointmentList);
-        */
+            appointmentList = DBAppointments.populateAppointmentsTable();
+            appointmentsIdColumn.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
+            appointmentsTitleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+            appointmentsDescriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+            appointmentsLocationColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
+            appointmentsContactColumn.setCellValueFactory(new PropertyValueFactory<>("contact"));
+            appointmentsTypeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+            appointmentsStartTimeColumn.setCellValueFactory(new PropertyValueFactory<>("startTime"));
+            appointmentsEndTimeColumn.setCellValueFactory(new PropertyValueFactory<>("endTime"));
+            appointmentsCustomerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+            appointmentsTableView.setItems(appointmentList);
 
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     /**

@@ -6,7 +6,6 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
 <AnchorPane prefHeight="400.0" prefWidth="397.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AddCustomerController">
    <children>
       <TextField layoutX="111.0" layoutY="87.0" />
@@ -18,6 +17,6 @@
       <TextField layoutX="111.0" layoutY="272.0" />
       <Label layoutX="111.0" layoutY="249.0" text="Phone Number" />
       <Button layoutX="108.0" layoutY="315.0" mnemonicParsing="false" text="Add Customer" />
-      <Button layoutX="220.0" layoutY="315.0" mnemonicParsing="false" onAction="#goBackHandler" text="Go Back" />
+      <Button layoutX="220.0" layoutY="315.0" mnemonicParsing="false" onAction="#goBackHandler" text="Cancel" />
    </children>
 </AnchorPane>
