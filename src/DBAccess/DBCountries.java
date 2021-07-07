@@ -62,7 +62,6 @@ public class DBCountries {
     }
 
 
-
     // Code from Getting The DBConnection Class Project Ready
     public static void checkDateConversion() {
         System.out.println("CREATE DATE TEST");

@@ -33,6 +33,9 @@ public class AddCustomerController implements Initializable {
     public User currentUser;
 
     @FXML
+    private Label userLabel;
+
+    @FXML
     private TextField customerIdTF;
     @FXML
     private TextField nameTF;
@@ -64,8 +67,7 @@ public class AddCustomerController implements Initializable {
     @FXML
     private TableColumn<Customer, String> customerPhoneColumn;
 
-    @FXML
-    private Label userLabel;
+
 
 
     public void initData(User user) {
@@ -84,7 +86,6 @@ public class AddCustomerController implements Initializable {
         }
 
         populateTableView();
-
     }
 
     private void populateTableView() {
@@ -118,32 +119,12 @@ public class AddCustomerController implements Initializable {
         countryTF.setText(DBCountries.getCountry(divisionComboBox.getValue().getCountryId()).toString());
     }
 
+
     /**
-     * Reverts back to main screen
      *
-     * @param event for changing scene on click
-     * @throws IOException signals I/O exception has occurred
+     *
+     * @param event for inserting new customer into the database
      */
-    public void goBackHandler(ActionEvent event) throws IOException {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to go back?");
-        Optional<ButtonType> result = alert.showAndWait();
-
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            FXMLLoader loader = new FXMLLoader();
-
-            loader.setLocation(getClass().getResource("../View/MainScreenView.fxml"));
-            Parent scene = loader.load();
-            Scene mainViewScene = new Scene(scene);
-
-            MainScreenController controller = loader.getController();
-            controller.initData(currentUser);
-
-            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            window.setScene(mainViewScene);
-            window.show();
-        }
-    }
-
     public void confirmHandler(ActionEvent event) {
         Connection conn = DBConnection.getConnection();
 
@@ -193,4 +174,33 @@ public class AddCustomerController implements Initializable {
             alert.setContentText("Placeholder");
         }
     }
+
+
+    /**
+     * Reverts back to main screen
+     *
+     * @param event for changing scene on click
+     * @throws IOException signals I/O exception has occurred
+     */
+    public void goBackHandler(ActionEvent event) throws IOException {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to go back?");
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            FXMLLoader loader = new FXMLLoader();
+
+            loader.setLocation(getClass().getResource("../View/MainScreenView.fxml"));
+            Parent scene = loader.load();
+            Scene mainViewScene = new Scene(scene);
+
+            MainScreenController controller = loader.getController();
+            controller.initData(currentUser);
+
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(mainViewScene);
+            window.show();
+        }
+    }
+
+
 }

@@ -63,7 +63,7 @@
          <font>
             <Font name="Avenir Light" size="13.0" />
          </font></Button>
-      <Button layoutX="652.0" layoutY="541.0" mnemonicParsing="false" prefWidth="60.0" text="Modify">
+      <Button layoutX="652.0" layoutY="541.0" mnemonicParsing="false" onAction="#modifyCustomerHandler" prefWidth="60.0" text="Modify">
          <font>
             <Font name="Avenir Light" size="13.0" />
          </font></Button>
