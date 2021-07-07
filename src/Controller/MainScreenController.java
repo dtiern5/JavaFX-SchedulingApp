@@ -31,13 +31,15 @@ public class MainScreenController implements Initializable {
     public User currentUser;
 
     @FXML
-    private TableView<Customer> customersTableView;
+    private TableView<Customer> customerTableView;
     @FXML
     private TableColumn<Customer, Integer> customerIdColumn;
     @FXML
     private TableColumn<Customer, String> customerNameColumn;
     @FXML
     private TableColumn<Customer, String> customerAddressColumn;
+    @FXML
+    private TableColumn<Customer, String> customerPostalCodeColumn;
     @FXML
     private TableColumn<Customer, String> customerDivisionColumn;
     @FXML
@@ -88,10 +90,11 @@ public class MainScreenController implements Initializable {
             customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
             customerNameColumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
             customerAddressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
+            customerPostalCodeColumn.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
             customerDivisionColumn.setCellValueFactory(new PropertyValueFactory<>("division"));
             customerCountryColumn.setCellValueFactory(new PropertyValueFactory<>("country"));
             customerPhoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
-            customersTableView.setItems(customerList);
+            customerTableView.setItems(customerList);
 
 
             appointmentList = DBAppointments.populateAppointmentsTable();
@@ -131,19 +134,39 @@ public class MainScreenController implements Initializable {
         }
     }
 
+    /**
+     * Switches to AddCustomer scene.
+     *
+     * @param event for changing scene on click
+     * @throws IOException signals I/O exception has occurred
+     */
     public void addCustomerHandler(ActionEvent event) throws IOException {
-        Parent addCustomerViewParent = FXMLLoader.load(getClass().getResource("../View/AddCustomerView.fxml"));
-        Scene AddCustomerScene = new Scene(addCustomerViewParent);
+        FXMLLoader loader = new FXMLLoader();
+
+        loader.setLocation(getClass().getResource("../View/AddCustomerView.fxml"));
+        Parent scene = loader.load();
+        Scene customerViewScene = new Scene(scene);
+
+        AddCustomerController controller = loader.getController();
+        controller.initData(currentUser);
+
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        window.setScene(AddCustomerScene);
+        window.setScene(customerViewScene);
         window.show();
     }
 
     public void addAppointmentHandler(ActionEvent event) throws IOException {
-        Parent addAppointmentViewParent = FXMLLoader.load(getClass().getResource("../View/AddAppointmentView.fxml"));
-        Scene AddAppointmentScene = new Scene(addAppointmentViewParent);
+        FXMLLoader loader = new FXMLLoader();
+
+        loader.setLocation(getClass().getResource("../View/AddAppointmentView.fxml"));
+        Parent scene = loader.load();
+        Scene appointmentViewScene = new Scene(scene);
+
+        AddAppointmentController controller = loader.getController();
+        controller.initData(currentUser);
+
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        window.setScene(AddAppointmentScene);
+        window.setScene(appointmentViewScene);
         window.show();
     }
 

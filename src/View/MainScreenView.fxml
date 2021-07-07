@@ -11,29 +11,30 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="630.0" prefWidth="882.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.MainScreenController">
+<AnchorPane prefHeight="630.0" prefWidth="962.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.MainScreenController">
    <children>
-      <TableView fx:id="customersTableView" layoutX="22.0" layoutY="380.0" prefHeight="223.0" prefWidth="490.0">
+      <TableView fx:id="customerTableView" layoutX="22.0" layoutY="380.0" prefHeight="223.0" prefWidth="611.0">
         <columns>
             <TableColumn fx:id="customerIdColumn" prefWidth="23.0" text="ID" />
-            <TableColumn fx:id="customerNameColumn" prefWidth="114.0" text="Name" />
-            <TableColumn fx:id="customerAddressColumn" prefWidth="119.0" text="Address" />
-            <TableColumn fx:id="customerDivisionColumn" prefWidth="79.0" text="Division" />
-            <TableColumn fx:id="customerCountryColumn" prefWidth="75.0" text="Country" />
-            <TableColumn fx:id="customerPhoneColumn" prefWidth="74.0" text="Phone" />
+            <TableColumn fx:id="customerNameColumn" prefWidth="155.0" text="Name" />
+            <TableColumn fx:id="customerAddressColumn" prefWidth="118.0" text="Address" />
+            <TableColumn fx:id="customerPostalCodeColumn" prefWidth="89.0" text="Postal Code" />
+            <TableColumn fx:id="customerDivisionColumn" prefWidth="74.0" text="Division" />
+            <TableColumn fx:id="customerCountryColumn" prefWidth="73.0" text="Country" />
+            <TableColumn fx:id="customerPhoneColumn" prefWidth="78.0" text="Phone" />
         </columns>
       </TableView>
-      <TableView fx:id="appointmentsTableView" layoutX="22.0" layoutY="101.0" prefHeight="223.0" prefWidth="776.0">
+      <TableView fx:id="appointmentsTableView" layoutX="22.0" layoutY="101.0" prefHeight="223.0" prefWidth="843.0">
          <columns>
-            <TableColumn fx:id="appointmentsIdColumn" prefWidth="23.0" text="ID" />
-            <TableColumn fx:id="appointmentsTitleColumn" prefWidth="56.0" text="Title" />
-            <TableColumn fx:id="appointmentsDescriptionColumn" prefWidth="93.0" text="Description" />
-          <TableColumn fx:id="appointmentsLocationColumn" prefWidth="90.0" text="Location" />
-            <TableColumn fx:id="appointmentsContactColumn" prefWidth="91.0" text="Contact" />
-            <TableColumn fx:id="appointmentsTypeColumn" prefWidth="63.0" text="Type" />
-            <TableColumn fx:id="appointmentsStartTimeColumn" prefWidth="140.0" text="Start Time" />
-            <TableColumn fx:id="appointmentsEndTimeColumn" prefWidth="140.0" text="End Time" />
-            <TableColumn fx:id="appointmentsCustomerIdColumn" prefWidth="78.0" text="Customer ID" />
+            <TableColumn fx:id="appointmentsIdColumn" prefWidth="36.0" text="ID" />
+            <TableColumn fx:id="appointmentsTitleColumn" prefWidth="72.0" text="Title" />
+            <TableColumn fx:id="appointmentsDescriptionColumn" prefWidth="100.0" text="Description" />
+          <TableColumn fx:id="appointmentsLocationColumn" prefWidth="98.0" text="Location" />
+            <TableColumn fx:id="appointmentsContactColumn" prefWidth="99.0" text="Contact" />
+            <TableColumn fx:id="appointmentsTypeColumn" prefWidth="84.0" text="Type" />
+            <TableColumn fx:id="appointmentsStartTimeColumn" prefWidth="137.0" text="Start Time" />
+            <TableColumn fx:id="appointmentsEndTimeColumn" prefWidth="131.0" text="End Time" />
+            <TableColumn fx:id="appointmentsCustomerIdColumn" prefWidth="85.0" text="Customer ID" />
          </columns>
       </TableView>
       <Label layoutX="22.0" layoutY="353.0" text="Customers">
@@ -46,52 +47,52 @@
             <Font name="Avenir Oblique" size="18.0" />
          </font>
       </Label>
-      <Button layoutX="807.0" layoutY="295.0" mnemonicParsing="false" prefWidth="60.0" text="Delete">
+      <Button layoutX="885.0" layoutY="292.0" mnemonicParsing="false" prefWidth="60.0" text="Delete">
          <font>
             <Font name="Avenir Light" size="13.0" />
          </font></Button>
-      <Button layoutX="807.0" layoutY="262.0" mnemonicParsing="false" prefWidth="60.0" text="Modify">
+      <Button layoutX="885.0" layoutY="259.0" mnemonicParsing="false" prefWidth="60.0" text="Modify">
          <font>
             <Font name="Avenir Light" size="13.0" />
          </font></Button>
-      <Button layoutX="807.0" layoutY="229.0" mnemonicParsing="false" onAction="#addAppointmentHandler" prefWidth="60.0" text="Add">
+      <Button layoutX="885.0" layoutY="226.0" mnemonicParsing="false" onAction="#addAppointmentHandler" prefWidth="60.0" text="Add">
          <font>
             <Font name="Avenir Light" size="13.0" />
          </font></Button>
-      <Button layoutX="518.0" layoutY="509.0" mnemonicParsing="false" onAction="#addCustomerHandler" prefWidth="60.0" text="Add">
+      <Button layoutX="652.0" layoutY="507.0" mnemonicParsing="false" onAction="#addCustomerHandler" prefWidth="60.0" text="Add">
          <font>
             <Font name="Avenir Light" size="13.0" />
          </font></Button>
-      <Button layoutX="518.0" layoutY="543.0" mnemonicParsing="false" prefWidth="60.0" text="Modify">
+      <Button layoutX="652.0" layoutY="541.0" mnemonicParsing="false" prefWidth="60.0" text="Modify">
          <font>
             <Font name="Avenir Light" size="13.0" />
          </font></Button>
-      <Button layoutX="518.0" layoutY="576.0" mnemonicParsing="false" prefWidth="60.0" text="Delete">
+      <Button layoutX="652.0" layoutY="574.0" mnemonicParsing="false" prefWidth="60.0" text="Delete">
          <font>
             <Font name="Avenir Light" size="13.0" />
          </font></Button>
-      <Button layoutX="668.0" layoutY="425.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="199.0" text="Customer Appointments Report">
+      <Button layoutX="746.0" layoutY="422.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="199.0" text="Customer Appointments Report">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
          <font>
             <Font name="Avenir Medium" size="13.0" />
          </font></Button>
-      <Button layoutX="668.0" layoutY="518.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="199.0" text="Third Report">
+      <Button layoutX="746.0" layoutY="515.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="199.0" text="Third Report">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
          <font>
             <Font name="Avenir Medium" size="13.0" />
          </font></Button>
-      <Button layoutX="668.0" layoutY="472.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="199.0" text="Contact Schedule Report">
+      <Button layoutX="746.0" layoutY="469.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="199.0" text="Contact Schedule Report">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
          <font>
             <Font name="Avenir Medium" size="13.0" />
          </font></Button>
-      <Button layoutX="668.0" layoutY="565.0" mnemonicParsing="false" onAction="#logOutHandler" prefHeight="40.0" prefWidth="199.0" text="Log  out">
+      <Button layoutX="746.0" layoutY="562.0" mnemonicParsing="false" onAction="#logOutHandler" prefHeight="40.0" prefWidth="199.0" text="Log  out">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>

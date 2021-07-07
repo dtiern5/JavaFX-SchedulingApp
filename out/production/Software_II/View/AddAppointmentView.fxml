@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
@@ -12,5 +13,10 @@
    <children>
       <Button layoutX="510.0" layoutY="343.0" mnemonicParsing="false" onAction="#cancelHandler" text="Cancel" />
       <ComboBox fx:id="combo3" layoutX="225.0" layoutY="100.0" prefWidth="150.0" />
+      <Label fx:id="userLabel" layoutX="27.0" layoutY="361.0" prefHeight="17.0" prefWidth="134.0">
+         <font>
+            <Font name="Avenir Roman" size="13.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

@@ -31,11 +31,12 @@ public class Customer {
         this.divisionId = divisionId;
     }
 
-    public Customer(int customerId, String customerName, String address,
+    public Customer(int customerId, String customerName, String address, String postalCode,
                     String division, String country, String phone) {
         this.customerId = customerId;
         this.customerName = customerName;
         this.address = address;
+        this.postalCode = postalCode;
         this.division = division;
         this.country = country;
         this.phone = phone;

@@ -22,7 +22,7 @@ import java.util.ResourceBundle;
 
 public class LogInController implements Initializable {
 
-    public User user;
+    public User currentUser;
 
     private String exitPrompt;
     private String closeAlertTitle;
@@ -101,7 +101,7 @@ public class LogInController implements Initializable {
         } else {
             if (passwordAttempt.equals(DBUsers.getPassword(userNameAttempt))) {
                 System.out.println("Logged in!");
-                user = DBUsers.getUserByName(userNameAttempt);
+                currentUser = DBUsers.getUserByName(userNameAttempt);
                 openMainScreen(event);
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -126,7 +126,7 @@ public class LogInController implements Initializable {
         Scene mainViewScene = new Scene(scene);
 
         MainScreenController controller = loader.getController();
-        controller.initData(user);
+        controller.initData(currentUser);
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(mainViewScene);

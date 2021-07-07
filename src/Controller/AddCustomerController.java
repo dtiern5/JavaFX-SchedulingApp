@@ -1,11 +1,13 @@
 package Controller;
 
 import DBAccess.DBCountries;
+import DBAccess.DBCustomers;
 import DBAccess.DBDivisions;
 import Database.DBConnection;
 import Database.DBQuery;
+import Model.Customer;
 import Model.Division;
-import com.mysql.cj.x.protobuf.MysqlxPrepare;
+import Model.User;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,12 +16,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.net.URL;
@@ -30,6 +29,8 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class AddCustomerController implements Initializable {
+
+    public User currentUser;
 
     @FXML
     private TextField customerIdTF;
@@ -46,6 +47,31 @@ public class AddCustomerController implements Initializable {
     @FXML
     private TextField phoneNumberTF;
 
+    @FXML
+    private TableView<Customer> customersTableView;
+    @FXML
+    private TableColumn<Customer, Integer> customerIdColumn;
+    @FXML
+    private TableColumn<Customer, String> customerNameColumn;
+    @FXML
+    private TableColumn<Customer, String> customerAddressColumn;
+    @FXML
+    private TableColumn<Customer, String> customerPostalCodeColumn;
+    @FXML
+    private TableColumn<Customer, String> customerDivisionColumn;
+    @FXML
+    private TableColumn<Customer, String> customerCountryColumn;
+    @FXML
+    private TableColumn<Customer, String> customerPhoneColumn;
+
+    @FXML
+    private Label userLabel;
+
+
+    public void initData(User user) {
+        currentUser = user;
+        userLabel.setText("Current user: " + currentUser);
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -53,11 +79,30 @@ public class AddCustomerController implements Initializable {
             ObservableList<Division> divisionList = DBDivisions.getAllDivisions();
             divisionComboBox.setItems(divisionList);
             divisionComboBox.setPromptText("First Level Division");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        ObservableList<Customer> customerList = null;
+        try {
+            customerList = DBCustomers.populateCustomerTable();
+            customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+            customerNameColumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
+            customerAddressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
+            customerPostalCodeColumn.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
+            customerDivisionColumn.setCellValueFactory(new PropertyValueFactory<>("division"));
+            customerCountryColumn.setCellValueFactory(new PropertyValueFactory<>("country"));
+            customerPhoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
+            customersTableView.setItems(customerList);
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+
+
+
     }
+
 
     /**
      * On changing the division ComboBox, the getCountry method will be called on
@@ -82,9 +127,15 @@ public class AddCustomerController implements Initializable {
         Optional<ButtonType> result = alert.showAndWait();
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
+            FXMLLoader loader = new FXMLLoader();
 
-            Parent MainScreenViewParent = FXMLLoader.load(getClass().getResource("../View/MainScreenView.fxml"));
-            Scene mainViewScene = new Scene(MainScreenViewParent);
+            loader.setLocation(getClass().getResource("../View/MainScreenView.fxml"));
+            Parent scene = loader.load();
+            Scene mainViewScene = new Scene(scene);
+
+            MainScreenController controller = loader.getController();
+            controller.initData(currentUser);
+
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
             window.setScene(mainViewScene);
             window.show();
@@ -95,13 +146,13 @@ public class AddCustomerController implements Initializable {
         Connection conn = DBConnection.getConnection();
 
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        try{
+        try {
             alert.setTitle("Customer not added");
 
-            if(nameTF.getText().isEmpty() ||
-            addressTF.getText().isEmpty() ||
-            postalCodeTF.getText().isEmpty() ||
-            phoneNumberTF.getText().isEmpty()) {
+            if (nameTF.getText().isEmpty() ||
+                    addressTF.getText().isEmpty() ||
+                    postalCodeTF.getText().isEmpty() ||
+                    phoneNumberTF.getText().isEmpty()) {
                 alert.setContentText("All fields require values");
                 alert.showAndWait();
             }

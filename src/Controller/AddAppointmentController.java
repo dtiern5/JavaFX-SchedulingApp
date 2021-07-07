@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -12,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -22,9 +24,19 @@ import java.util.ResourceBundle;
 
 public class AddAppointmentController implements Initializable {
 
+    public User currentUser;
+
     @FXML
     private ComboBox<LocalTime> combo3;
 
+    @FXML
+    private Label userLabel;
+
+
+    public void initData(User user) {
+        currentUser = user;
+        userLabel.setText("Current user: " + currentUser);
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -51,9 +63,15 @@ public class AddAppointmentController implements Initializable {
         Optional<ButtonType> result = alert.showAndWait();
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
+            FXMLLoader loader = new FXMLLoader();
 
-            Parent MainScreenViewParent = FXMLLoader.load(getClass().getResource("../View/MainScreenView.fxml"));
-            Scene mainViewScene = new Scene(MainScreenViewParent);
+            loader.setLocation(getClass().getResource("../View/MainScreenView.fxml"));
+            Parent scene = loader.load();
+            Scene mainViewScene = new Scene(scene);
+
+            MainScreenController controller = loader.getController();
+            controller.initData(currentUser);
+
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
             window.setScene(mainViewScene);
             window.show();

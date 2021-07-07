@@ -74,7 +74,7 @@ public class DBCustomers {
 
     public static ObservableList populateCustomerTable() throws SQLException {
         Connection conn = DBConnection.getConnection();
-        String selectStatement = "SELECT customers.Customer_ID, customers.Customer_Name, customers.Address, first_level_divisions.Division, countries.Country, customers.Phone FROM customers\n" +
+        String selectStatement = "SELECT customers.Customer_ID, customers.Customer_Name, customers.Address, customers.Postal_Code, first_level_divisions.Division, countries.Country, customers.Phone FROM customers\n" +
                 "JOIN first_level_divisions ON customers.Division_ID=first_level_divisions.Division_ID\n" +
                 "JOIN countries ON first_level_divisions.Country_ID = countries.Country_ID";
 
@@ -89,6 +89,7 @@ public class DBCustomers {
             customerList.add(new Customer(rs.getInt("Customer_ID"),
                     rs.getString("Customer_Name"),
                     rs.getString("Address"),
+                    rs.getString("Postal_Code"),
                     rs.getString("Division"),
                     rs.getString("Country"),
                     rs.getString("Phone")));
