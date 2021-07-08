@@ -135,33 +135,35 @@ public class AddCustomerController implements Initializable {
                     divisionComboBox.getSelectionModel().isEmpty()) {
                 alert.setContentText("All fields require values");
                 alert.showAndWait();
+                
+            } else {
+
+                String insertStatement = "INSERT INTO customers(Customer_Name, Address, Postal_Code, Phone, " +
+                        "Create_Date, Created_By, Last_Update, Last_Updated_By, Division_ID)" +
+                        "VALUES(?, ?, ?, ?, NOW(), ?, NOW(), ?, ?)";
+
+                DBQuery.setPreparedStatement(conn, insertStatement);
+
+                PreparedStatement ps = DBQuery.getPreparedStatement();
+
+                String customerName = nameTF.getText();
+                String address = addressTF.getText();
+                String postalCode = postalCodeTF.getText();
+                String phoneNumber = phoneNumberTF.getText();
+                int divisionId = divisionComboBox.getValue().getDivisionId();
+
+                ps.setString(1, customerName);
+                ps.setString(2, address);
+                ps.setString(3, postalCode);
+                ps.setString(4, phoneNumber);
+                ps.setString(5, currentUser.toString());
+                ps.setString(6, currentUser.toString());
+                ps.setInt(7, divisionId);
+
+                ps.execute();
+
+                populateTableView();
             }
-
-            String insertStatement = "INSERT INTO customers(Customer_Name, Address, Postal_Code, Phone, " +
-                    "Create_Date, Created_By, Last_Update, Last_Updated_By, Division_ID)" +
-                    "VALUES(?, ?, ?, ?, NOW(), ?, NOW(), ?, ?)";
-
-            DBQuery.setPreparedStatement(conn, insertStatement);
-
-            PreparedStatement ps = DBQuery.getPreparedStatement();
-
-            String customerName = nameTF.getText();
-            String address = addressTF.getText();
-            String postalCode = postalCodeTF.getText();
-            String phoneNumber = phoneNumberTF.getText();
-            int divisionId = divisionComboBox.getValue().getDivisionId();
-
-            ps.setString(1, customerName);
-            ps.setString(2, address);
-            ps.setString(3, postalCode);
-            ps.setString(4, phoneNumber);
-            ps.setString(5, currentUser.toString());
-            ps.setString(6, currentUser.toString());
-            ps.setInt(7, divisionId);
-
-            ps.execute();
-
-            populateTableView();
 
         } catch (Exception e) {
             System.out.println("Input error: " + e.getMessage());
