@@ -29,6 +29,9 @@ import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * Controller for the AddCustomer screen
+ */
 public class AddCustomerController implements Initializable {
 
     public User currentUser;
@@ -69,13 +72,22 @@ public class AddCustomerController implements Initializable {
     private TableColumn<Customer, String> customerPhoneColumn;
 
 
-
-
+    /**
+     * Accepts and displays the current user.
+     *
+     * @param user logged in user
+     */
     public void initData(User user) {
         currentUser = user;
         userLabel.setText("Current user: " + currentUser);
     }
 
+    /**
+     * Populates the countryComboBox with available countries. Populates the table with customers.
+     *
+     * @param url the location used to resolve relative paths for the root object
+     * @param resourceBundle resources used to localize the root object
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
@@ -89,6 +101,9 @@ public class AddCustomerController implements Initializable {
         populateTableView();
     }
 
+    /**
+     * Populates table with customers
+     */
     private void populateTableView() {
         ObservableList<Customer> customerList = null;
         try {
@@ -107,18 +122,26 @@ public class AddCustomerController implements Initializable {
         }
     }
 
+    /**
+     * Creates and sets a list for the divisionComboBox based on the countryComboBox selection
+     *
+     * @param event for limiting available divisions to selected country
+     */
    public void divisionHandler(ActionEvent event) {
-        try {
-            ObservableList<Division> divisionList = DBDivisions.getDivisionByCountryId(countryComboBox.getValue().getCountryID());
-            divisionComboBox.setItems(divisionList);
-            divisionComboBox.setPromptText("Select First Division");
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+       try {
+           ObservableList<Division> divisionList = DBDivisions.getDivisionByCountryId(countryComboBox.getValue().getCountryID());
+           divisionComboBox.setItems(divisionList);
+           divisionComboBox.getSelectionModel().select(0);
+       } catch (SQLException throwables) {
+           throwables.printStackTrace();
+       }
     }
 
     /**
-     * @param event for inserting new customer into the database
+     * Ensures no fields are empty.
+     * Adds customer to database.
+     *
+     * @param event for confirming update on click
      */
     public void confirmHandler(ActionEvent event) {
         Connection conn = DBConnection.getConnection();

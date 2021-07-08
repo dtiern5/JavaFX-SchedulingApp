@@ -71,12 +71,21 @@ public class MainScreenController implements Initializable {
     @FXML
     private Label userLabel;
 
-
+    /**
+     * Accepts and displays the current user.
+     * @param user logged in user
+     */
     public void initData(User user) {
         currentUser = user;
         userLabel.setText("Current user: " + currentUser);
     }
 
+    /**
+     * Populates the customer table and the appointment table.
+     *
+     * @param url the location used to resolve relative paths for the root object
+     * @param resourceBundle resources used to localize the root object
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -135,7 +144,7 @@ public class MainScreenController implements Initializable {
     }
 
     /**
-     * Switches to AddCustomer scene.
+     * Switches to AddCustomer screen.
      *
      * @param event for changing scene on click
      * @throws IOException signals I/O exception has occurred
@@ -155,6 +164,12 @@ public class MainScreenController implements Initializable {
         window.show();
     }
 
+    /**
+     * Switches to the AddAppointment screen.
+     *
+     * @param event for changing scene on click
+     * @throws IOException signals I/O exception has occurred
+     */
     public void addAppointmentHandler(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
 
@@ -170,6 +185,13 @@ public class MainScreenController implements Initializable {
         window.show();
     }
 
+    /**
+     * Switches to the ModifyCustomer screen. If a customer is selected in the table, it will be sent
+     * to initialize the ModifyCustomer screen.
+     *
+     * @param event for changing scene on click
+     * @throws IOException signals I/O exception has occurred
+     */
     public void modifyCustomerHandler(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
 

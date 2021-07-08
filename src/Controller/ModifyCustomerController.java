@@ -30,6 +30,9 @@ import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * Controller for the ModifyCustomer screen
+ */
 public class ModifyCustomerController implements Initializable {
 
     public User currentUser;
@@ -72,6 +75,12 @@ public class ModifyCustomerController implements Initializable {
     @FXML
     private TableColumn<Customer, String> customerPhoneColumn;
 
+    /**
+     * Accepts and displays the current user a Customer's modifiable data.
+     *
+     * @param user logged in user
+     * @param customer the customer to modify
+     */
     public void initData(User user, Customer customer) {
         currentUser = user;
         userLabel.setText("Current user: " + currentUser);
@@ -102,6 +111,13 @@ public class ModifyCustomerController implements Initializable {
 
     }
 
+
+    /**
+     * Populates the countryComboBox with available countries. Populates the table with customers.
+     *
+     * @param url the location used to resolve relative paths for the root object
+     * @param resourceBundle resources used to localize the root object
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
@@ -114,6 +130,9 @@ public class ModifyCustomerController implements Initializable {
         populateTableView();
     }
 
+    /**
+     * Populates table with customers
+     */
     private void populateTableView() {
         ObservableList<Customer> customerList = null;
         try {
@@ -132,6 +151,11 @@ public class ModifyCustomerController implements Initializable {
         }
     }
 
+    /**
+     * Creates and sets a list for the divisionComboBox based on the countryComboBox selection.
+     *
+     * @param event for limiting available divisions to selected country
+     */
     public void divisionHandler(ActionEvent event) {
         if (countryComboBox.getSelectionModel().isEmpty()) {
             divisionComboBox.getSelectionModel().select(null);
@@ -146,6 +170,12 @@ public class ModifyCustomerController implements Initializable {
         }
     }
 
+    /**
+     * Populates fields with chosen customer data. Disables further tableview selections until selection is cleared
+     * or customer data saved.
+     *
+     * @param event for selecting customer on click
+     */
     public void selectHandler(ActionEvent event) {
         if (customersTableView.getSelectionModel().isEmpty()) {
             //do nothing
@@ -156,6 +186,11 @@ public class ModifyCustomerController implements Initializable {
         }
     }
 
+    /**
+     * Sets currentCustomer to null and clears their data from editing fields.
+     *
+     * @param actionEvent for clearing current selection on click
+     */
     public void clearHandler(ActionEvent actionEvent) {
 
         customersTableView.getSelectionModel().clearSelection();
@@ -169,10 +204,13 @@ public class ModifyCustomerController implements Initializable {
         currentCustomer = null;
         currentCustomerLabel.setText("No customer selected");
 
-        customersTableView.setDisable(false);
+        enableTableView();
         disableFields();
     }
 
+    /**
+     * Sets fields with currently selected customer's data.
+     */
     public void populateFields() {
         if (customersTableView.getSelectionModel().isEmpty()) {
             currentCustomerLabel.setText("No customer selected");
@@ -184,6 +222,7 @@ public class ModifyCustomerController implements Initializable {
             postalCodeTF.setText(currentCustomer.getPostalCode());
             countryComboBox.getSelectionModel().select(currentCustomer.getCountry());
 
+            // Initialize divisionComboBox. After this is set the divisionHandler can handle any changes.
             ObservableList<Division> divisionList = null;
             try {
                 divisionList = DBDivisions.getDivisionByCountryId(countryComboBox.getValue().getCountryID());
@@ -199,20 +238,23 @@ public class ModifyCustomerController implements Initializable {
         }
     }
 
+    /**
+     * Enables table access.
+     */
+    public void enableTableView() {
+        customersTableView.setDisable(false);
+    }
+
+    /**
+     * Disables table access.
+     */
     public void disableTableView() {
         customersTableView.setDisable(true);
     }
 
-    public void disableFields() {
-        customerIdTF.setDisable(true);
-        nameTF.setDisable(true);
-        addressTF.setDisable(true);
-        postalCodeTF.setDisable(true);
-        countryComboBox.setDisable(true);
-        divisionComboBox.setDisable(true);
-        phoneNumberTF.setDisable(true);
-    }
-
+    /**
+     * Enables field and comboBox access.
+     */
     public void enableFields() {
         customerIdTF.setDisable(false);
         nameTF.setDisable(false);
@@ -224,7 +266,24 @@ public class ModifyCustomerController implements Initializable {
     }
 
     /**
-     * @param event for inserting new customer into the database
+     * Disables field and comboBox access.
+     */
+    public void disableFields() {
+        customerIdTF.setDisable(true);
+        nameTF.setDisable(true);
+        addressTF.setDisable(true);
+        postalCodeTF.setDisable(true);
+        countryComboBox.setDisable(true);
+        divisionComboBox.setDisable(true);
+        phoneNumberTF.setDisable(true);
+    }
+
+
+    /**
+     * Ensures no fields are empty.
+     * Updates customer in database.
+     *
+     * @param event for confirming update on click
      */
     public void confirmHandler(ActionEvent event) {
         Connection conn = DBConnection.getConnection();
