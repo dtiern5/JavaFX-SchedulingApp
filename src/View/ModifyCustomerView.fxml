@@ -9,13 +9,9 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 
-<AnchorPane prefHeight="444.0" prefWidth="404.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ModifyCustomerController">
+<AnchorPane prefHeight="444.0" prefWidth="434.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ModifyCustomerController">
    <children>
-      <TextField fx:id="customerIdTF" editable="false" layoutX="183.0" layoutY="70.0" prefHeight="27.0" prefWidth="150.0" text="Auto Generated">
-         <font>
-            <Font name="Avenir Next Condensed Ultra Light" size="13.0" />
-         </font>
-      </TextField>
+      <TextField fx:id="customerIdTF" editable="false" layoutX="183.0" layoutY="70.0" prefHeight="27.0" prefWidth="150.0" text="Auto Generated" />
       <TextField fx:id="nameTF" layoutX="183.0" layoutY="114.0" prefHeight="27.0" prefWidth="150.0">
          <font>
             <Font name="Avenir Roman" size="13.0" />

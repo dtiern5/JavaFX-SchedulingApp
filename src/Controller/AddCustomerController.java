@@ -5,6 +5,7 @@ import DBAccess.DBCustomers;
 import DBAccess.DBDivisions;
 import Database.DBConnection;
 import Database.DBQuery;
+import Model.Country;
 import Model.Customer;
 import Model.Division;
 import Model.User;
@@ -44,9 +45,9 @@ public class AddCustomerController implements Initializable {
     @FXML
     private TextField postalCodeTF;
     @FXML
-    private ComboBox<Division> divisionComboBox;
+    private ComboBox<Country> countryComboBox;
     @FXML
-    private TextField countryTF;
+    private ComboBox<Division> divisionComboBox;
     @FXML
     private TextField phoneNumberTF;
 
@@ -78,9 +79,9 @@ public class AddCustomerController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
-            ObservableList<Division> divisionList = DBDivisions.getAllDivisions();
-            divisionComboBox.setItems(divisionList);
-            divisionComboBox.setPromptText("First Level Division");
+            ObservableList<Country> countryList = DBCountries.getAllACountries();
+            countryComboBox.setItems(countryList);
+            countryComboBox.setPromptText("Select Country");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -106,23 +107,17 @@ public class AddCustomerController implements Initializable {
         }
     }
 
-
-    /**
-     * On changing the division ComboBox, the getCountry method will be called on
-     * the division's countryId. The toString() method will be called on that country
-     * and displayed in the countryTF.
-     *
-     * @param event for changing country to match division
-     * @throws SQLException signals SQLException has occurred
-     */
-    public void countryHandler(ActionEvent event) throws SQLException {
-        countryTF.setText(DBCountries.getCountry(divisionComboBox.getValue().getCountryId()).toString());
+   public void divisionHandler(ActionEvent event) {
+        try {
+            ObservableList<Division> divisionList = DBDivisions.getDivisionByCountryId(countryComboBox.getValue().getCountryID());
+            divisionComboBox.setItems(divisionList);
+            divisionComboBox.setPromptText("Select First Division");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
-
     /**
-     *
-     *
      * @param event for inserting new customer into the database
      */
     public void confirmHandler(ActionEvent event) {
@@ -136,6 +131,7 @@ public class AddCustomerController implements Initializable {
                     addressTF.getText().isEmpty() ||
                     postalCodeTF.getText().isEmpty() ||
                     phoneNumberTF.getText().isEmpty() ||
+                    countryComboBox.getSelectionModel().isEmpty() ||
                     divisionComboBox.getSelectionModel().isEmpty()) {
                 alert.setContentText("All fields require values");
                 alert.showAndWait();
@@ -167,14 +163,12 @@ public class AddCustomerController implements Initializable {
 
             populateTableView();
 
-
         } catch (Exception e) {
             System.out.println("Input error: " + e.getMessage());
             alert.setTitle("Input error");
             alert.setContentText("Placeholder");
         }
     }
-
 
     /**
      * Reverts back to main screen

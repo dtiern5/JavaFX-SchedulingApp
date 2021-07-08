@@ -66,6 +66,29 @@ public class DBDivisions {
         return divisionList;
     }
 
+    public static ObservableList getDivisionByCountryId(int countryId) throws SQLException {
+        Connection conn = DBConnection.getConnection();
+        String selectStatement = "SELECT * FROM first_level_divisions WHERE COUNTRY_ID = '" + countryId + "'";
+
+        DBQuery.setPreparedStatement(conn, selectStatement);
+
+        PreparedStatement ps = DBQuery.getPreparedStatement();
+        ResultSet rs = ps.executeQuery();
+
+        ObservableList<Division> divisionList = FXCollections.observableArrayList();
+
+        while (rs.next()) {
+            divisionList.add(new Division(rs.getInt("Division_ID"),
+                    rs.getString("Division"),
+                    rs.getString("Create_Date"),
+                    rs.getString("Created_By"),
+                    rs.getString("Last_Update"),
+                    rs.getString("Last_Updated_By"),
+                    rs.getInt("COUNTRY_ID")));
+        }
+        return divisionList;
+    }
+
 }
 
 
