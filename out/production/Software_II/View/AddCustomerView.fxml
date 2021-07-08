@@ -94,5 +94,10 @@
          </columns>
       </TableView>
       <ComboBox fx:id="divisionComboBox" layoutX="180.0" layoutY="300.0" prefWidth="150.0" />
+      <Label fx:id="feedbackLabel" layoutX="422.0" layoutY="361.0" prefHeight="32.0" prefWidth="529.0">
+         <font>
+            <Font name="Hiragino Sans W2" size="18.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

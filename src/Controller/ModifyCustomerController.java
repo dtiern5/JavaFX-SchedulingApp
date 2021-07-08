@@ -19,6 +19,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import javax.swing.*;
@@ -42,6 +43,8 @@ public class ModifyCustomerController implements Initializable {
     private Label userLabel;
     @FXML
     private Label currentCustomerLabel;
+    @FXML
+    private Label feedbackLabel;
 
     @FXML
     private TextField customerIdTF;
@@ -206,6 +209,7 @@ public class ModifyCustomerController implements Initializable {
 
         enableTableView();
         disableFields();
+        feedbackLabel.setText("");
     }
 
     /**
@@ -278,7 +282,6 @@ public class ModifyCustomerController implements Initializable {
         phoneNumberTF.setDisable(true);
     }
 
-
     /**
      * Ensures no fields are empty.
      * Updates customer in database.
@@ -287,19 +290,19 @@ public class ModifyCustomerController implements Initializable {
      */
     public void confirmHandler(ActionEvent event) {
         Connection conn = DBConnection.getConnection();
+        if (currentCustomer == null) {
+            return;
+        }
 
-        Alert alert = new Alert(Alert.AlertType.ERROR);
         try {
-            alert.setTitle("Customer not added");
-
             if (nameTF.getText().isEmpty() ||
                     addressTF.getText().isEmpty() ||
                     postalCodeTF.getText().isEmpty() ||
                     phoneNumberTF.getText().isEmpty() ||
                     countryComboBox.isShowing() ||
                     divisionComboBox.isShowing()) {
-                alert.setContentText("All fields require values");
-                alert.showAndWait();
+                feedbackLabel.setText("Error: All fields require values");
+                feedbackLabel.setTextFill(Color.color(0.6, 0.2, 0.2));
             } else {
 
                 String customerName = nameTF.getText();
@@ -315,10 +318,14 @@ public class ModifyCustomerController implements Initializable {
                 System.out.println("Success");
 
                 clearHandler(null);
+
+                feedbackLabel.setText("Customer ID: " + customerId + " (" + customerName + ") updated");
+                feedbackLabel.setTextFill(Color.color(0.2, 0.6, 0.2));
             }
 
         } catch (Exception e) {
             System.out.println("Input error: " + e.getMessage());
+            Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Input error");
             alert.setContentText("Customer Not Saved");
         }

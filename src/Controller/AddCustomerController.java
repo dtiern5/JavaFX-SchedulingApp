@@ -4,7 +4,6 @@ import DBAccess.DBCountries;
 import DBAccess.DBCustomers;
 import DBAccess.DBDivisions;
 import Database.DBConnection;
-import Database.DBQuery;
 import Model.Country;
 import Model.Customer;
 import Model.Division;
@@ -19,12 +18,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -38,6 +37,8 @@ public class AddCustomerController implements Initializable {
 
     @FXML
     private Label userLabel;
+    @FXML
+    private Label feedbackLabel;
 
     @FXML
     private TextField customerIdTF;
@@ -85,7 +86,7 @@ public class AddCustomerController implements Initializable {
     /**
      * Populates the countryComboBox with available countries. Populates the table with customers.
      *
-     * @param url the location used to resolve relative paths for the root object
+     * @param url            the location used to resolve relative paths for the root object
      * @param resourceBundle resources used to localize the root object
      */
     @Override
@@ -127,14 +128,18 @@ public class AddCustomerController implements Initializable {
      *
      * @param event for limiting available divisions to selected country
      */
-   public void divisionHandler(ActionEvent event) {
-       try {
-           ObservableList<Division> divisionList = DBDivisions.getDivisionByCountryId(countryComboBox.getValue().getCountryID());
-           divisionComboBox.setItems(divisionList);
-           divisionComboBox.getSelectionModel().select(0);
-       } catch (SQLException throwables) {
-           throwables.printStackTrace();
-       }
+    public void divisionHandler(ActionEvent event) {
+        if (countryComboBox.getSelectionModel().isEmpty()) {
+            divisionComboBox.getSelectionModel().select(null);
+        } else {
+            try {
+                ObservableList<Division> divisionList = DBDivisions.getDivisionByCountryId(countryComboBox.getValue().getCountryID());
+                divisionComboBox.setItems(divisionList);
+                divisionComboBox.getSelectionModel().select(0);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
     }
 
     /**
@@ -146,19 +151,15 @@ public class AddCustomerController implements Initializable {
     public void confirmHandler(ActionEvent event) {
         Connection conn = DBConnection.getConnection();
 
-        Alert alert = new Alert(Alert.AlertType.ERROR);
         try {
-            alert.setTitle("Customer not added");
-
             if (nameTF.getText().isEmpty() ||
                     addressTF.getText().isEmpty() ||
                     postalCodeTF.getText().isEmpty() ||
                     phoneNumberTF.getText().isEmpty() ||
                     countryComboBox.getSelectionModel().isEmpty() ||
                     divisionComboBox.getSelectionModel().isEmpty()) {
-                alert.setContentText("All fields require values");
-                alert.showAndWait();
-
+                feedbackLabel.setText("Error: All fields require values");
+                feedbackLabel.setTextFill(Color.color(0.6, 0.2, 0.2));
             } else {
 
                 String customerName = nameTF.getText();
@@ -169,14 +170,28 @@ public class AddCustomerController implements Initializable {
 
                 DBCustomers.addCustomer(customerName, address, postalCode, phoneNumber, currentUser.toString(), divisionId);
 
+                feedbackLabel.setText("Customer '" + customerName + "' added");
+                feedbackLabel.setTextFill(Color.color(0.2, 0.6, 0.2));
+                clearData();
+
                 populateTableView();
             }
 
         } catch (Exception e) {
             System.out.println("Input error: " + e.getMessage());
+            Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Input error");
             alert.setContentText("Customer Not Saved");
         }
+    }
+
+    private void clearData() {
+        customerIdTF.clear();
+        nameTF.clear();
+        addressTF.clear();
+        postalCodeTF.clear();
+        countryComboBox.valueProperty().set(null);
+        phoneNumberTF.clear();
     }
 
     /**

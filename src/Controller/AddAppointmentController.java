@@ -1,5 +1,7 @@
 package Controller;
 
+import Model.Contact;
+import Model.Customer;
 import Model.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,10 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -27,10 +26,32 @@ public class AddAppointmentController implements Initializable {
     public User currentUser;
 
     @FXML
-    private ComboBox<LocalTime> combo3;
+    private Label userLabel;
+    @FXML
+    private TextField titleTF;
+    @FXML
+    private TextField descriptionTF;
+    @FXML
+    private TextField locationTF;
+    @FXML
+    private TextField typeTF;
+    @FXML
+    private ComboBox<Contact> contactComboBox;
+    @FXML
+    private ComboBox<Customer> customerIdCombo;
+    @FXML
+    private ComboBox<Integer> yearCombo;
+    @FXML
+    private ComboBox<Integer> monthCombo;
+    @FXML
+    private ComboBox<Integer> dayCombo;
+    @FXML
+    private ComboBox<LocalTime> startTimeCombo;
+    @FXML
+    private ComboBox<LocalTime> endTimeCombo;
 
     @FXML
-    private Label userLabel;
+    private ComboBox<LocalTime> combo3;
 
 
     public void initData(User user) {
@@ -58,7 +79,7 @@ public class AddAppointmentController implements Initializable {
      * @param event for changing scene on click
      * @throws IOException signals I/O exception has occurred
      */
-    public void cancelHandler(ActionEvent event) throws IOException {
+    public void goBackHandler(ActionEvent event) throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to go back?");
         Optional<ButtonType> result = alert.showAndWait();
 

@@ -9,7 +9,7 @@
 
 <AnchorPane prefHeight="444.0" prefWidth="1075.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AddCustomerController">
    <children>
-      <TextField fx:id="customerIdTF" alignment="CENTER" editable="false" layoutX="180.0" layoutY="74.0" prefHeight="27.0" prefWidth="150.0" text="Auto Generated">
+      <TextField fx:id="customerIdTF" alignment="CENTER" disable="true" editable="false" layoutX="180.0" layoutY="74.0" prefHeight="27.0" prefWidth="150.0" text="Auto Generated">
          <font>
             <Font name="Avenir Medium Oblique" size="13.0" />
          </font></TextField>
@@ -72,7 +72,7 @@
             <Font name="Avenir Roman" size="14.0" />
          </font>
       </Label>
-      <Label fx:id="userLabel" layoutX="927.0" layoutY="410.0" prefHeight="17.0" prefWidth="134.0">
+      <Label fx:id="userLabel" alignment="CENTER_RIGHT" layoutX="899.0" layoutY="410.0" prefHeight="17.0" prefWidth="134.0">
          <font>
             <Font name="Avenir Roman" size="13.0" />
          </font>
@@ -94,5 +94,10 @@
          </columns>
       </TableView>
       <ComboBox fx:id="divisionComboBox" layoutX="180.0" layoutY="300.0" prefWidth="150.0" />
+      <Label fx:id="feedbackLabel" layoutX="422.0" layoutY="361.0" prefHeight="32.0" prefWidth="529.0">
+         <font>
+            <Font name="Hiragino Sans W2" size="18.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

@@ -24,6 +24,7 @@ public class Appointment {
     private int userId;
     private int contactId;
 
+    // For use in tables
     private Contact contact;
 
     public Appointment(int appointmentId, String title, String description,

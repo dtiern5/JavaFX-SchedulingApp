@@ -20,6 +20,7 @@ public class Customer {
     private String lastUpdatedBy;
     private int divisionId;
 
+    // For use in tables
     private Division division;
     private Country country;
 
