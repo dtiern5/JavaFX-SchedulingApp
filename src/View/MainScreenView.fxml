@@ -11,7 +11,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="630.0" prefWidth="962.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.MainScreenController">
+<AnchorPane prefHeight="641.0" prefWidth="962.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.MainScreenController">
    <children>
       <TableView fx:id="customerTableView" layoutX="22.0" layoutY="380.0" prefHeight="223.0" prefWidth="611.0">
         <columns>
@@ -104,7 +104,7 @@
             <Font name="Futura Bold" size="24.0" />
          </font>
       </Label>
-      <Label fx:id="userLabel" layoutX="683.0" layoutY="22.0" prefHeight="17.0" prefWidth="161.0">
+      <Label fx:id="userLabel" layoutX="785.0" layoutY="608.0" prefHeight="17.0" prefWidth="161.0">
          <font>
             <Font name="Avenir Oblique" size="13.0" />
          </font>

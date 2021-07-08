@@ -74,6 +74,7 @@ public class ModifyCustomerController implements Initializable {
 
     public void initData(User user, Customer customer) {
         currentUser = user;
+        userLabel.setText("Current user: " + currentUser);
         currentCustomer = customer;
         if (customer != null) {
             disableTableView();
@@ -146,10 +147,13 @@ public class ModifyCustomerController implements Initializable {
     }
 
     public void selectHandler(ActionEvent event) {
-
-        disableTableView();
-        enableFields();
-        populateFields();
+        if (customersTableView.getSelectionModel().isEmpty()) {
+            //do nothing
+        } else {
+            disableTableView();
+            enableFields();
+            populateFields();
+        }
     }
 
     public void clearHandler(ActionEvent actionEvent) {

@@ -9,10 +9,22 @@
 
 <AnchorPane prefHeight="444.0" prefWidth="1075.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AddCustomerController">
    <children>
-      <TextField fx:id="customerIdTF" editable="false" layoutX="180.0" layoutY="74.0" prefHeight="27.0" prefWidth="150.0" text="Auto Generated" />
-      <TextField fx:id="nameTF" layoutX="180.0" layoutY="118.0" prefHeight="27.0" prefWidth="150.0" />
-      <TextField fx:id="addressTF" layoutX="180.0" layoutY="164.0" prefHeight="27.0" prefWidth="150.0" />
-      <TextField fx:id="postalCodeTF" layoutX="180.0" layoutY="208.0" prefHeight="27.0" prefWidth="150.0" />
+      <TextField fx:id="customerIdTF" alignment="CENTER" editable="false" layoutX="180.0" layoutY="74.0" prefHeight="27.0" prefWidth="150.0" text="Auto Generated">
+         <font>
+            <Font name="Avenir Medium Oblique" size="13.0" />
+         </font></TextField>
+      <TextField fx:id="nameTF" layoutX="180.0" layoutY="118.0" prefHeight="27.0" prefWidth="150.0">
+         <font>
+            <Font name="Avenir Oblique" size="13.0" />
+         </font></TextField>
+      <TextField fx:id="addressTF" layoutX="180.0" layoutY="164.0" prefHeight="27.0" prefWidth="150.0">
+         <font>
+            <Font name="Avenir Oblique" size="13.0" />
+         </font></TextField>
+      <TextField fx:id="postalCodeTF" layoutX="180.0" layoutY="208.0" prefHeight="27.0" prefWidth="150.0">
+         <font>
+            <Font name="Avenir Oblique" size="13.0" />
+         </font></TextField>
       <Label layoutX="69.0" layoutY="121.0" text="Name">
          <font>
             <Font name="Avenir Roman" size="14.0" />
@@ -29,7 +41,10 @@
          </font>
       </Label>
       <ComboBox fx:id="countryComboBox" layoutX="180.0" layoutY="253.0" onAction="#divisionHandler" prefWidth="150.0" />
-      <TextField fx:id="phoneNumberTF" layoutX="180.0" layoutY="344.0" prefHeight="27.0" prefWidth="150.0" />
+      <TextField fx:id="phoneNumberTF" layoutX="180.0" layoutY="344.0" prefHeight="27.0" prefWidth="150.0">
+         <font>
+            <Font name="Avenir Oblique" size="13.0" />
+         </font></TextField>
       <Button layoutX="268.0" layoutY="392.0" mnemonicParsing="false" onAction="#confirmHandler" text="Confirm" />
       <Button layoutX="111.0" layoutY="392.0" mnemonicParsing="false" onAction="#goBackHandler" text="Return to Main Screen" />
       <Label layoutX="70.0" layoutY="351.0" text="Phone Number">
@@ -57,7 +72,7 @@
             <Font name="Avenir Roman" size="14.0" />
          </font>
       </Label>
-      <Label fx:id="userLabel" layoutX="132.0" layoutY="51.0" prefHeight="17.0" prefWidth="134.0">
+      <Label fx:id="userLabel" layoutX="927.0" layoutY="410.0" prefHeight="17.0" prefWidth="134.0">
          <font>
             <Font name="Avenir Roman" size="13.0" />
          </font>
