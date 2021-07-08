@@ -111,15 +111,18 @@ public class ModifyCustomerController implements Initializable {
 
 
     public void divisionHandler(ActionEvent event) {
-        divisionComboBox.valueProperty().set(null);
-        try {
-            ObservableList<Division> divisionList = DBDivisions.getDivisionByCountryId(countryComboBox.getValue().getCountryID());
-            divisionComboBox.setItems(divisionList);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        divisionComboBox.valueProperty().set(null); // Reverts division comboBox to empty
+        if (countryComboBox.getSelectionModel().isEmpty()) {
+            //do nothing
+        } else {
+            try {
+                ObservableList<Division> divisionList = DBDivisions.getDivisionByCountryId(countryComboBox.getValue().getCountryID());
+                divisionComboBox.setItems(divisionList);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         }
     }
-
 
 
     public void selectHandler(ActionEvent event) {
