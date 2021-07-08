@@ -171,24 +171,19 @@ public class MainScreenController implements Initializable {
     }
 
     public void modifyCustomerHandler(ActionEvent event) throws IOException {
-        if (customerTableView.getSelectionModel().isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setContentText("Must select a customer to modify");
-            alert.showAndWait();
-        } else {
-            FXMLLoader loader = new FXMLLoader();
+        FXMLLoader loader = new FXMLLoader();
 
-            loader.setLocation(getClass().getResource("../View/ModifyCustomerView.fxml"));
-            Parent scene = loader.load();
-            Scene modifyCustomerScene = new Scene(scene);
+        loader.setLocation(getClass().getResource("../View/ModifyCustomerView.fxml"));
+        Parent scene = loader.load();
+        Scene modifyCustomerScene = new Scene(scene);
 
-            ModifyCustomerController controller = loader.getController();
-            controller.initData(currentUser, customerTableView.getSelectionModel().getSelectedItem());
+        ModifyCustomerController controller = loader.getController();
+        controller.initData(currentUser);
 
-            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            window.setScene(modifyCustomerScene);
-            window.show();
-        }
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        window.setScene(modifyCustomerScene);
+        window.show();
+
     }
 
 

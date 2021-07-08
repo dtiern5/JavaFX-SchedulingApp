@@ -5,6 +5,7 @@ import DBAccess.DBCustomers;
 import DBAccess.DBDivisions;
 import Database.DBConnection;
 import Database.DBQuery;
+import Model.Country;
 import Model.Customer;
 import Model.Division;
 import Model.User;
@@ -17,6 +18,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -30,10 +32,11 @@ import java.util.ResourceBundle;
 public class ModifyCustomerController implements Initializable {
 
     public User currentUser;
-    public Customer customer;
 
     @FXML
     private Label userLabel;
+    @FXML
+    private Label currentCustomerLabel;
 
     @FXML
     private TextField customerIdTF;
@@ -44,93 +47,148 @@ public class ModifyCustomerController implements Initializable {
     @FXML
     private TextField postalCodeTF;
     @FXML
+    private ComboBox<Country> countryComboBox;
+    @FXML
     private ComboBox<Division> divisionComboBox;
     @FXML
     private TextField countryTF;
     @FXML
     private TextField phoneNumberTF;
 
-    public void initData(User user, Customer customer) {
+    @FXML
+    private TableView<Customer> customersTableView;
+    @FXML
+    private TableColumn<Customer, Integer> customerIdColumn;
+    @FXML
+    private TableColumn<Customer, String> customerNameColumn;
+    @FXML
+    private TableColumn<Customer, String> customerAddressColumn;
+    @FXML
+    private TableColumn<Customer, String> customerPostalCodeColumn;
+    @FXML
+    private TableColumn<Customer, String> customerDivisionColumn;
+    @FXML
+    private TableColumn<Customer, String> customerCountryColumn;
+    @FXML
+    private TableColumn<Customer, String> customerPhoneColumn;
+
+    public void initData(User user) {
         currentUser = user;
         userLabel.setText("Current user: " + currentUser);
-        this.customer = customer;
+    }
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        countryComboBox.setPromptText("");
+        divisionComboBox.setPromptText("");
         try {
-            ObservableList<Division> divisionList = DBDivisions.getAllDivisions();
-            divisionComboBox.setItems(divisionList);
-            divisionComboBox.setPromptText("First Level Division");
+            ObservableList<Country> countryList = DBCountries.getAllACountries();
+            countryComboBox.setItems(countryList);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
 
-            customerIdTF.setText(String.valueOf(customer.getCustomerId()));
-            nameTF.setText(customer.getCustomerName());
-            addressTF.setText(customer.getAddress());
-            postalCodeTF.setText(customer.getPostalCode());
+        populateTableView();
+    }
 
-            divisionComboBox.setValue(DBDivisions.getDivision(customer.getDivisionId()));
-
-            // countryTF.setText(DBCountries.getCountry(customer.getDivisionId()).toString());
-
-            phoneNumberTF.setText(customer.getPhone());
+    private void populateTableView() {
+        ObservableList<Customer> customerList = null;
+        try {
+            customerList = DBCustomers.populateCustomerTable();
+            customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+            customerNameColumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
+            customerAddressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
+            customerPostalCodeColumn.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
+            customerDivisionColumn.setCellValueFactory(new PropertyValueFactory<>("division"));
+            customerCountryColumn.setCellValueFactory(new PropertyValueFactory<>("country"));
+            customerPhoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
+            customersTableView.setItems(customerList);
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
 
+    public void divisionHandler(ActionEvent event) {
+        divisionComboBox.valueProperty().set(null);
+        try {
+            ObservableList<Division> divisionList = DBDivisions.getDivisionByCountryId(countryComboBox.getValue().getCountryID());
+            divisionComboBox.setItems(divisionList);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
 
 
-    /**
-     * On changing the division ComboBox, the getCountry method will be called on
-     * the division's countryId. The toString() method will be called on that country
-     * and displayed in the countryTF.
-     *
-     * @param event for changing country to match division
-     * @throws SQLException signals SQLException has occurred
-     */
-    public void countryHandler(ActionEvent event) throws SQLException {
-        countryTF.setText(DBCountries.getCountry(divisionComboBox.getValue().getCountryId()).toString());
+    public void selectHandler(ActionEvent event) {
+        if (customersTableView.getSelectionModel().isEmpty()) {
+            currentCustomerLabel.setText("No customer selected");
+        } else {
+            Customer customer = customersTableView.getSelectionModel().getSelectedItem();
+            customerIdTF.setText(String.valueOf(customer.getCustomerId()));
+            nameTF.setText(customer.getCustomerName());
+            addressTF.setText(customer.getAddress());
+            postalCodeTF.setText(customer.getPostalCode());
+            countryComboBox.setValue(customer.getCountry());
+            divisionComboBox.setValue(customer.getDivision());
+            phoneNumberTF.setText(customer.getPhone());
+
+            currentCustomerLabel.setText("Customer: " + customer.getCustomerId() + ", " + customer.getCustomerName());
+        }
+    }
+
+    public void clearHandler(ActionEvent actionEvent) {
+        customersTableView.getSelectionModel().clearSelection();
+        customerIdTF.clear();
+        nameTF.clear();
+        addressTF.clear();
+        postalCodeTF.clear();
+        countryComboBox.valueProperty().set(null);
+        phoneNumberTF.clear();
+        currentCustomerLabel.setText("");
     }
 
 
     /**
-     *
-     *
      * @param event for inserting new customer into the database
      */
     public void confirmHandler(ActionEvent event) {
         Connection conn = DBConnection.getConnection();
 
+        Alert alert = new Alert(Alert.AlertType.ERROR);
         try {
-
+            alert.setTitle("Customer not added");
 
             if (nameTF.getText().isEmpty() ||
                     addressTF.getText().isEmpty() ||
                     postalCodeTF.getText().isEmpty() ||
                     phoneNumberTF.getText().isEmpty() ||
-                    divisionComboBox.getSelectionModel().isEmpty()) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Customer not modified");
+                    countryComboBox.isShowing() ||
+                    divisionComboBox.isShowing()) {
                 alert.setContentText("All fields require values");
                 alert.showAndWait();
+            } else {
+
+                String customerName = nameTF.getText();
+                String address = addressTF.getText();
+                String postalCode = postalCodeTF.getText();
+                String phoneNumber = phoneNumberTF.getText();
+                int divisionId = divisionComboBox.getValue().getDivisionId();
+                int customerId = Integer.valueOf(customerIdTF.getText());
+
+                DBCustomers.modifyCustomer(customerName, address, postalCode, phoneNumber, currentUser.toString(), divisionId, customerId);
+
+                populateTableView();
+                System.out.println("Success");
+
             }
 
-            String customerName = nameTF.getText();
-            String address = addressTF.getText();
-            String postalCode = postalCodeTF.getText();
-            String phoneNumber = phoneNumberTF.getText();
-            int divisionId = divisionComboBox.getValue().getDivisionId();
-            int customerId = Integer.valueOf(customerIdTF.getText());
-
-            DBCustomers.modifyCustomer(customerName, address, postalCode, phoneNumber, currentUser.toString(), divisionId, customerId);
-
-            System.out.println("Success");
-
         } catch (Exception e) {
-            System.out.println("Input error : " + e.getMessage());
+            System.out.println("Input error: " + e.getMessage());
+            alert.setTitle("Input error");
+            alert.setContentText("Customer Not Saved");
         }
     }
 

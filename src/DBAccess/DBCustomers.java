@@ -101,7 +101,9 @@ public class DBCustomers {
     public static void modifyCustomer(String customerName, String address, String postalCode, String phoneNumber, String currentUser, int divisionId, int customerId) throws SQLException {
         Connection conn = DBConnection.getConnection();
 
-        String updateStatement = "UPDATE customers SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, Last_Update = NOW(), Last_Updated_By = ?, Division_ID = ? WHERE Customer_ID = ?";
+        String updateStatement = "UPDATE customers SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, " +
+                "Last_Update = NOW(), Last_Updated_By = ?, Division_ID = ? " +
+                "WHERE Customer_ID = ?";
 
         DBQuery.setPreparedStatement(conn, updateStatement);
 
@@ -119,13 +121,27 @@ public class DBCustomers {
     }
 
 
-/*
-    public static void addCustomer() {
+
+    public static void addCustomer(String customerName, String address, String postalCode, String phoneNumber, String currentUser, int divisionId) throws SQLException {
         Connection conn = DBConnection.getConnection();
 
-        String insertStatement = "INSERT INTO"
+        String insertStatement = "INSERT INTO customers(Customer_Name, Address, Postal_Code, Phone, " +
+                "Create_Date, Created_By, Last_Update, Last_Updated_By, Division_ID)" +
+                "VALUES(?, ?, ?, ?, NOW(), ?, NOW(), ?, ?)";
 
+        DBQuery.setPreparedStatement(conn, insertStatement);
+
+        PreparedStatement ps = DBQuery.getPreparedStatement();
+
+        ps.setString(1, customerName);
+        ps.setString(2, address);
+        ps.setString(3, postalCode);
+        ps.setString(4, phoneNumber);
+        ps.setString(5, currentUser.toString());
+        ps.setString(6, currentUser.toString());
+        ps.setInt(7, divisionId);
+
+        ps.execute();
     }
-*/
 
 }
