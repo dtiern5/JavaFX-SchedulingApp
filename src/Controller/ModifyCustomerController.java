@@ -21,6 +21,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -32,6 +33,7 @@ import java.util.ResourceBundle;
 public class ModifyCustomerController implements Initializable {
 
     public User currentUser;
+    private Customer currentCustomer;
 
     @FXML
     private Label userLabel;
@@ -50,8 +52,6 @@ public class ModifyCustomerController implements Initializable {
     private ComboBox<Country> countryComboBox;
     @FXML
     private ComboBox<Division> divisionComboBox;
-    @FXML
-    private TextField countryTF;
     @FXML
     private TextField phoneNumberTF;
 
@@ -72,22 +72,44 @@ public class ModifyCustomerController implements Initializable {
     @FXML
     private TableColumn<Customer, String> customerPhoneColumn;
 
-    public void initData(User user) {
+    public void initData(User user, Customer customer) {
         currentUser = user;
-        userLabel.setText("Current user: " + currentUser);
+        currentCustomer = customer;
+        if (customer != null) {
+            disableTableView();
+            enableFields();
+            currentCustomer = customer;
+            customerIdTF.setText(String.valueOf(currentCustomer.getCustomerId()));
+            nameTF.setText(currentCustomer.getCustomerName());
+            addressTF.setText(currentCustomer.getAddress());
+            postalCodeTF.setText(currentCustomer.getPostalCode());
+            countryComboBox.getSelectionModel().select(currentCustomer.getCountry());
+
+            ObservableList<Division> divisionList = null;
+            try {
+                divisionList = DBDivisions.getDivisionByCountryId(countryComboBox.getValue().getCountryID());
+                divisionComboBox.setItems(divisionList);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+
+            divisionComboBox.getSelectionModel().select(currentCustomer.getDivision());
+            phoneNumberTF.setText(currentCustomer.getPhone());
+
+            currentCustomerLabel.setText("Customer: " + currentCustomer.getCustomerId() + ", " + currentCustomer.getCustomerName());
+        }
+
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        countryComboBox.setPromptText("");
-        divisionComboBox.setPromptText("");
         try {
             ObservableList<Country> countryList = DBCountries.getAllACountries();
             countryComboBox.setItems(countryList);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
+        disableFields();
         populateTableView();
     }
 
@@ -109,40 +131,29 @@ public class ModifyCustomerController implements Initializable {
         }
     }
 
-
     public void divisionHandler(ActionEvent event) {
-        divisionComboBox.valueProperty().set(null); // Reverts division comboBox to empty
         if (countryComboBox.getSelectionModel().isEmpty()) {
-            //do nothing
+            divisionComboBox.getSelectionModel().select(null);
         } else {
             try {
                 ObservableList<Division> divisionList = DBDivisions.getDivisionByCountryId(countryComboBox.getValue().getCountryID());
                 divisionComboBox.setItems(divisionList);
+                divisionComboBox.getSelectionModel().select(0);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
         }
     }
 
-
     public void selectHandler(ActionEvent event) {
-        if (customersTableView.getSelectionModel().isEmpty()) {
-            currentCustomerLabel.setText("No customer selected");
-        } else {
-            Customer customer = customersTableView.getSelectionModel().getSelectedItem();
-            customerIdTF.setText(String.valueOf(customer.getCustomerId()));
-            nameTF.setText(customer.getCustomerName());
-            addressTF.setText(customer.getAddress());
-            postalCodeTF.setText(customer.getPostalCode());
-            countryComboBox.setValue(customer.getCountry());
-            divisionComboBox.setValue(customer.getDivision());
-            phoneNumberTF.setText(customer.getPhone());
 
-            currentCustomerLabel.setText("Customer: " + customer.getCustomerId() + ", " + customer.getCustomerName());
-        }
+        disableTableView();
+        enableFields();
+        populateFields();
     }
 
     public void clearHandler(ActionEvent actionEvent) {
+
         customersTableView.getSelectionModel().clearSelection();
         customerIdTF.clear();
         nameTF.clear();
@@ -150,9 +161,63 @@ public class ModifyCustomerController implements Initializable {
         postalCodeTF.clear();
         countryComboBox.valueProperty().set(null);
         phoneNumberTF.clear();
-        currentCustomerLabel.setText("");
+
+        currentCustomer = null;
+        currentCustomerLabel.setText("No customer selected");
+
+        customersTableView.setDisable(false);
+        disableFields();
     }
 
+    public void populateFields() {
+        if (customersTableView.getSelectionModel().isEmpty()) {
+            currentCustomerLabel.setText("No customer selected");
+        } else {
+            currentCustomer = customersTableView.getSelectionModel().getSelectedItem();
+            customerIdTF.setText(String.valueOf(currentCustomer.getCustomerId()));
+            nameTF.setText(currentCustomer.getCustomerName());
+            addressTF.setText(currentCustomer.getAddress());
+            postalCodeTF.setText(currentCustomer.getPostalCode());
+            countryComboBox.getSelectionModel().select(currentCustomer.getCountry());
+
+            ObservableList<Division> divisionList = null;
+            try {
+                divisionList = DBDivisions.getDivisionByCountryId(countryComboBox.getValue().getCountryID());
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+
+            divisionComboBox.setItems(divisionList);
+            divisionComboBox.getSelectionModel().select(currentCustomer.getDivision());
+            phoneNumberTF.setText(currentCustomer.getPhone());
+
+            currentCustomerLabel.setText("Customer: " + currentCustomer.getCustomerId() + ", " + currentCustomer.getCustomerName());
+        }
+    }
+
+    public void disableTableView() {
+        customersTableView.setDisable(true);
+    }
+
+    public void disableFields() {
+        customerIdTF.setDisable(true);
+        nameTF.setDisable(true);
+        addressTF.setDisable(true);
+        postalCodeTF.setDisable(true);
+        countryComboBox.setDisable(true);
+        divisionComboBox.setDisable(true);
+        phoneNumberTF.setDisable(true);
+    }
+
+    public void enableFields() {
+        customerIdTF.setDisable(false);
+        nameTF.setDisable(false);
+        addressTF.setDisable(false);
+        postalCodeTF.setDisable(false);
+        countryComboBox.setDisable(false);
+        divisionComboBox.setDisable(false);
+        phoneNumberTF.setDisable(false);
+    }
 
     /**
      * @param event for inserting new customer into the database
@@ -186,6 +251,7 @@ public class ModifyCustomerController implements Initializable {
                 populateTableView();
                 System.out.println("Success");
 
+                clearHandler(null);
             }
 
         } catch (Exception e) {

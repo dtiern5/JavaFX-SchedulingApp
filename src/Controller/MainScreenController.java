@@ -178,7 +178,7 @@ public class MainScreenController implements Initializable {
         Scene modifyCustomerScene = new Scene(scene);
 
         ModifyCustomerController controller = loader.getController();
-        controller.initData(currentUser);
+        controller.initData(currentUser, customerTableView.getSelectionModel().getSelectedItem());
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(modifyCustomerScene);

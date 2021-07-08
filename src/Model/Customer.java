@@ -140,4 +140,8 @@ public class Customer {
     public void setDivisionId(int divisionId) {
         this.divisionId = divisionId;
     }
+
+    public String toString() {
+        return customerName;
+    }
 }
