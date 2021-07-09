@@ -1,6 +1,10 @@
 package Controller;
 
+import DBAccess.DBContacts;
+import DBAccess.DBCountries;
+import DBAccess.DBCustomers;
 import Model.Contact;
+import Model.Country;
 import Model.Customer;
 import Model.User;
 import javafx.collections.FXCollections;
@@ -17,16 +21,22 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.LocalTime;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+
+/**
+ * Controller for the AddAppointment screen
+ */
 public class AddAppointmentController implements Initializable {
 
     public User currentUser;
 
     @FXML
     private Label userLabel;
+
     @FXML
     private TextField titleTF;
     @FXML
@@ -36,7 +46,7 @@ public class AddAppointmentController implements Initializable {
     @FXML
     private TextField typeTF;
     @FXML
-    private ComboBox<Contact> contactComboBox;
+    private ComboBox<Contact> contactCombo;
     @FXML
     private ComboBox<Customer> customerIdCombo;
     @FXML
@@ -45,16 +55,43 @@ public class AddAppointmentController implements Initializable {
     private ComboBox<LocalTime> endTimeCombo;
 
 
-
+    /**
+     * Accepts and displays the current user.
+     *
+     * @param user logged in user
+     */
     public void initData(User user) {
         currentUser = user;
         userLabel.setText("Current user: " + currentUser);
     }
 
-
+    /**
+     * Populates ComboBoxes
+     *
+     * @param url            the location used to resolve relative paths for the root object
+     * @param resourceBundle resources used to localize the root object
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        ObservableList<Contact> contactList = null;
+        try {
+            contactList = DBContacts.getAllAContacts();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        contactCombo.setItems(contactList);
+        contactCombo.setPromptText("Select Contact");
+
+        ObservableList<Customer> customerList = null;
+        try {
+            customerList = DBCustomers.getAllCustomers();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        
+        customerIdCombo.setItems(customerList);
+        customerIdCombo.setPromptText("Select Customer");
     }
 
 

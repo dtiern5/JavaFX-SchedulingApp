@@ -28,7 +28,6 @@ public class DBCustomers {
         ResultSet rs = ps.executeQuery();
 
         while (rs.next()) {
-            int customerId1 = rs.getInt("Customer_ID");
             String customerName = rs.getString("Customer_Name");
             String address = rs.getString("Address");
             String postalCode = rs.getString("Postal_Code");
@@ -39,7 +38,7 @@ public class DBCustomers {
             String lastUpdatedBy = rs.getString("Last_Updated_By");
             int divisionId = rs.getInt("Division_ID");
 
-            customerResult = new Customer(customerId1, customerName, address, postalCode, phone,
+            customerResult = new Customer(customerId, customerName, address, postalCode, phone,
                     createDate, createdBy, lastUpdate, lastUpdatedBy, divisionId);
 
             return customerResult;
@@ -73,6 +72,7 @@ public class DBCustomers {
         }
         return customerList;
     }
+
 
     public static void modifyCustomer(String customerName, String address, String postalCode, String phoneNumber,
                                       String currentUser, int divisionId, int customerId) throws SQLException {

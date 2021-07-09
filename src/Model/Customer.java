@@ -144,6 +144,8 @@ public class Customer {
     }
 
     public String toString() {
-        return customerName;
+        return "ID: " + customerId + "  |  Name: " + customerName;
     }
+
+
 }
