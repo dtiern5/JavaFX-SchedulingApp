@@ -63,14 +63,14 @@ public class AddAppointmentController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         // Code from Combo Boxes webinar
-        LocalTime start = LocalTime.of(8, 0);
+        /*LocalTime start = LocalTime.of(8, 0);
         LocalTime end = LocalTime.of(22, 0);
 
         while (start.isBefore(end.plusSeconds(1))) {
             combo3.getItems().add(start);
             start = start.plusMinutes(15);
         }
-        combo3.getSelectionModel().select(LocalTime.of(8, 0));
+        combo3.getSelectionModel().select(LocalTime.of(8, 0));*/
     }
 
     /**

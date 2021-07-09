@@ -83,40 +83,4 @@ public class DBAppointments {
         }
         return appointmentList;
     }
-
-    public static ObservableList populateAppointmentsTable() {
-
-        ObservableList<Appointment> appointmentList = FXCollections.observableArrayList();
-
-        Connection conn = DBConnection.getConnection();
-        String selectStatement = "SELECT * FROM appointments";
-
-        try {
-            DBQuery.setPreparedStatement(conn, selectStatement);
-
-            PreparedStatement ps = DBQuery.getPreparedStatement();
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                appointmentList.add(new Appointment(rs.getInt("Appointment_ID"),
-                        rs.getString("Title"),
-                        rs.getString("Description"),
-                        rs.getString("Location"),
-                        rs.getString("Type"),
-                        rs.getTimestamp("Start").toLocalDateTime(),
-                        rs.getTimestamp("End").toLocalDateTime(),
-                        rs.getTimestamp("Create_Date").toLocalDateTime(),
-                        rs.getString("Created_By"),
-                        rs.getTimestamp("Last_Update").toLocalDateTime(),
-                        rs.getString("Last_Updated_By"),
-                        rs.getInt("Customer_ID"),
-                        rs.getInt("User_ID"),
-                        rs.getInt("Contact_ID")));
-            }
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return appointmentList;
-    }
 }

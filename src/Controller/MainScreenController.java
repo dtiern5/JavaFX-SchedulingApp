@@ -106,7 +106,7 @@ public class MainScreenController implements Initializable {
             customerTableView.setItems(customerList);
 
 
-            appointmentList = DBAppointments.populateAppointmentsTable();
+            appointmentList = DBAppointments.getAllAppointments();
             appointmentsIdColumn.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
             appointmentsTitleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
             appointmentsDescriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
