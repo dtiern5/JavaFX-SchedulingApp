@@ -6,6 +6,7 @@ import DBAccess.DBDivisions;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Customer {
 
@@ -14,9 +15,9 @@ public class Customer {
     private String address;
     private String postalCode;
     private String phone;
-    private LocalDate createDate;
+    private LocalDateTime createDate;
     private String createdBy;
-    private LocalDate lastUpdate;
+    private LocalDateTime lastUpdate;
     private String lastUpdatedBy;
     private int divisionId;
 
@@ -25,8 +26,8 @@ public class Customer {
     private Country country;
 
     public Customer(int customerId, String customerName, String address,
-                    String postalCode, String phone, LocalDate createDate,
-                    String createdBy, LocalDate lastUpdate, String lastUpdatedBy, int divisionId) {
+                    String postalCode, String phone, LocalDateTime createDate,
+                    String createdBy, LocalDateTime lastUpdate, String lastUpdatedBy, int divisionId) {
         this.customerId = customerId;
         this.customerName = customerName;
         this.address = address;
@@ -102,11 +103,11 @@ public class Customer {
         this.phone = phone;
     }
 
-    public LocalDate getCreateDate() {
+    public LocalDateTime getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(LocalDate createDate) {
+    public void setCreateDate(LocalDateTime createDate) {
         this.createDate = createDate;
     }
 
@@ -118,11 +119,11 @@ public class Customer {
         this.createdBy = createdBy;
     }
 
-    public LocalDate getLastUpdate() {
+    public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
-    public void setLastUpdate(LocalDate lastUpdate) {
+    public void setLastUpdate(LocalDateTime lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 

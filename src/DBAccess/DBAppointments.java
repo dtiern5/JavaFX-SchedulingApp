@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Calendar;
 
@@ -33,11 +34,11 @@ public class DBAppointments {
             String description = rs.getString("Description");
             String location = rs.getString("Location");
             String type = rs.getString("Type");
-            LocalTime startTime = rs.getTime("Start").toLocalTime();
-            LocalTime endTime = rs.getTime("End").toLocalTime();
-            LocalDate createDate = rs.getDate("Create_Date").toLocalDate();
+            LocalDateTime startTime = rs.getTimestamp("Start").toLocalDateTime();
+            LocalDateTime endTime = rs.getTimestamp("End").toLocalDateTime();
+            LocalDateTime createDate = rs.getTimestamp("Create_Date").toLocalDateTime();
             String createdBy = rs.getString("Created_By");
-            LocalDate lastUpdate = rs.getDate("Last_Update").toLocalDate();
+            LocalDateTime lastUpdate = rs.getTimestamp("Last_Update").toLocalDateTime();
             String lastUpdatedBy = rs.getString("Last_Updated_By");
             int customerId = rs.getInt("Customer_ID");
             int userId = rs.getInt("User_ID");
@@ -70,11 +71,11 @@ public class DBAppointments {
                     rs.getString("Description"),
                     rs.getString("Location"),
                     rs.getString("Type"),
-                    rs.getTime("Start").toLocalTime(),
-                    rs.getTime("End").toLocalTime(),
-                    rs.getDate("Create_Date").toLocalDate(),
+                    rs.getTimestamp("Start").toLocalDateTime(),
+                    rs.getTimestamp("End").toLocalDateTime(),
+                    rs.getTimestamp("Create_Date").toLocalDateTime(),
                     rs.getString("Created_By"),
-                    rs.getDate("Last_Update").toLocalDate(),
+                    rs.getTimestamp("Last_Update").toLocalDateTime(),
                     rs.getString("Last_Updated_By"),
                     rs.getInt("Customer_ID"),
                     rs.getInt("User_ID"),
@@ -102,11 +103,11 @@ public class DBAppointments {
                         rs.getString("Description"),
                         rs.getString("Location"),
                         rs.getString("Type"),
-                        rs.getTime("Start").toLocalTime(),
-                        rs.getTime("End").toLocalTime(),
-                        rs.getDate("Create_Date").toLocalDate(),
+                        rs.getTimestamp("Start").toLocalDateTime(),
+                        rs.getTimestamp("End").toLocalDateTime(),
+                        rs.getTimestamp("Create_Date").toLocalDateTime(),
                         rs.getString("Created_By"),
-                        rs.getDate("Last_Update").toLocalDate(),
+                        rs.getTimestamp("Last_Update").toLocalDateTime(),
                         rs.getString("Last_Updated_By"),
                         rs.getInt("Customer_ID"),
                         rs.getInt("User_ID"),

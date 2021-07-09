@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class DBCustomers {
 
@@ -32,9 +33,9 @@ public class DBCustomers {
             String address = rs.getString("Address");
             String postalCode = rs.getString("Postal_Code");
             String phone = rs.getString("Phone");
-            LocalDate createDate = rs.getDate("Create_Date").toLocalDate();
+            LocalDateTime createDate = rs.getTimestamp("Create_Date").toLocalDateTime();
             String createdBy = rs.getString("Created_By");
-            LocalDate lastUpdate = rs.getDate("Last_Update").toLocalDate();
+            LocalDateTime lastUpdate = rs.getTimestamp("Last_Update").toLocalDateTime();
             String lastUpdatedBy = rs.getString("Last_Updated_By");
             int divisionId = rs.getInt("Division_ID");
 
@@ -63,9 +64,9 @@ public class DBCustomers {
                     rs.getString("Address"),
                     rs.getString("Postal_Code"),
                     rs.getString("Phone"),
-                    rs.getDate("Create_Date").toLocalDate(),
+                    rs.getTimestamp("Create_Date").toLocalDateTime(),
                     rs.getString("Created_By"),
-                    rs.getDate("Last_Update").toLocalDate(),
+                    rs.getTimestamp("Last_Update").toLocalDateTime(),
                     rs.getString("Last_Updated_By"),
                     rs.getInt("Division_ID")));
         }
@@ -89,9 +90,9 @@ public class DBCustomers {
                     rs.getString("Address"),
                     rs.getString("Postal_Code"),
                     rs.getString("Phone"),
-                    rs.getDate("Create_Date").toLocalDate(),
+                    rs.getTimestamp("Create_Date").toLocalDateTime(),
                     rs.getString("Created_By"),
-                    rs.getDate("Last_Update").toLocalDate(),
+                    rs.getTimestamp("Last_Update").toLocalDateTime(),
                     rs.getString("Last_Updated_By"),
                     rs.getInt("Division_ID")));
         }

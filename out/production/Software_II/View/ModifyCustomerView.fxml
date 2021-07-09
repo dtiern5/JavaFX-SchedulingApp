@@ -74,7 +74,7 @@
             <Font name="Avenir Roman" size="14.0" />
          </font>
       </Label>
-      <Label fx:id="userLabel" layoutX="927.0" layoutY="424.0" prefHeight="17.0" prefWidth="134.0">
+      <Label fx:id="userLabel" alignment="CENTER_RIGHT" layoutX="924.0" layoutY="424.0" prefHeight="17.0" prefWidth="134.0">
          <font>
             <Font name="Avenir Roman" size="13.0" />
          </font>
