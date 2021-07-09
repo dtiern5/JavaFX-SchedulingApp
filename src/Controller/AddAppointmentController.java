@@ -40,18 +40,10 @@ public class AddAppointmentController implements Initializable {
     @FXML
     private ComboBox<Customer> customerIdCombo;
     @FXML
-    private ComboBox<Integer> yearCombo;
-    @FXML
-    private ComboBox<Integer> monthCombo;
-    @FXML
-    private ComboBox<Integer> dayCombo;
-    @FXML
     private ComboBox<LocalTime> startTimeCombo;
     @FXML
     private ComboBox<LocalTime> endTimeCombo;
 
-    @FXML
-    private ComboBox<LocalTime> combo3;
 
 
     public void initData(User user) {
@@ -59,19 +51,12 @@ public class AddAppointmentController implements Initializable {
         userLabel.setText("Current user: " + currentUser);
     }
 
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        // Code from Combo Boxes webinar
-        /*LocalTime start = LocalTime.of(8, 0);
-        LocalTime end = LocalTime.of(22, 0);
-
-        while (start.isBefore(end.plusSeconds(1))) {
-            combo3.getItems().add(start);
-            start = start.plusMinutes(15);
-        }
-        combo3.getSelectionModel().select(LocalTime.of(8, 0));*/
     }
+
 
     /**
      * Reverts back to main screen

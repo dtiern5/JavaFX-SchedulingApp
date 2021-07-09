@@ -95,7 +95,7 @@ public class MainScreenController implements Initializable {
 
 
         try {
-            customerList = DBCustomers.populateCustomerTable();
+            customerList = DBCustomers.getAllCustomers();
             customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
             customerNameColumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
             customerAddressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));

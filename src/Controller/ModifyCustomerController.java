@@ -4,7 +4,6 @@ import DBAccess.DBCountries;
 import DBAccess.DBCustomers;
 import DBAccess.DBDivisions;
 import Database.DBConnection;
-import Database.DBQuery;
 import Model.Country;
 import Model.Customer;
 import Model.Division;
@@ -22,11 +21,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -139,7 +136,7 @@ public class ModifyCustomerController implements Initializable {
     private void populateTableView() {
         ObservableList<Customer> customerList = null;
         try {
-            customerList = DBCustomers.populateCustomerTable();
+            customerList = DBCustomers.getAllCustomers();
             customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
             customerNameColumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
             customerAddressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));

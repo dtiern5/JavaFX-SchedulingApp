@@ -22,7 +22,7 @@ public class DBCustomers {
 
         DBQuery.setPreparedStatement(conn, selectStatement);
 
-        Customer customerResult = null;
+        Customer customerResult =  null;
 
         PreparedStatement ps = DBQuery.getPreparedStatement();
         ResultSet rs = ps.executeQuery();
@@ -46,6 +46,7 @@ public class DBCustomers {
         }
         return null;
     }
+
 
     public static ObservableList getAllCustomers() throws SQLException {
         Connection conn = DBConnection.getConnection();
@@ -73,33 +74,8 @@ public class DBCustomers {
         return customerList;
     }
 
-    public static ObservableList populateCustomerTable() throws SQLException {
-        Connection conn = DBConnection.getConnection();
-        String selectStatement = "SELECT * FROM customers";
-
-        DBQuery.setPreparedStatement(conn, selectStatement);
-
-        PreparedStatement ps = DBQuery.getPreparedStatement();
-        ResultSet rs = ps.executeQuery();
-
-        ObservableList<Customer> customerList = FXCollections.observableArrayList();
-
-        while (rs.next()) {
-            customerList.add(new Customer(rs.getInt("Customer_ID"),
-                    rs.getString("Customer_Name"),
-                    rs.getString("Address"),
-                    rs.getString("Postal_Code"),
-                    rs.getString("Phone"),
-                    rs.getTimestamp("Create_Date").toLocalDateTime(),
-                    rs.getString("Created_By"),
-                    rs.getTimestamp("Last_Update").toLocalDateTime(),
-                    rs.getString("Last_Updated_By"),
-                    rs.getInt("Division_ID")));
-        }
-        return customerList;
-    }
-
-    public static void modifyCustomer(String customerName, String address, String postalCode, String phoneNumber, String currentUser, int divisionId, int customerId) throws SQLException {
+    public static void modifyCustomer(String customerName, String address, String postalCode, String phoneNumber,
+                                      String currentUser, int divisionId, int customerId) throws SQLException {
         Connection conn = DBConnection.getConnection();
 
         String updateStatement = "UPDATE customers SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, " +
@@ -123,7 +99,8 @@ public class DBCustomers {
 
 
 
-    public static void addCustomer(String customerName, String address, String postalCode, String phoneNumber, String currentUser, int divisionId) throws SQLException {
+    public static void addCustomer(String customerName, String address, String postalCode, String phoneNumber,
+                                   String currentUser, int divisionId) throws SQLException {
         Connection conn = DBConnection.getConnection();
 
         String insertStatement = "INSERT INTO customers(Customer_Name, Address, Postal_Code, Phone, " +

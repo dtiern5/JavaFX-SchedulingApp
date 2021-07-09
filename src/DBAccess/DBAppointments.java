@@ -6,10 +6,7 @@ import Model.Appointment;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -82,5 +79,59 @@ public class DBAppointments {
                     rs.getInt("Contact_ID")));
         }
         return appointmentList;
+    }
+
+    public static void addAppointment(String title, String description, String location, String type, LocalDateTime start,
+                                      LocalDateTime end, String currentUser, int customerId, int userId, int contactId) throws SQLException {
+        Connection conn = DBConnection.getConnection();
+
+        String insertStatement = "INSERT INTO appointments(Title, Description, Location, Type, Start, End," +
+                "Create_Date, Created_By, Last_Update, Last_Updated_By, Customer_ID, User_ID, Contact_ID)" +
+                "VALUES(?, ?, ?, ?, ?, ?, NOW(), ?, NOW(), ?, ?, ?, ?)";
+
+        DBQuery.setPreparedStatement(conn, insertStatement);
+
+        PreparedStatement ps = DBQuery.getPreparedStatement();
+
+        ps.setString(1, title);
+        ps.setString(2, description);
+        ps.setString(3, location);
+        ps.setString(4, type);
+        ps.setTimestamp(5, Timestamp.valueOf(start));
+        ps.setTimestamp(6, Timestamp.valueOf(end));
+        ps.setString(7, currentUser);
+        ps.setInt(8, customerId);
+        ps.setInt(9, userId);
+        ps.setInt(10, contactId);
+
+        ps.execute();
+    }
+
+    public static void modifyAppointment(String title, String description, String location, String type, LocalDateTime start,
+                                         LocalDateTime end, String currentUser, int customerId, int userId, int contactId,
+                                         int appointmentId) throws SQLException {
+        Connection conn = DBConnection.getConnection();
+
+        String updateStatement = "UPADATE appointments SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?" +
+                "End = ?, Last_Update = NOW(), Last_Updated_By = ?, Customer_ID = ?, User_ID = ?, Contact_ID = ?" +
+                "WHERE Appointment_ID = ?";
+
+        DBQuery.setPreparedStatement(conn, updateStatement);
+
+        PreparedStatement ps = DBQuery.getPreparedStatement();
+
+        ps.setString(1, title);
+        ps.setString(2, description);
+        ps.setString(3, location);
+        ps.setString(4, type);
+        ps.setTimestamp(5, Timestamp.valueOf(start));
+        ps.setTimestamp(6, Timestamp.valueOf(end));
+        ps.setString(7, currentUser);
+        ps.setInt(8, customerId);
+        ps.setInt(9, userId);
+        ps.setInt(10, contactId);
+        ps.setInt(11, appointmentId);
+
+        ps.execute();
     }
 }
