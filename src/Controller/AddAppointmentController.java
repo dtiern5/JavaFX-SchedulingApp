@@ -3,10 +3,8 @@ package Controller;
 import DBAccess.DBContacts;
 import DBAccess.DBCountries;
 import DBAccess.DBCustomers;
-import Model.Contact;
-import Model.Country;
-import Model.Customer;
-import Model.User;
+import DBAccess.DBDivisions;
+import Model.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -30,7 +28,7 @@ import java.util.ResourceBundle;
 /**
  * Controller for the AddAppointment screen
  */
-public class AddAppointmentController implements Initializable {
+public class AddAppointmentController<value> implements Initializable {
 
     public User currentUser;
 
@@ -54,6 +52,8 @@ public class AddAppointmentController implements Initializable {
     @FXML
     private ComboBox<LocalTime> endTimeCombo;
 
+    private LocalTime startTime;
+
 
     /**
      * Accepts and displays the current user.
@@ -66,7 +66,7 @@ public class AddAppointmentController implements Initializable {
     }
 
     /**
-     * Populates ComboBoxes
+     * Populates ComboBoxes for contacts, customers, start times, and end times.
      *
      * @param url            the location used to resolve relative paths for the root object
      * @param resourceBundle resources used to localize the root object
@@ -74,6 +74,7 @@ public class AddAppointmentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        // Populate contact ComboBox
         ObservableList<Contact> contactList = null;
         try {
             contactList = DBContacts.getAllAContacts();
@@ -83,15 +84,46 @@ public class AddAppointmentController implements Initializable {
         contactCombo.setItems(contactList);
         contactCombo.setPromptText("Select Contact");
 
+        // Populate customer ComboBox
         ObservableList<Customer> customerList = null;
         try {
             customerList = DBCustomers.getAllCustomers();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        
+
         customerIdCombo.setItems(customerList);
         customerIdCombo.setPromptText("Select Customer");
+
+
+        LocalTime start = LocalTime.of(8, 0);
+        LocalTime end = LocalTime.of(22, 0);
+
+        while (start.isBefore(end.minusSeconds(1))) {
+            startTimeCombo.getItems().add(start);
+            start = start.plusMinutes(15);
+        }
+
+        startTimeCombo.setPromptText("Select start time");
+    }
+
+    /**
+     * Creates and sets a list for the endTimeCombo of possible end times (between 15 after start time and 22:00 EST)
+     *
+     * @param event for limiting end times to viable times
+     */
+    public void endTimeHandler(ActionEvent event) {
+        endTimeCombo.getItems().clear();
+
+        LocalTime availableEndTime = startTimeCombo.getValue().plusMinutes(15);
+        LocalTime lastAvailableTime = LocalTime.of(22, 0);
+
+        while (availableEndTime.isBefore(lastAvailableTime.plusSeconds(1))) {
+            endTimeCombo.getItems().add(availableEndTime);
+            availableEndTime = availableEndTime.plusMinutes(15);
+            endTimeCombo.getSelectionModel().select(0);
+        }
+
     }
 
 
@@ -120,4 +152,5 @@ public class AddAppointmentController implements Initializable {
             window.show();
         }
     }
+
 }

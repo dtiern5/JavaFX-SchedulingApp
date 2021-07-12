@@ -83,7 +83,7 @@
             <Font name="Avenir Roman" size="14.0" />
          </font>
       </Label>
-      <ComboBox fx:id="startTimeCombo" layoutX="442.0" layoutY="208.0" prefWidth="150.0" />
+      <ComboBox fx:id="startTimeCombo" layoutX="442.0" layoutY="208.0" onAction="#endTimeHandler" prefWidth="150.0" />
       <ComboBox fx:id="endTimeCombo" layoutX="442.0" layoutY="249.0" prefWidth="150.0" />
       <Label layoutX="335.0" layoutY="255.0" text="End Time">
          <font>
