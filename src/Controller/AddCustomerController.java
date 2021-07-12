@@ -80,7 +80,7 @@ public class AddCustomerController implements Initializable {
      */
     public void initData(User user) {
         currentUser = user;
-        userLabel.setText("Current user: " + currentUser);
+        userLabel.setText("Current user: " + currentUser.getUserName());
     }
 
     /**

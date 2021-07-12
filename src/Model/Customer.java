@@ -143,8 +143,13 @@ public class Customer {
         this.divisionId = divisionId;
     }
 
-    public String toString() {
+    public String toStringWithId() {
         return "ID: " + customerId + "  |  Name: " + customerName;
+    }
+
+    @Override
+    public String toString() {
+        return customerName;
     }
 
 

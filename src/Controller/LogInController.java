@@ -111,7 +111,7 @@ public class LogInController implements Initializable {
             alert.showAndWait();
         } else {
             if (passwordAttempt.equals(DBUsers.getPassword(userNameAttempt))) {
-                System.out.println("Logged in!");
+                System.out.println(userNameAttempt + " logged in");
                 currentUser = DBUsers.getUserByName(userNameAttempt);
                 openMainScreen(event);
             } else {

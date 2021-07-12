@@ -80,4 +80,8 @@ public class User {
     public String toString() {
         return userName;
     }
+
+    public String toStringWithId() {
+        return "ID: " + userId + "  |  Name: " + userName;
+    }
 }

@@ -83,7 +83,7 @@ public class ModifyCustomerController implements Initializable {
      */
     public void initData(User user, Customer customer) {
         currentUser = user;
-        userLabel.setText("Current user: " + currentUser);
+        userLabel.setText("Current user: " + currentUser.getUserName());
         currentCustomer = customer;
         if (customer != null) {
             disableTableView();

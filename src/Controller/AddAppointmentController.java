@@ -3,7 +3,6 @@ package Controller;
 import DBAccess.*;
 import Database.DBConnection;
 import Model.*;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,13 +14,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.*;
-import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -56,6 +55,8 @@ public class AddAppointmentController<value> implements Initializable {
     private DatePicker datePicker;
     @FXML
     private Label feedbackLabel;
+    @FXML
+    private ComboBox<User> userCombo;
 
     private LocalTime startTime;
 
@@ -67,7 +68,36 @@ public class AddAppointmentController<value> implements Initializable {
      */
     public void initData(User user) {
         currentUser = user;
-        userLabel.setText("Current user: " + currentUser);
+        userLabel.setText("Current user: " + currentUser.getUserName());
+
+        // Want to initialize the userCombo with the current user
+        // Has to be in initData instead of initialize since we are passing in the user from the previous scene
+        ObservableList<User> userList = null;
+        try {
+            userList = DBUsers.getAllUsers();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        userCombo.setItems(userList);
+
+        Callback<ListView<User>, ListCell<User>> userFactory = lv -> new ListCell<User>() {
+            @Override
+            protected void updateItem(User user, boolean empty) {
+                super.updateItem(user, empty);
+                setText(empty ? "NOTHING" : user.toStringWithId());
+            }
+        };
+
+        Callback<ListView<User>, ListCell<User>> factorySelected = lv -> new ListCell<User>() {
+            @Override
+            protected void updateItem(User user, boolean empty) {
+                super.updateItem(user, empty);
+                setText(empty ? "" : (user.toString()));
+            }
+        };
+        userCombo.setValue(currentUser);
+        userCombo.setCellFactory(userFactory);
+        userCombo.setButtonCell(factorySelected.call(null));
     }
 
     /**
@@ -89,6 +119,7 @@ public class AddAppointmentController<value> implements Initializable {
         contactCombo.setItems(contactList);
         contactCombo.setPromptText("Select Contact");
 
+
         // Populate customer ComboBox
         ObservableList<Customer> customerList = null;
         try {
@@ -96,9 +127,26 @@ public class AddAppointmentController<value> implements Initializable {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
         customerIdCombo.setItems(customerList);
-        customerIdCombo.setPromptText("Select Customer");
+
+        Callback<ListView<Customer>, ListCell<Customer>> customerFactory = lv -> new ListCell<Customer>() {
+            @Override
+            protected void updateItem(Customer customer, boolean empty) {
+                super.updateItem(customer, empty);
+                setText(empty ? "" : customer.toStringWithId());
+            }
+        };
+
+        Callback<ListView<Customer>, ListCell<Customer>> factorySelected = lv -> new ListCell<Customer>() {
+            @Override
+            protected void updateItem(Customer customer, boolean empty) {
+                super.updateItem(customer, empty);
+                setText(empty ? "" : (customer.toString()));
+            }
+        };
+        customerIdCombo.setCellFactory(customerFactory);
+        customerIdCombo.setButtonCell(factorySelected.call(null));
+        customerIdCombo.setPromptText("Select customer");
 
 
         LocalTime start = LocalTime.of(8, 0);
@@ -108,7 +156,6 @@ public class AddAppointmentController<value> implements Initializable {
             startTimeCombo.getItems().add(start);
             start = start.plusMinutes(15);
         }
-
         startTimeCombo.setPromptText("Select start time");
     }
 
@@ -171,7 +218,7 @@ public class AddAppointmentController<value> implements Initializable {
                 System.out.println("End: " + end);
 
                 int customerId = customerIdCombo.getValue().getCustomerId();
-                int userId = currentUser.getUserId();
+                int userId = userCombo.getValue().getUserId();
                 int contactId = contactCombo.getValue().getContactId();
 
                 DBAppointments.addAppointment(title, description, location, type, start, end, currentUser.toString(), customerId, userId, contactId);
