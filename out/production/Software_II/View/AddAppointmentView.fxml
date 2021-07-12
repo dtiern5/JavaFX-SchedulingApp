@@ -38,7 +38,7 @@
             <Font name="Avenir Roman" size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="descriptionTF" layoutX="139.0" layoutY="160.0" prefHeight="29.0" prefWidth="150.0">
+      <TextField fx:id="descriptionTF" layoutX="139.0" layoutY="159.0" prefHeight="29.0" prefWidth="150.0">
          <font>
             <Font name="Avenir Oblique" size="13.0" />
          </font>
@@ -73,7 +73,7 @@
             <Font name="Avenir Roman" size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="TypeTF" layoutX="139.0" layoutY="250.0" prefHeight="27.0" prefWidth="150.0">
+      <TextField fx:id="typeTF" layoutX="139.0" layoutY="250.0" prefHeight="27.0" prefWidth="150.0">
          <font>
             <Font name="Avenir Oblique" size="13.0" />
          </font>
@@ -96,12 +96,13 @@
          </font>
       </Label>
       <ComboBox fx:id="customerIdCombo" layoutX="444.0" layoutY="115.0" prefWidth="150.0" />
-      <Button layoutX="527.0" layoutY="299.0" mnemonicParsing="false" text="Confirm" />
+      <Button layoutX="527.0" layoutY="299.0" mnemonicParsing="false" onAction="#confirmHandler" text="Confirm" />
       <DatePicker fx:id="datePicker" layoutX="442.0" layoutY="162.0" prefHeight="27.0" prefWidth="150.0" />
       <Label layoutX="333.0" layoutY="166.0" text="Date">
          <font>
             <Font name="Avenir Roman" size="14.0" />
          </font>
       </Label>
+      <Label fx:id="feedbackLabel" layoutX="27.0" layoutY="305.0" />
    </children>
 </AnchorPane>

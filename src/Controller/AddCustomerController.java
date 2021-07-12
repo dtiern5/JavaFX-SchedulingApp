@@ -178,10 +178,11 @@ public class AddCustomerController implements Initializable {
             }
 
         } catch (Exception e) {
-            System.out.println("Input error: " + e.getMessage());
+            e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Input error");
             alert.setContentText("Customer Not Saved");
+            alert.showAndWait();
         }
     }
 

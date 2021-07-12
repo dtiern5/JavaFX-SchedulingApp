@@ -1,9 +1,7 @@
 package Controller;
 
-import DBAccess.DBContacts;
-import DBAccess.DBCountries;
-import DBAccess.DBCustomers;
-import DBAccess.DBDivisions;
+import DBAccess.*;
+import Database.DBConnection;
 import Model.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,12 +13,15 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
 import java.sql.SQLException;
-import java.time.LocalTime;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -51,6 +52,10 @@ public class AddAppointmentController<value> implements Initializable {
     private ComboBox<LocalTime> startTimeCombo;
     @FXML
     private ComboBox<LocalTime> endTimeCombo;
+    @FXML
+    private DatePicker datePicker;
+    @FXML
+    private Label feedbackLabel;
 
     private LocalTime startTime;
 
@@ -126,6 +131,64 @@ public class AddAppointmentController<value> implements Initializable {
 
     }
 
+
+    public void confirmHandler(ActionEvent event) {
+        Connection conn = DBConnection.getConnection();
+
+        try {
+            if (titleTF.getText().isEmpty() ||
+                    descriptionTF.getText().isEmpty() ||
+                    locationTF.getText().isEmpty() ||
+                    typeTF.getText().isEmpty() ||
+                    contactCombo.getSelectionModel().isEmpty() ||
+                    customerIdCombo.getSelectionModel().isEmpty() ||
+                    startTimeCombo.getSelectionModel().isEmpty() ||
+                    endTimeCombo.getSelectionModel().isEmpty()) {
+                feedbackLabel.setText("Error: All fields require values");
+                feedbackLabel.setTextFill(Color.color(0.6, 0.2, 0.2));
+            } else {
+
+                String title = titleTF.getText();
+                System.out.println(title);
+                String description = descriptionTF.getText();
+                System.out.println(description);
+                String location = locationTF.getText();
+                String type = typeTF.getText();
+                System.out.println("test spot");
+
+                LocalDate chosenDate = datePicker.getValue();
+
+                System.out.println(chosenDate);
+                LocalTime startTime = startTimeCombo.getValue();
+                System.out.println(startTime);
+                LocalTime endTime = endTimeCombo.getValue();
+                System.out.println("Chosen Date: " + chosenDate);
+                System.out.println("Start time: " + startTime);
+                LocalDateTime start = LocalDateTime.of(chosenDate, startTime);
+                LocalDateTime end = LocalDateTime.of(chosenDate, endTime);
+
+                System.out.println("Start: " + start);
+                System.out.println("End: " + end);
+
+                int customerId = customerIdCombo.getValue().getCustomerId();
+                int userId = currentUser.getUserId();
+                int contactId = contactCombo.getValue().getContactId();
+
+                DBAppointments.addAppointment(title, description, location, type, start, end, currentUser.toString(), customerId, userId, contactId);
+
+                feedbackLabel.setText("Appointment added");
+                feedbackLabel.setTextFill(Color.color(0.2, 0.6, 0.2));
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Input error");
+            alert.setContentText("Appointment Not Saved");
+            alert.showAndWait();
+        }
+    }
 
     /**
      * Reverts back to main screen

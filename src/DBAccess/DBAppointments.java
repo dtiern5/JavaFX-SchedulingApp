@@ -99,10 +99,11 @@ public class DBAppointments {
         ps.setString(4, type);
         ps.setTimestamp(5, Timestamp.valueOf(start));
         ps.setTimestamp(6, Timestamp.valueOf(end));
-        ps.setString(7, currentUser);
-        ps.setInt(8, customerId);
-        ps.setInt(9, userId);
-        ps.setInt(10, contactId);
+        ps.setString(7, currentUser.toString());
+        ps.setString(8, currentUser.toString());
+        ps.setInt(9, customerId);
+        ps.setInt(10, userId);
+        ps.setInt(11, contactId);
 
         ps.execute();
     }
