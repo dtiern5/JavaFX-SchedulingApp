@@ -1,5 +1,6 @@
 package Controller;
 
+import Bundles.TimeConversions;
 import DBAccess.*;
 import Database.DBConnection;
 import Model.*;
@@ -150,11 +151,18 @@ public class AddAppointmentController<value> implements Initializable {
         customerIdCombo.setPromptText("Select customer");
 
 
-        LocalTime start = LocalTime.of(8, 0);
-        LocalTime end = LocalTime.of(22, 0);
+        // LocalTime start = LocalTime.of(8, 0);
+        // LocalTime end = LocalTime.of(22, 0);
+
+        // Set available hours in EST time zone
+        LocalTime estStartTime = LocalTime.of(8, 0);
+        LocalTime estEndTime = LocalTime.of(22, 0);
+
+        LocalDateTime start = TimeConversions.fromEstToLocal(LocalDateTime.of(LocalDate.now(), estStartTime));
+        LocalDateTime end = TimeConversions.fromEstToLocal(LocalDateTime.of(LocalDate.now(), estEndTime));
 
         while (start.isBefore(end.minusSeconds(1))) {
-            startTimeCombo.getItems().add(start);
+            startTimeCombo.getItems().add(LocalTime.from(start));
             start = start.plusMinutes(15);
         }
         startTimeCombo.setPromptText("Select start time");

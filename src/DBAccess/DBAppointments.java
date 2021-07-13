@@ -1,5 +1,6 @@
 package DBAccess;
 
+import Bundles.TimeConversions;
 import Database.DBConnection;
 import Database.DBQuery;
 import Model.Appointment;
@@ -9,6 +10,8 @@ import javafx.collections.ObservableList;
 import java.sql.*;
 import java.time.*;
 import java.util.Calendar;
+
+import static Bundles.TimeConversions.convertToUtc;
 
 public class DBAppointments {
 
@@ -108,19 +111,6 @@ public class DBAppointments {
         System.out.println("Start utc: " + convertToUtc(start));
 
         ps.execute();
-    }
-
-    private static LocalDateTime convertToUtc(LocalDateTime ldt) {
-        ZoneId systemZoneId = ZoneId.systemDefault();
-        ZoneId utcZoneId = ZoneId.of("UTC");
-
-        // Convert to equivalent ZonedDateTimes
-        ZonedDateTime systemZoneTime = ldt.atZone(systemZoneId);
-
-        // Convert to UTC
-        ZonedDateTime zonedUtc = systemZoneTime.withZoneSameInstant(utcZoneId);
-
-        return zonedUtc.toLocalDateTime();
     }
 
     public static void modifyAppointment(String title, String description, String location, String type, LocalDateTime start,
