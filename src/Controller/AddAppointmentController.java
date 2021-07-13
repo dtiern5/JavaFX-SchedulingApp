@@ -24,7 +24,6 @@ import java.sql.SQLException;
 import java.time.*;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.TimeZone;
 
 
 /**
@@ -58,9 +57,7 @@ public class AddAppointmentController<value> implements Initializable {
     @FXML
     private Label feedbackLabel;
     @FXML
-    private ComboBox<User> userCombo;
-
-    private LocalTime startTime;
+    private ComboBox<User> userIdCombo;
 
 
     /**
@@ -80,7 +77,7 @@ public class AddAppointmentController<value> implements Initializable {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        userCombo.setItems(userList);
+        userIdCombo.setItems(userList);
 
         Callback<ListView<User>, ListCell<User>> userFactory = lv -> new ListCell<User>() {
             @Override
@@ -97,9 +94,9 @@ public class AddAppointmentController<value> implements Initializable {
                 setText(empty ? "" : (user.toString()));
             }
         };
-        userCombo.setValue(currentUser);
-        userCombo.setCellFactory(userFactory);
-        userCombo.setButtonCell(factorySelected.call(null));
+        userIdCombo.setValue(currentUser);
+        userIdCombo.setCellFactory(userFactory);
+        userIdCombo.setButtonCell(factorySelected.call(null));
     }
 
     /**
@@ -218,7 +215,7 @@ public class AddAppointmentController<value> implements Initializable {
                 LocalDateTime end = LocalDateTime.of(chosenDate, endTime);
 
                 int customerId = customerIdCombo.getValue().getCustomerId();
-                int userId = userCombo.getValue().getUserId();
+                int userId = userIdCombo.getValue().getUserId();
                 int contactId = contactCombo.getValue().getContactId();
 
                 DBAppointments.addAppointment(title, description, location, type, start, end, currentUser.toString(), customerId, userId, contactId);

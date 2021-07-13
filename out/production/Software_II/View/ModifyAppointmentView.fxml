@@ -1,14 +1,116 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="Controller.ModifyAppointmentController"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="364.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ModifyAppointmentController">
+   <children>
+      <AnchorPane fx:id="label" layoutX="-12.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="359.0" prefWidth="613.0">
+         <children>
+            <Button layoutX="368.0" layoutY="300.0" mnemonicParsing="false" onAction="#goBackHandler" text="Return To Main Screen" />
+            <ComboBox fx:id="contactCombo" layoutX="444.0" layoutY="70.0" prefWidth="150.0" />
+            <Label fx:id="userLabel" layoutX="465.0" layoutY="336.0" prefHeight="17.0" prefWidth="134.0">
+               <font>
+                  <Font name="Avenir Roman" size="13.0" />
+               </font>
+            </Label>
+            <Label layoutX="27.0" layoutY="28.0" text="Modify Appointment">
+               <font>
+                  <Font name="Avenir Oblique" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="27.0" layoutY="73.0" text="Appointment ID">
+               <font>
+                  <Font name="Avenir Roman" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="28.0" layoutY="163.0" text="Description">
+               <font>
+                  <Font name="Avenir Roman" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="28.0" layoutY="117.0" text="Title">
+               <font>
+                  <Font name="Avenir Roman" size="14.0" />
+               </font>
+            </Label>
+            <TextField fx:id="descriptionTF" layoutX="139.0" layoutY="159.0" prefHeight="29.0" prefWidth="150.0">
+               <font>
+                  <Font name="Avenir Oblique" size="13.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="titleTF" layoutX="139.0" layoutY="114.0" prefHeight="27.0" prefWidth="150.0">
+               <font>
+                  <Font name="Avenir Oblique" size="13.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="appointmentIdTF" alignment="CENTER" disable="true" editable="false" layoutX="139.0" layoutY="70.0" prefHeight="27.0" prefWidth="150.0">
+               <font>
+                  <Font name="Avenir Medium Oblique" size="13.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="locationTF" layoutX="139.0" layoutY="208.0" prefHeight="27.0" prefWidth="150.0">
+               <font>
+                  <Font name="Avenir Oblique" size="13.0" />
+               </font>
+            </TextField>
+            <Label layoutX="28.0" layoutY="211.0" text="Location">
+               <font>
+                  <Font name="Avenir Roman" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="335.0" layoutY="74.0" text="Contact">
+               <font>
+                  <Font name="Avenir Roman" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="28.0" layoutY="254.0" text="Type">
+               <font>
+                  <Font name="Avenir Roman" size="14.0" />
+               </font>
+            </Label>
+            <TextField fx:id="typeTF" layoutX="139.0" layoutY="250.0" prefHeight="27.0" prefWidth="150.0">
+               <font>
+                  <Font name="Avenir Oblique" size="13.0" />
+               </font>
+            </TextField>
+            <Label layoutX="335.0" layoutY="214.0" text="Start Time">
+               <font>
+                  <Font name="Avenir Roman" size="14.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="startTimeCombo" layoutX="442.0" layoutY="208.0" onAction="#endTimeHandler" prefWidth="150.0" />
+            <ComboBox fx:id="endTimeCombo" layoutX="442.0" layoutY="249.0" prefWidth="150.0" />
+            <Label layoutX="335.0" layoutY="255.0" text="End Time">
+               <font>
+                  <Font name="Avenir Roman" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="333.0" layoutY="117.0" text="Customer ID">
+               <font>
+                  <Font name="Avenir Roman" size="14.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="customerIdCombo" layoutX="444.0" layoutY="115.0" prefWidth="150.0" />
+            <Button layoutX="527.0" layoutY="299.0" mnemonicParsing="false" onAction="#confirmHandler" text="Confirm" />
+            <DatePicker fx:id="datePicker" layoutX="442.0" layoutY="162.0" prefHeight="27.0" prefWidth="150.0" />
+            <Label layoutX="333.0" layoutY="166.0" text="Date">
+               <font>
+                  <Font name="Avenir Roman" size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="feedbackLabel" layoutX="211.0" layoutY="337.0" prefHeight="17.0" prefWidth="241.0" />
+            <Label layoutX="28.0" layoutY="301.0" text="User">
+               <font>
+                  <Font name="Avenir Roman" size="14.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="userIdCombo" layoutX="139.0" layoutY="299.0" prefWidth="150.0" />
+         </children>
+      </AnchorPane>
+   </children>
 </AnchorPane>

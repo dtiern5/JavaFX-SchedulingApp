@@ -51,7 +51,7 @@
          <font>
             <Font name="Avenir Light" size="13.0" />
          </font></Button>
-      <Button layoutX="885.0" layoutY="259.0" mnemonicParsing="false" prefWidth="60.0" text="Modify">
+      <Button layoutX="885.0" layoutY="259.0" mnemonicParsing="false" onAction="#modifyAppointmentHandler" prefWidth="60.0" text="Modify">
          <font>
             <Font name="Avenir Light" size="13.0" />
          </font></Button>

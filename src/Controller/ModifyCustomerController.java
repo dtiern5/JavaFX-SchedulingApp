@@ -76,7 +76,7 @@ public class ModifyCustomerController implements Initializable {
     private TableColumn<Customer, String> customerPhoneColumn;
 
     /**
-     * Accepts and displays the current user a Customer's modifiable data.
+     * Accepts and displays the current user and a Customer's modifiable data.
      *
      * @param user logged in user
      * @param customer the customer to modify

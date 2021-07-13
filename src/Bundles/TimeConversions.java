@@ -33,7 +33,7 @@ public class TimeConversions {
     }
 
     public static LocalDateTime fromEstToLocal(LocalDateTime ldt) {
-        System.out.println("ldt: " + ldt);
+
         ZoneId systemZoneId = ZoneId.systemDefault();
         ZoneId estZoneId = ZoneId.of("America/New_York");
 
@@ -43,7 +43,6 @@ public class TimeConversions {
         // Convert to system default time
         ZonedDateTime systemZoneTime = estZoneTime.withZoneSameInstant(systemZoneId);
 
-        System.out.println("szt: " + systemZoneTime);
         return systemZoneTime.toLocalDateTime();
     }
 

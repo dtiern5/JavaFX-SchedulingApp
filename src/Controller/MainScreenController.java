@@ -208,5 +208,27 @@ public class MainScreenController implements Initializable {
 
     }
 
+    /**
+     * Switches to the ModifyAppointment screen. If an appointment is selected in the table, it will be sent
+     * to initialize the ModifyAppointment screen.
+     *
+     * @param event for changing scene on click
+     * @throws IOException signals I/O exception has occurred
+     */
+    public void modifyAppointmentHandler(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+
+        loader.setLocation(getClass().getResource("../View/ModifyAppointmentView.fxml"));
+        Parent scene = loader.load();
+        Scene modifyAppointmentScene = new Scene(scene);
+
+        ModifyAppointmentController controller = loader.getController();
+        controller.initData(currentUser, appointmentsTableView.getSelectionModel().getSelectedItem());
+
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        window.setScene(modifyAppointmentScene);
+        window.show();
+
+    }
 
 }
