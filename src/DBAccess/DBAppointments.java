@@ -98,17 +98,13 @@ public class DBAppointments {
         ps.setString(2, description);
         ps.setString(3, location);
         ps.setString(4, type);
-        ps.setTimestamp(5, Timestamp.valueOf(convertToUtc(start)));
-        ps.setTimestamp(6, Timestamp.valueOf(convertToUtc(end)));
+        ps.setTimestamp(5, Timestamp.valueOf(start));
+        ps.setTimestamp(6, Timestamp.valueOf(end));
         ps.setString(7, currentUser);
         ps.setString(8, currentUser);
         ps.setInt(9, customerId);
         ps.setInt(10, userId);
         ps.setInt(11, contactId);
-
-        System.out.println("Start: " + start);
-
-        System.out.println("Start utc: " + convertToUtc(start));
 
         ps.execute();
     }
@@ -118,8 +114,8 @@ public class DBAppointments {
                                          int appointmentId) throws SQLException {
         Connection conn = DBConnection.getConnection();
 
-        String updateStatement = "UPADATE appointments SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?" +
-                "End = ?, Last_Update = NOW(), Last_Updated_By = ?, Customer_ID = ?, User_ID = ?, Contact_ID = ?" +
+        String updateStatement = "UPDATE appointments SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, " +
+                "End = ?, Last_Update = NOW(), Last_Updated_By = ?, Customer_ID = ?, User_ID = ?, Contact_ID = ? " +
                 "WHERE Appointment_ID = ?";
 
         DBQuery.setPreparedStatement(conn, updateStatement);

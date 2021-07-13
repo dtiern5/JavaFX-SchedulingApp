@@ -237,19 +237,19 @@ public class ModifyAppointmentController implements Initializable {
                 String location = locationTF.getText();
                 String type = typeTF.getText();
 
-                // Get the date
+                // Get the date and times, use those to make LocalDateTime objects for start and end
                 LocalDate chosenDate = datePicker.getValue();
                 LocalTime startTime = startTimeCombo.getValue();
                 LocalTime endTime = endTimeCombo.getValue();
-
                 LocalDateTime start = LocalDateTime.of(chosenDate, startTime);
                 LocalDateTime end = LocalDateTime.of(chosenDate, endTime);
 
                 int customerId = customerIdCombo.getValue().getCustomerId();
                 int userId = userIdCombo.getValue().getUserId();
                 int contactId = contactCombo.getValue().getContactId();
+                int appointmentId = Integer.valueOf(appointmentIdTF.getText());
 
-                DBAppointments.addAppointment(title, description, location, type, start, end, currentUser.toString(), customerId, userId, contactId);
+                DBAppointments.modifyAppointment(title, description, location, type, start, end, currentUser.toString(), customerId, userId, contactId, appointmentId);
 
                 feedbackLabel.setText("Appointment added");
                 feedbackLabel.setTextFill(Color.color(0.2, 0.6, 0.2));

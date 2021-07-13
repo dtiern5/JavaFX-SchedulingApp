@@ -206,11 +206,10 @@ public class AddAppointmentController<value> implements Initializable {
                 String location = locationTF.getText();
                 String type = typeTF.getText();
 
-                // Get the date
+                // Get the date and times, use those to make LocalDateTime objects for start and end
                 LocalDate chosenDate = datePicker.getValue();
                 LocalTime startTime = startTimeCombo.getValue();
                 LocalTime endTime = endTimeCombo.getValue();
-
                 LocalDateTime start = LocalDateTime.of(chosenDate, startTime);
                 LocalDateTime end = LocalDateTime.of(chosenDate, endTime);
 
