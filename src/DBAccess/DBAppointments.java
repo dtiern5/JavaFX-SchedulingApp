@@ -7,10 +7,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.util.Calendar;
 
 public class DBAppointments {
@@ -82,8 +79,8 @@ public class DBAppointments {
         return appointmentList;
     }
 
-    public static void addAppointment(String title, String description, String location, String type, ZonedDateTime start,
-                                      ZonedDateTime end, String currentUser, int customerId, int userId, int contactId) throws SQLException {
+    public static void addAppointment(String title, String description, String location, String type, LocalDateTime start,
+                                      LocalDateTime end, String currentUser, int customerId, int userId, int contactId) throws SQLException {
         Connection conn = DBConnection.getConnection();
 
         String insertStatement = "INSERT INTO appointments(Title, Description, Location, Type, Start, End," +
@@ -98,17 +95,32 @@ public class DBAppointments {
         ps.setString(2, description);
         ps.setString(3, location);
         ps.setString(4, type);
-        ps.setTimestamp(5, Timestamp.valueOf(start.toLocalDateTime()));
-        ps.setTimestamp(6, Timestamp.valueOf(end.toLocalDateTime()));
-        ps.setString(7, currentUser.toString());
-        ps.setString(8, currentUser.toString());
+        ps.setTimestamp(5, Timestamp.valueOf(convertToUtc(start)));
+        ps.setTimestamp(6, Timestamp.valueOf(convertToUtc(end)));
+        ps.setString(7, currentUser);
+        ps.setString(8, currentUser);
         ps.setInt(9, customerId);
         ps.setInt(10, userId);
         ps.setInt(11, contactId);
 
         System.out.println("Start: " + start);
 
+        System.out.println("Start utc: " + convertToUtc(start));
+
         ps.execute();
+    }
+
+    private static LocalDateTime convertToUtc(LocalDateTime ldt) {
+        ZoneId systemZoneId = ZoneId.systemDefault();
+        ZoneId utcZoneId = ZoneId.of("UTC");
+
+        // Convert to equivalent ZonedDateTimes
+        ZonedDateTime systemZoneTime = ldt.atZone(systemZoneId);
+
+        // Convert to UTC
+        ZonedDateTime zonedUtc = systemZoneTime.withZoneSameInstant(utcZoneId);
+
+        return zonedUtc.toLocalDateTime();
     }
 
     public static void modifyAppointment(String title, String description, String location, String type, LocalDateTime start,

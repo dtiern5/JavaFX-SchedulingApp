@@ -206,27 +206,14 @@ public class AddAppointmentController<value> implements Initializable {
                 LocalTime startTime = startTimeCombo.getValue();
                 LocalTime endTime = endTimeCombo.getValue();
 
-                ZoneId systemZoneId = ZoneId.systemDefault();
-                ZonedDateTime systemZoneStart = ZonedDateTime.of(chosenDate, startTime, systemZoneId);
-                ZonedDateTime systemZoneEnd = ZonedDateTime.of(chosenDate, endTime, systemZoneId);
-
-                ZoneId utcZoneId = ZoneId.of("UTC");
-
-                Instant startToUtcInstant = systemZoneStart.toInstant();
-                Instant endToUtcInstant = systemZoneEnd.toInstant();
-
-                ZonedDateTime startUtc = startToUtcInstant.atZone(utcZoneId);
-                ZonedDateTime endUtc = endToUtcInstant.atZone(utcZoneId);
-
-
-                // LocalDateTime start = LocalDateTime.of(chosenDate, startTime);
-                // LocalDateTime end = LocalDateTime.of(chosenDate, endTime);
+                LocalDateTime start = LocalDateTime.of(chosenDate, startTime);
+                LocalDateTime end = LocalDateTime.of(chosenDate, endTime);
 
                 int customerId = customerIdCombo.getValue().getCustomerId();
                 int userId = userCombo.getValue().getUserId();
                 int contactId = contactCombo.getValue().getContactId();
 
-                DBAppointments.addAppointment(title, description, location, type, startUtc, endUtc, currentUser.toString(), customerId, userId, contactId);
+                DBAppointments.addAppointment(title, description, location, type, start, end, currentUser.toString(), customerId, userId, contactId);
 
                 feedbackLabel.setText("Appointment added");
                 feedbackLabel.setTextFill(Color.color(0.2, 0.6, 0.2));
