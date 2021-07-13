@@ -10,6 +10,7 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZonedDateTime;
 import java.util.Calendar;
 
 public class DBAppointments {
@@ -81,8 +82,8 @@ public class DBAppointments {
         return appointmentList;
     }
 
-    public static void addAppointment(String title, String description, String location, String type, LocalDateTime start,
-                                      LocalDateTime end, String currentUser, int customerId, int userId, int contactId) throws SQLException {
+    public static void addAppointment(String title, String description, String location, String type, ZonedDateTime start,
+                                      ZonedDateTime end, String currentUser, int customerId, int userId, int contactId) throws SQLException {
         Connection conn = DBConnection.getConnection();
 
         String insertStatement = "INSERT INTO appointments(Title, Description, Location, Type, Start, End," +
@@ -97,13 +98,15 @@ public class DBAppointments {
         ps.setString(2, description);
         ps.setString(3, location);
         ps.setString(4, type);
-        ps.setTimestamp(5, Timestamp.valueOf(start));
-        ps.setTimestamp(6, Timestamp.valueOf(end));
+        ps.setTimestamp(5, Timestamp.valueOf(start.toLocalDateTime()));
+        ps.setTimestamp(6, Timestamp.valueOf(end.toLocalDateTime()));
         ps.setString(7, currentUser.toString());
         ps.setString(8, currentUser.toString());
         ps.setInt(9, customerId);
         ps.setInt(10, userId);
         ps.setInt(11, contactId);
+
+        System.out.println("Start: " + start);
 
         ps.execute();
     }

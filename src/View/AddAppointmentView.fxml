@@ -103,7 +103,7 @@
             <Font name="Avenir Roman" size="14.0" />
          </font>
       </Label>
-      <Label fx:id="feedbackLabel" layoutX="444.0" layoutY="328.0" prefHeight="17.0" prefWidth="9.0" />
+      <Label fx:id="feedbackLabel" layoutX="302.0" layoutY="337.0" prefHeight="17.0" prefWidth="9.0" />
       <Label layoutX="28.0" layoutY="301.0" text="User">
          <font>
             <Font name="Avenir Roman" size="14.0" />
