@@ -104,9 +104,13 @@
             <Font name="Avenir Oblique" size="24.0" />
          </font>
       </Label>
-      <Label fx:id="feedbackLabel" alignment="CENTER" contentDisplay="TOP" layoutX="241.0" layoutY="57.0" prefHeight="17.0" prefWidth="481.0" textAlignment="CENTER">
+      <Label fx:id="feedbackLabel" alignment="CENTER" contentDisplay="TOP" layoutX="241.0" layoutY="49.0" prefHeight="17.0" prefWidth="481.0" textAlignment="CENTER">
          <font>
             <Font name="Avenir Roman" size="14.0" />
          </font></Label>
+      <RadioButton fx:id="weeklyRadio" layoutX="420.0" layoutY="71.0" mnemonicParsing="false" onAction="#radioButtonChanged" text="Weekly" />
+      <RadioButton fx:id="allRadio" layoutX="614.0" layoutY="71.0" mnemonicParsing="false" onAction="#radioButtonChanged" text="All" />
+      <RadioButton fx:id="monthlyRadio" layoutX="515.0" layoutY="71.0" mnemonicParsing="false" onAction="#radioButtonChanged" text="Monthly" />
+      <DatePicker fx:id="datePicker" layoutX="677.0" layoutY="66.0" onAction="#radioButtonChanged" />
    </children>
 </AnchorPane>

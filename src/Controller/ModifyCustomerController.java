@@ -312,6 +312,7 @@ public class ModifyCustomerController implements Initializable {
         userCombo.setDisable(true);
     }
 
+    // TODO: Clean up logic for modifying customer
     /**
      * Ensures no fields are empty.
      * Updates customer in database.

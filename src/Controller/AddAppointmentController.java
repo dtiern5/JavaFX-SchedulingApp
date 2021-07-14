@@ -170,7 +170,8 @@ public class AddAppointmentController<value> implements Initializable {
 
     }
 
-
+    // TODO: add logic for scheduling overlapping appointments for customers
+    // TODO: add logic for scheduling outside 8am-10pm EST or weekends
     public void confirmHandler(ActionEvent event) {
         Connection conn = DBConnection.getConnection();
 

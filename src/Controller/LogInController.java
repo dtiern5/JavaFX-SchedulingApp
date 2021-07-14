@@ -44,17 +44,6 @@ public class LogInController implements Initializable {
     @FXML
     private TextField passwordTextField;
 
-    @FXML
-    private Label practiceLabel;
-    @FXML
-    private Button practiceButton1;
-    @FXML
-    private Button practiceButton2;
-    @FXML
-    private Button practiceButton3;
-
-
-
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

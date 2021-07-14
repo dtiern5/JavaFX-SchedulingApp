@@ -21,6 +21,9 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -31,6 +34,18 @@ public class MainScreenController implements Initializable {
 
     @FXML
     private Label feedbackLabel;
+
+    @FXML
+    private DatePicker datePicker;
+    @FXML
+    private RadioButton allRadio;
+    @FXML
+    private RadioButton monthlyRadio;
+    @FXML
+    private RadioButton weeklyRadio;
+    @FXML
+    private ToggleGroup calendarViewToggleGroup;
+
 
     @FXML
     private TableView<Customer> customerTableView;
@@ -69,15 +84,7 @@ public class MainScreenController implements Initializable {
     private TableColumn<Appointment, String> appointmentsEndTimeColumn;
     @FXML
     private TableColumn<Appointment, Integer> appointmentsCustomerIdColumn;
-
-
-    /**
-     * Accepts and displays the current user.
-     *
-     * @param user logged in user
-     */
-    public void initData(User user) {
-    }
+    
 
     /**
      * Populates the customer table and the appointment table.
@@ -87,6 +94,7 @@ public class MainScreenController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Populate tableviews
         try {
             populateAppointmentTable();
             populateCustomerTable();
@@ -94,12 +102,66 @@ public class MainScreenController implements Initializable {
             throwables.printStackTrace();
         }
 
+        datePicker.setValue(LocalDate.now());
+
+        //Add toggle group for radio buttons
+        calendarViewToggleGroup = new ToggleGroup();
+        this.allRadio.setToggleGroup(calendarViewToggleGroup);
+        this.monthlyRadio.setToggleGroup(calendarViewToggleGroup);
+        this.weeklyRadio.setToggleGroup(calendarViewToggleGroup);
+        this.allRadio.setSelected(true);
     }
+
+    public void radioButtonChanged() throws SQLException {
+        if (calendarViewToggleGroup.getSelectedToggle().equals(allRadio)) {
+            populateAppointmentTable();
+        } else if (calendarViewToggleGroup.getSelectedToggle().equals(monthlyRadio)) {
+            int year = datePicker.getValue().getYear();
+            int month = datePicker.getValue().getMonthValue();
+            populateMonthlyAppointmentTable(year, month);
+        } else {
+            LocalDate date = datePicker.getValue();
+            populateWeeklyAppointmentTable(date);
+        }
+    }
+
 
     private void populateAppointmentTable() throws SQLException {
         ObservableList<Appointment> appointmentList = null;
 
         appointmentList = DBAppointments.getAllAppointments();
+        appointmentsIdColumn.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
+        appointmentsTitleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+        appointmentsDescriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+        appointmentsLocationColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
+        appointmentsContactColumn.setCellValueFactory(new PropertyValueFactory<>("contact"));
+        appointmentsTypeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+        appointmentsStartTimeColumn.setCellValueFactory(new PropertyValueFactory<>("startTime"));
+        appointmentsEndTimeColumn.setCellValueFactory(new PropertyValueFactory<>("endTime"));
+        appointmentsCustomerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        appointmentsTableView.setItems(appointmentList);
+    }
+
+    private void populateMonthlyAppointmentTable(int year, int month) throws SQLException {
+        ObservableList<Appointment> appointmentList = null;
+
+        appointmentList = DBAppointments.getAllAppointmentsByMonth(year, month);
+        appointmentsIdColumn.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
+        appointmentsTitleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+        appointmentsDescriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+        appointmentsLocationColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
+        appointmentsContactColumn.setCellValueFactory(new PropertyValueFactory<>("contact"));
+        appointmentsTypeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+        appointmentsStartTimeColumn.setCellValueFactory(new PropertyValueFactory<>("startTime"));
+        appointmentsEndTimeColumn.setCellValueFactory(new PropertyValueFactory<>("endTime"));
+        appointmentsCustomerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        appointmentsTableView.setItems(appointmentList);
+    }
+
+    private void populateWeeklyAppointmentTable(LocalDate date) throws SQLException {
+        ObservableList<Appointment> appointmentList = null;
+
+        appointmentList = DBAppointments.getAllAppointmentsByWeek(date);
         appointmentsIdColumn.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
         appointmentsTitleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
         appointmentsDescriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));

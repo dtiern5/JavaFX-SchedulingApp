@@ -162,6 +162,7 @@ public class AddCustomerController implements Initializable {
         }
     }
 
+    // TODO: Clean up logic for adding customer
     /**
      * Ensures no fields are empty.
      * Adds customer to database.

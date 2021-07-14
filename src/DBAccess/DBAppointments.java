@@ -82,6 +82,73 @@ public class DBAppointments {
         return appointmentList;
     }
 
+    public static ObservableList getAllAppointmentsByMonth(int year, int month) throws SQLException {
+        Connection conn = DBConnection.getConnection();
+        String selectStatement = "SELECT * FROM appointments WHERE year(start) = ? AND month(start) = ?";
+
+        DBQuery.setPreparedStatement(conn, selectStatement);
+
+        PreparedStatement ps = DBQuery.getPreparedStatement();
+
+        ps.setString(1, String.valueOf(year));
+        ps.setString(2, String.valueOf(month));
+
+        ResultSet rs = ps.executeQuery();
+
+        ObservableList<Appointment> appointmentList = FXCollections.observableArrayList();
+
+        while (rs.next()) {
+            appointmentList.add(new Appointment(rs.getInt("Appointment_ID"),
+                    rs.getString("Title"),
+                    rs.getString("Description"),
+                    rs.getString("Location"),
+                    rs.getString("Type"),
+                    rs.getTimestamp("Start").toLocalDateTime(),
+                    rs.getTimestamp("End").toLocalDateTime(),
+                    rs.getTimestamp("Create_Date").toLocalDateTime(),
+                    rs.getString("Created_By"),
+                    rs.getTimestamp("Last_Update").toLocalDateTime(),
+                    rs.getString("Last_Updated_By"),
+                    rs.getInt("Customer_ID"),
+                    rs.getInt("User_ID"),
+                    rs.getInt("Contact_ID")));
+        }
+        return appointmentList;
+    }
+
+    public static ObservableList getAllAppointmentsByWeek(LocalDate date) throws SQLException {
+        Connection conn = DBConnection.getConnection();
+        String selectStatement = "SELECT * FROM appointments WHERE YEARWEEK(Start, 0) = YEARWEEK(?, 0)";
+
+        DBQuery.setPreparedStatement(conn, selectStatement);
+
+        PreparedStatement ps = DBQuery.getPreparedStatement();
+
+        ps.setString(1, String.valueOf(date));
+
+        ResultSet rs = ps.executeQuery();
+
+        ObservableList<Appointment> appointmentList = FXCollections.observableArrayList();
+
+        while (rs.next()) {
+            appointmentList.add(new Appointment(rs.getInt("Appointment_ID"),
+                    rs.getString("Title"),
+                    rs.getString("Description"),
+                    rs.getString("Location"),
+                    rs.getString("Type"),
+                    rs.getTimestamp("Start").toLocalDateTime(),
+                    rs.getTimestamp("End").toLocalDateTime(),
+                    rs.getTimestamp("Create_Date").toLocalDateTime(),
+                    rs.getString("Created_By"),
+                    rs.getTimestamp("Last_Update").toLocalDateTime(),
+                    rs.getString("Last_Updated_By"),
+                    rs.getInt("Customer_ID"),
+                    rs.getInt("User_ID"),
+                    rs.getInt("Contact_ID")));
+        }
+        return appointmentList;
+    }
+
     public static ObservableList getAppointmentsByCustomerID(Integer customerId) throws SQLException {
         Connection conn = DBConnection.getConnection();
         String selectStatement = "SELECT * FROM appointments WHERE Customer_ID = " + customerId;
