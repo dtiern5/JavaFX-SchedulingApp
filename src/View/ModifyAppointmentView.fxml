@@ -104,7 +104,7 @@
                   <Font name="Avenir Roman" size="14.0" />
                </font>
             </Label>
-            <ComboBox fx:id="userIdCombo" layoutX="139.0" layoutY="299.0" prefWidth="150.0" />
+            <ComboBox fx:id="userCombo" layoutX="139.0" layoutY="299.0" prefWidth="150.0" />
          </children>
       </AnchorPane>
    </children>

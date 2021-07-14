@@ -36,9 +36,6 @@ import java.util.ResourceBundle;
 public class ModifyAppointmentController implements Initializable {
 
     @FXML
-    ComboBox<User> userCombo;
-
-    @FXML
     private TextField appointmentIdTF;
     @FXML
     private TextField titleTF;
@@ -61,7 +58,7 @@ public class ModifyAppointmentController implements Initializable {
     @FXML
     private Label feedbackLabel;
     @FXML
-    private ComboBox<User> userIdCombo;
+    private ComboBox<User> userCombo;
 
     private Appointment currentAppointment;
 
@@ -71,121 +68,34 @@ public class ModifyAppointmentController implements Initializable {
      * @param appointment the appointment to modify
      */
     public void initData(Appointment appointment) throws SQLException {
+        currentAppointment = appointment;
 
-        // Want to initialize the userCombo with the current user
-        // Has to be in initData instead of initialize since we are passing in the user from the previous scene
-        ObservableList<User> userList = null;
         try {
-            userList = DBUsers.getAllUsers();
+            userCombo.setValue(DBUsers.getUser(currentAppointment.getUserId()));
+            contactCombo.setValue(DBContacts.getContact(currentAppointment.getContactId()));
+            customerCombo.setValue(DBCustomers.getCustomer(currentAppointment.getCustomerId()));
+            appointmentIdTF.setText(String.valueOf(currentAppointment.getAppointmentId()));
+            titleTF.setText(currentAppointment.getTitle());
+            descriptionTF.setText(currentAppointment.getDescription());
+            locationTF.setText(currentAppointment.getLocation());
+            typeTF.setText(currentAppointment.getType());
+            datePicker.setValue(currentAppointment.getStartTime().toLocalDate());
+            startTimeCombo.getSelectionModel().select(currentAppointment.getStartTime().toLocalTime());
+            populateEndCombo(); // Need the start time of appoinment to populate the possible end times
+            endTimeCombo.getSelectionModel().select(appointment.getEndTime().toLocalTime());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        }
-        userIdCombo.setItems(userList);
-
-        Callback<ListView<User>, ListCell<User>> userFactory = lv -> new ListCell<User>() {
-            @Override
-            protected void updateItem(User user, boolean empty) {
-                super.updateItem(user, empty);
-                setText(empty ? "NOTHING" : user.toStringWithId());
-            }
-        };
-
-        Callback<ListView<User>, ListCell<User>> factorySelected = lv -> new ListCell<User>() {
-            @Override
-            protected void updateItem(User user, boolean empty) {
-                super.updateItem(user, empty);
-                setText(empty ? "" : (user.toString()));
-            }
-        };
-        userIdCombo.setValue(DBUsers.getUser(appointment.getUserId()));
-        userIdCombo.setCellFactory(userFactory);
-        userIdCombo.setButtonCell(factorySelected.call(null));
-
-        if (appointment != null) {
-            appointmentIdTF.setText(String.valueOf(appointment.getAppointmentId()));
-            titleTF.setText(appointment.getTitle());
-            descriptionTF.setText(appointment.getDescription());
-            locationTF.setText(appointment.getLocation());
-            typeTF.setText(appointment.getType());
-            userIdCombo.getSelectionModel().select(appointment.getUserId());
-            contactCombo.getSelectionModel().select(appointment.getContact());
-            customerCombo.getSelectionModel().select(appointment.getCustomerId());
-            datePicker.setValue(appointment.getStartTime().toLocalDate());
-            startTimeCombo.getSelectionModel().select(appointment.getStartTime().toLocalTime());
-            // TODO: See if SetValue will work, getSelectionModel is saying the fields are empty
-
-            //  endTimeHandler will handle anything that happens after the window is open, but
-            //  I can't find a better way to initialized the endTimeCombo with the available times
-            //  Most of this code is copy-pasted from initialize method, but we can't initialize
-            //  The end times until the start time is selected in this initData method.
-            LocalTime estStartTime = LocalTime.of(8, 0);
-            LocalTime estEndTime = LocalTime.of(22, 0);
-
-            LocalDateTime start = TimeConversions.fromEstToLocal(LocalDateTime.of(LocalDate.now(), estStartTime));
-            LocalDateTime end = TimeConversions.fromEstToLocal(LocalDateTime.of(LocalDate.now(), estEndTime));
-
-            // Initialize endTimeCombo
-            while (start.isBefore(end.minusSeconds(1))) {
-                start = start.plusMinutes(15);
-                endTimeCombo.getItems().add(LocalTime.from(start));
-            }
-            endTimeCombo.getSelectionModel().select(appointment.getEndTime().toLocalTime());
-
         }
 
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Populate contact ComboBox
-        ObservableList<Contact> contactList = null;
-        try {
-            contactList = DBContacts.getAllAContacts();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        contactCombo.setItems(contactList);
 
-
-        // Populate customer ComboBox
-        ObservableList<Customer> customerList = null;
-        try {
-            customerList = DBCustomers.getAllCustomers();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        customerCombo.setItems(customerList);
-
-        Callback<ListView<Customer>, ListCell<Customer>> customerFactory = lv -> new ListCell<Customer>() {
-            @Override
-            protected void updateItem(Customer customer, boolean empty) {
-                super.updateItem(customer, empty);
-                setText(empty ? "" : customer.toStringWithId());
-            }
-        };
-
-        Callback<ListView<Customer>, ListCell<Customer>> factorySelected = lv -> new ListCell<Customer>() {
-            @Override
-            protected void updateItem(Customer customer, boolean empty) {
-                super.updateItem(customer, empty);
-                setText(empty ? "" : (customer.toString()));
-            }
-        };
-        customerCombo.setCellFactory(customerFactory);
-        customerCombo.setButtonCell(factorySelected.call(null));
-
-        // Set available hours in EST time zone
-        LocalTime estStartTime = LocalTime.of(8, 0);
-        LocalTime estEndTime = LocalTime.of(22, 0);
-
-        LocalDateTime start = TimeConversions.fromEstToLocal(LocalDateTime.of(LocalDate.now(), estStartTime));
-        LocalDateTime end = TimeConversions.fromEstToLocal(LocalDateTime.of(LocalDate.now(), estEndTime));
-
-        while (start.isBefore(end.minusSeconds(1))) {
-            startTimeCombo.getItems().add(LocalTime.from(start));
-            start = start.plusMinutes(15);
-        }
-
+        populateCustomerCombo();
+        populateContactCombo();
+        populateStartCombo();
+        populateUserCombo();
 
     }
 
@@ -219,10 +129,10 @@ public class ModifyAppointmentController implements Initializable {
                     descriptionTF.getText().isEmpty() ||
                     locationTF.getText().isEmpty() ||
                     typeTF.getText().isEmpty() ||
-                    contactCombo.getSelectionModel().isEmpty() ||
-                    customerCombo.getSelectionModel().isEmpty() ||
-                    startTimeCombo.getSelectionModel().isEmpty() ||
-                    endTimeCombo.getSelectionModel().isEmpty()) {
+                    contactCombo.getValue() == null ||
+                    customerCombo.getValue() == null ||
+                    startTimeCombo.getValue() == null ||
+                    endTimeCombo.getValue() == null) {
                 feedbackLabel.setText("Error: All fields require values");
                 feedbackLabel.setTextFill(Color.color(0.6, 0.2, 0.2));
             } else {
@@ -240,14 +150,14 @@ public class ModifyAppointmentController implements Initializable {
                 LocalDateTime end = LocalDateTime.of(chosenDate, endTime);
 
                 int customerId = customerCombo.getValue().getCustomerId();
-                int userId = userIdCombo.getValue().getUserId();
+                int userId = userCombo.getValue().getUserId();
                 int contactId = contactCombo.getValue().getContactId();
-                int appointmentId = Integer.valueOf(appointmentIdTF.getText());
+                int appointmentId = Integer.parseInt(appointmentIdTF.getText());
                 String userString = DBUsers.getUser(userId).toString();
 
                 DBAppointments.modifyAppointment(title, description, location, type, start, end, userString, customerId, userId, contactId, appointmentId);
 
-                feedbackLabel.setText("Appointment added");
+                feedbackLabel.setText("Appointment updated");
                 feedbackLabel.setTextFill(Color.color(0.2, 0.6, 0.2));
 
             }
@@ -260,6 +170,98 @@ public class ModifyAppointmentController implements Initializable {
             alert.showAndWait();
         }
     }
+
+    private void populateCustomerCombo() {
+        // Populate customer ComboBox
+        ObservableList<Customer> customerList = null;
+        try {
+            customerList = DBCustomers.getAllCustomers();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        customerCombo.setItems(customerList);
+
+        Callback<ListView<Customer>, ListCell<Customer>> customerFactory = lv -> new ListCell<Customer>() {
+            @Override
+            protected void updateItem(Customer customer, boolean empty) {
+                super.updateItem(customer, empty);
+                setText(empty ? "" : customer.toStringWithId());
+            }
+        };
+
+        Callback<ListView<Customer>, ListCell<Customer>> factorySelected = lv -> new ListCell<Customer>() {
+            @Override
+            protected void updateItem(Customer customer, boolean empty) {
+                super.updateItem(customer, empty);
+                setText(empty ? "" : (customer.toString()));
+            }
+        };
+        customerCombo.setCellFactory(customerFactory);
+        customerCombo.setButtonCell(factorySelected.call(null));
+    }
+    private void populateContactCombo() {
+        // Populate contact ComboBox
+        ObservableList<Contact> contactList = null;
+        try {
+            contactList = DBContacts.getAllAContacts();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        contactCombo.setItems(contactList);
+    }
+    private void populateStartCombo() {
+        // Set available hours in EST time zone
+        LocalTime estStartTime = LocalTime.of(8, 0);
+        LocalTime estEndTime = LocalTime.of(22, 0);
+
+        LocalDateTime start = TimeConversions.fromEstToLocal(LocalDateTime.of(LocalDate.now(), estStartTime));
+        LocalDateTime end = TimeConversions.fromEstToLocal(LocalDateTime.of(LocalDate.now(), estEndTime));
+
+        while (start.isBefore(end.minusSeconds(1))) {
+            startTimeCombo.getItems().add(LocalTime.from(start));
+            start = start.plusMinutes(15);
+        }
+    }
+    private void populateEndCombo() {
+        LocalTime availableEndTime = startTimeCombo.getValue().plusMinutes(15);
+        LocalTime lastAvailableTime = LocalTime.of(22, 0);
+
+        while (availableEndTime.isBefore(lastAvailableTime.plusSeconds(1))) {
+            endTimeCombo.getItems().add(availableEndTime);
+            availableEndTime = availableEndTime.plusMinutes(15);
+            endTimeCombo.getSelectionModel().select(0);
+        }
+
+    }
+    private void populateUserCombo() {
+        ObservableList<User> userList = null;
+        try {
+            userList = DBUsers.getAllUsers();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        userCombo.setItems(userList);
+
+        Callback<ListView<User>, ListCell<User>> userFactory = lv -> new ListCell<User>() {
+            @Override
+            protected void updateItem(User user, boolean empty) {
+                super.updateItem(user, empty);
+                setText(empty ? "NOTHING" : user.toStringWithId());
+            }
+        };
+
+        Callback<ListView<User>, ListCell<User>> userFactorySelected = lv -> new ListCell<User>() {
+            @Override
+            protected void updateItem(User user, boolean empty) {
+                super.updateItem(user, empty);
+                setText(empty ? "" : (user.toString()));
+            }
+        };
+
+        userCombo.setCellFactory(userFactory);
+        userCombo.setButtonCell(userFactorySelected.call(null));
+    }
+
     /**
      * Reverts back to main screen
      *

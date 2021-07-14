@@ -203,7 +203,7 @@ public class AddAppointmentController<value> implements Initializable {
                 int userId = userCombo.getValue().getUserId();
                 int contactId = contactCombo.getValue().getContactId();
 
-                DBAppointments.addAppointment(title, description, location, type, start, end, userCombo.toString(), customerId, userId, contactId);
+                DBAppointments.addAppointment(title, description, location, type, start, end, userCombo.getValue().toString(), customerId, userId, contactId);
 
                 feedbackLabel.setText("Appointment added");
                 feedbackLabel.setTextFill(Color.color(0.2, 0.6, 0.2));

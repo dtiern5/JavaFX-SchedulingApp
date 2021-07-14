@@ -83,7 +83,7 @@ public class DBAppointments {
     }
 
     public static void addAppointment(String title, String description, String location, String type, LocalDateTime start,
-                                      LocalDateTime end, String currentUser, int customerId, int userId, int contactId) throws SQLException {
+                                      LocalDateTime end, String userString, int customerId, int userId, int contactId) throws SQLException {
         Connection conn = DBConnection.getConnection();
 
         String insertStatement = "INSERT INTO appointments(Title, Description, Location, Type, Start, End," +
@@ -100,8 +100,8 @@ public class DBAppointments {
         ps.setString(4, type);
         ps.setTimestamp(5, Timestamp.valueOf(start));
         ps.setTimestamp(6, Timestamp.valueOf(end));
-        ps.setString(7, currentUser);
-        ps.setString(8, currentUser);
+        ps.setString(7, userString);
+        ps.setString(8, userString);
         ps.setInt(9, customerId);
         ps.setInt(10, userId);
         ps.setInt(11, contactId);
