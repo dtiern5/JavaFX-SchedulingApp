@@ -137,7 +137,6 @@ public class LogInController implements Initializable {
         Scene mainViewScene = new Scene(scene);
 
         MainScreenController controller = loader.getController();
-        controller.initData(currentUser);
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(mainViewScene);

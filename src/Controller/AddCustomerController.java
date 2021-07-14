@@ -3,6 +3,7 @@ package Controller;
 import DBAccess.DBCountries;
 import DBAccess.DBCustomers;
 import DBAccess.DBDivisions;
+import DBAccess.DBUsers;
 import Database.DBConnection;
 import Model.Country;
 import Model.Customer;
@@ -20,6 +21,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
@@ -33,12 +35,10 @@ import java.util.ResourceBundle;
  */
 public class AddCustomerController implements Initializable {
 
-    public User currentUser;
-
-    @FXML
-    private Label userLabel;
     @FXML
     private Label feedbackLabel;
+    @FXML
+    ComboBox<User> userCombo;
 
     @FXML
     private TextField customerIdTF;
@@ -74,16 +74,6 @@ public class AddCustomerController implements Initializable {
 
 
     /**
-     * Accepts and displays the current user.
-     *
-     * @param user logged in user
-     */
-    public void initData(User user) {
-        currentUser = user;
-        userLabel.setText("Current user: " + currentUser.getUserName());
-    }
-
-    /**
      * Populates the countryComboBox with available countries. Populates the table with customers.
      *
      * @param url            the location used to resolve relative paths for the root object
@@ -91,6 +81,7 @@ public class AddCustomerController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Initialize countryComboBox
         try {
             ObservableList<Country> countryList = DBCountries.getAllACountries();
             countryComboBox.setItems(countryList);
@@ -98,6 +89,35 @@ public class AddCustomerController implements Initializable {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+
+        // Initialize userCombo
+        ObservableList<User> userList = null;
+        try {
+            userList = DBUsers.getAllUsers();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        userCombo.setItems(userList);
+
+        Callback<ListView<User>, ListCell<User>> userFactory = lv -> new ListCell<User>() {
+            @Override
+            protected void updateItem(User user, boolean empty) {
+                super.updateItem(user, empty);
+                setText(empty ? "NOTHING" : user.toStringWithId());
+            }
+        };
+
+        Callback<ListView<User>, ListCell<User>> factorySelected = lv -> new ListCell<User>() {
+            @Override
+            protected void updateItem(User user, boolean empty) {
+                super.updateItem(user, empty);
+                setText(empty ? "" : (user.toString()));
+            }
+        };
+        userCombo.setCellFactory(userFactory);
+        userCombo.setButtonCell(factorySelected.call(null));
+        userCombo.getSelectionModel().select(0);
+
 
         populateTableView();
     }
@@ -166,9 +186,10 @@ public class AddCustomerController implements Initializable {
                 String address = addressTF.getText();
                 String postalCode = postalCodeTF.getText();
                 String phoneNumber = phoneNumberTF.getText();
+                String userString = userCombo.getValue().toString();
                 int divisionId = divisionComboBox.getValue().getDivisionId();
 
-                DBCustomers.addCustomer(customerName, address, postalCode, phoneNumber, currentUser.toString(), divisionId);
+                DBCustomers.addCustomer(customerName, address, postalCode, phoneNumber, userString, divisionId);
 
                 feedbackLabel.setText("Customer '" + customerName + "' added");
                 feedbackLabel.setTextFill(Color.color(0.2, 0.6, 0.2));
@@ -193,6 +214,7 @@ public class AddCustomerController implements Initializable {
         postalCodeTF.clear();
         countryComboBox.valueProperty().set(null);
         phoneNumberTF.clear();
+        userCombo.valueProperty().set(null);
     }
 
     /**
@@ -213,7 +235,6 @@ public class AddCustomerController implements Initializable {
             Scene mainViewScene = new Scene(scene);
 
             MainScreenController controller = loader.getController();
-            controller.initData(currentUser);
 
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
             window.setScene(mainViewScene);

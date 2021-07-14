@@ -35,10 +35,8 @@ import java.util.ResourceBundle;
 
 public class ModifyAppointmentController implements Initializable {
 
-    public User currentUser;
-
     @FXML
-    private Label userLabel;
+    ComboBox<User> userCombo;
 
     @FXML
     private TextField appointmentIdTF;
@@ -53,7 +51,7 @@ public class ModifyAppointmentController implements Initializable {
     @FXML
     private ComboBox<Contact> contactCombo;
     @FXML
-    private ComboBox<Customer> customerIdCombo;
+    private ComboBox<Customer> customerCombo;
     @FXML
     private ComboBox<LocalTime> startTimeCombo;
     @FXML
@@ -70,12 +68,9 @@ public class ModifyAppointmentController implements Initializable {
     /**
      * Accepts and displays the current user and an Appointment's modifiable data.
      *
-     * @param user logged in user
      * @param appointment the appointment to modify
      */
-    public void initData(User user, Appointment appointment) {
-        currentUser = user;
-        userLabel.setText("Current user: " + currentUser.getUserName());
+    public void initData(Appointment appointment) throws SQLException {
 
         // Want to initialize the userCombo with the current user
         // Has to be in initData instead of initialize since we are passing in the user from the previous scene
@@ -102,7 +97,7 @@ public class ModifyAppointmentController implements Initializable {
                 setText(empty ? "" : (user.toString()));
             }
         };
-        userIdCombo.setValue(currentUser);
+        userIdCombo.setValue(DBUsers.getUser(appointment.getUserId()));
         userIdCombo.setCellFactory(userFactory);
         userIdCombo.setButtonCell(factorySelected.call(null));
 
@@ -114,7 +109,7 @@ public class ModifyAppointmentController implements Initializable {
             typeTF.setText(appointment.getType());
             userIdCombo.getSelectionModel().select(appointment.getUserId());
             contactCombo.getSelectionModel().select(appointment.getContact());
-            customerIdCombo.getSelectionModel().select(appointment.getCustomerId());
+            customerCombo.getSelectionModel().select(appointment.getCustomerId());
             datePicker.setValue(appointment.getStartTime().toLocalDate());
             startTimeCombo.getSelectionModel().select(appointment.getStartTime().toLocalTime());
             // TODO: See if SetValue will work, getSelectionModel is saying the fields are empty
@@ -159,7 +154,7 @@ public class ModifyAppointmentController implements Initializable {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        customerIdCombo.setItems(customerList);
+        customerCombo.setItems(customerList);
 
         Callback<ListView<Customer>, ListCell<Customer>> customerFactory = lv -> new ListCell<Customer>() {
             @Override
@@ -176,8 +171,8 @@ public class ModifyAppointmentController implements Initializable {
                 setText(empty ? "" : (customer.toString()));
             }
         };
-        customerIdCombo.setCellFactory(customerFactory);
-        customerIdCombo.setButtonCell(factorySelected.call(null));
+        customerCombo.setCellFactory(customerFactory);
+        customerCombo.setButtonCell(factorySelected.call(null));
 
         // Set available hours in EST time zone
         LocalTime estStartTime = LocalTime.of(8, 0);
@@ -225,7 +220,7 @@ public class ModifyAppointmentController implements Initializable {
                     locationTF.getText().isEmpty() ||
                     typeTF.getText().isEmpty() ||
                     contactCombo.getSelectionModel().isEmpty() ||
-                    customerIdCombo.getSelectionModel().isEmpty() ||
+                    customerCombo.getSelectionModel().isEmpty() ||
                     startTimeCombo.getSelectionModel().isEmpty() ||
                     endTimeCombo.getSelectionModel().isEmpty()) {
                 feedbackLabel.setText("Error: All fields require values");
@@ -244,12 +239,13 @@ public class ModifyAppointmentController implements Initializable {
                 LocalDateTime start = LocalDateTime.of(chosenDate, startTime);
                 LocalDateTime end = LocalDateTime.of(chosenDate, endTime);
 
-                int customerId = customerIdCombo.getValue().getCustomerId();
+                int customerId = customerCombo.getValue().getCustomerId();
                 int userId = userIdCombo.getValue().getUserId();
                 int contactId = contactCombo.getValue().getContactId();
                 int appointmentId = Integer.valueOf(appointmentIdTF.getText());
+                String userString = DBUsers.getUser(userId).toString();
 
-                DBAppointments.modifyAppointment(title, description, location, type, start, end, currentUser.toString(), customerId, userId, contactId, appointmentId);
+                DBAppointments.modifyAppointment(title, description, location, type, start, end, userString, customerId, userId, contactId, appointmentId);
 
                 feedbackLabel.setText("Appointment added");
                 feedbackLabel.setTextFill(Color.color(0.2, 0.6, 0.2));
@@ -282,11 +278,11 @@ public class ModifyAppointmentController implements Initializable {
             Scene mainViewScene = new Scene(scene);
 
             MainScreenController controller = loader.getController();
-            controller.initData(currentUser);
 
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
             window.setScene(mainViewScene);
             window.show();
         }
     }
+
 }

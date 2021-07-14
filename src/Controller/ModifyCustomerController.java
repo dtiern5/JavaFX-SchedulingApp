@@ -3,6 +3,7 @@ package Controller;
 import DBAccess.DBCountries;
 import DBAccess.DBCustomers;
 import DBAccess.DBDivisions;
+import DBAccess.DBUsers;
 import Database.DBConnection;
 import Model.Country;
 import Model.Customer;
@@ -20,6 +21,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
@@ -33,15 +35,14 @@ import java.util.ResourceBundle;
  */
 public class ModifyCustomerController implements Initializable {
 
-    public User currentUser;
     private Customer currentCustomer;
 
-    @FXML
-    private Label userLabel;
     @FXML
     private Label currentCustomerLabel;
     @FXML
     private Label feedbackLabel;
+    @FXML
+    private ComboBox<User> userCombo;
 
     @FXML
     private TextField customerIdTF;
@@ -78,12 +79,10 @@ public class ModifyCustomerController implements Initializable {
     /**
      * Accepts and displays the current user and a Customer's modifiable data.
      *
-     * @param user logged in user
      * @param customer the customer to modify
      */
-    public void initData(User user, Customer customer) {
-        currentUser = user;
-        userLabel.setText("Current user: " + currentUser.getUserName());
+    public void initData(Customer customer) {
+
         currentCustomer = customer;
         if (customer != null) {
             disableTableView();
@@ -94,6 +93,7 @@ public class ModifyCustomerController implements Initializable {
             addressTF.setText(currentCustomer.getAddress());
             postalCodeTF.setText(currentCustomer.getPostalCode());
             countryComboBox.getSelectionModel().select(currentCustomer.getCountry());
+            userCombo.getSelectionModel().select(currentCustomer.getLastUpdatedBy());
 
             ObservableList<Division> divisionList = null;
             try {
@@ -128,6 +128,35 @@ public class ModifyCustomerController implements Initializable {
         }
         disableFields();
         populateTableView();
+
+
+        // Initialize userCombo
+        ObservableList<User> userList = null;
+        try {
+            userList = DBUsers.getAllUsers();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        userCombo.setItems(userList);
+
+        Callback<ListView<User>, ListCell<User>> userFactory = lv -> new ListCell<User>() {
+            @Override
+            protected void updateItem(User user, boolean empty) {
+                super.updateItem(user, empty);
+                setText(empty ? "NOTHING" : user.toStringWithId());
+            }
+        };
+
+        Callback<ListView<User>, ListCell<User>> factorySelected = lv -> new ListCell<User>() {
+            @Override
+            protected void updateItem(User user, boolean empty) {
+                super.updateItem(user, empty);
+                setText(empty ? "" : (user.toString()));
+            }
+        };
+        userCombo.setCellFactory(userFactory);
+        userCombo.setButtonCell(factorySelected.call(null));
+        userCombo.getSelectionModel().select(0);
     }
 
     /**
@@ -200,6 +229,7 @@ public class ModifyCustomerController implements Initializable {
         postalCodeTF.clear();
         countryComboBox.valueProperty().set(null);
         phoneNumberTF.clear();
+        userCombo.valueProperty().set(null);
 
         currentCustomer = null;
         currentCustomerLabel.setText("No customer selected");
@@ -222,6 +252,7 @@ public class ModifyCustomerController implements Initializable {
             addressTF.setText(currentCustomer.getAddress());
             postalCodeTF.setText(currentCustomer.getPostalCode());
             countryComboBox.getSelectionModel().select(currentCustomer.getCountry());
+            userCombo.getSelectionModel().select(currentCustomer.getLastUpdatedBy());
 
             // Initialize divisionComboBox. After this is set the divisionHandler can handle any changes.
             ObservableList<Division> divisionList = null;
@@ -264,6 +295,7 @@ public class ModifyCustomerController implements Initializable {
         countryComboBox.setDisable(false);
         divisionComboBox.setDisable(false);
         phoneNumberTF.setDisable(false);
+        userCombo.setDisable(false);
     }
 
     /**
@@ -277,6 +309,7 @@ public class ModifyCustomerController implements Initializable {
         countryComboBox.setDisable(true);
         divisionComboBox.setDisable(true);
         phoneNumberTF.setDisable(true);
+        userCombo.setDisable(true);
     }
 
     /**
@@ -308,8 +341,9 @@ public class ModifyCustomerController implements Initializable {
                 String phoneNumber = phoneNumberTF.getText();
                 int divisionId = divisionComboBox.getValue().getDivisionId();
                 int customerId = Integer.valueOf(customerIdTF.getText());
+                String userString = userCombo.getValue().toString();
 
-                DBCustomers.modifyCustomer(customerName, address, postalCode, phoneNumber, currentUser.toString(), divisionId, customerId);
+                DBCustomers.modifyCustomer(customerName, address, postalCode, phoneNumber, userString, divisionId, customerId);
 
                 populateTableView();
                 System.out.println("Success");
@@ -347,12 +381,10 @@ public class ModifyCustomerController implements Initializable {
             Scene mainViewScene = new Scene(scene);
 
             MainScreenController controller = loader.getController();
-            controller.initData(currentUser);
 
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
             window.setScene(mainViewScene);
             window.show();
         }
     }
-
 }

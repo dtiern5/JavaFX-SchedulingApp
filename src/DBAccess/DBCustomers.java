@@ -4,6 +4,7 @@ import Database.DBConnection;
 import Database.DBQuery;
 import Model.Country;
 import Model.Customer;
+import Model.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -38,8 +39,11 @@ public class DBCustomers {
             String lastUpdatedBy = rs.getString("Last_Updated_By");
             int divisionId = rs.getInt("Division_ID");
 
+            User createdByUser = DBUsers.getUserByName(createdBy);
+            User lastUpdatedByUser = DBUsers.getUserByName(lastUpdatedBy);
+
             customerResult = new Customer(customerId, customerName, address, postalCode, phone,
-                    createDate, createdBy, lastUpdate, lastUpdatedBy, divisionId);
+                    createDate, createdByUser, lastUpdate, lastUpdatedByUser, divisionId);
 
             return customerResult;
         }
@@ -65,17 +69,16 @@ public class DBCustomers {
                     rs.getString("Postal_Code"),
                     rs.getString("Phone"),
                     rs.getTimestamp("Create_Date").toLocalDateTime(),
-                    rs.getString("Created_By"),
+                    DBUsers.getUserByName(rs.getString("Created_By")),
                     rs.getTimestamp("Last_Update").toLocalDateTime(),
-                    rs.getString("Last_Updated_By"),
+                    DBUsers.getUserByName(rs.getString("Last_Updated_By")),
                     rs.getInt("Division_ID")));
         }
         return customerList;
     }
 
-
     public static void modifyCustomer(String customerName, String address, String postalCode, String phoneNumber,
-                                      String currentUser, int divisionId, int customerId) throws SQLException {
+                                      String userString, int divisionId, int customerId) throws SQLException {
         Connection conn = DBConnection.getConnection();
 
         String updateStatement = "UPDATE customers SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, " +
@@ -90,7 +93,7 @@ public class DBCustomers {
         ps.setString(2, address);
         ps.setString(3, postalCode);
         ps.setString(4, phoneNumber);
-        ps.setString(5, currentUser.toString());
+        ps.setString(5, userString);
         ps.setInt(6, divisionId);
         ps.setInt(7, customerId);
 
@@ -100,7 +103,7 @@ public class DBCustomers {
 
 
     public static void addCustomer(String customerName, String address, String postalCode, String phoneNumber,
-                                   String currentUser, int divisionId) throws SQLException {
+                                   String userString, int divisionId) throws SQLException {
         Connection conn = DBConnection.getConnection();
 
         String insertStatement = "INSERT INTO customers(Customer_Name, Address, Postal_Code, Phone, " +
@@ -115,8 +118,8 @@ public class DBCustomers {
         ps.setString(2, address);
         ps.setString(3, postalCode);
         ps.setString(4, phoneNumber);
-        ps.setString(5, currentUser.toString());
-        ps.setString(6, currentUser.toString());
+        ps.setString(5, userString);
+        ps.setString(6, userString);
         ps.setInt(7, divisionId);
 
         ps.execute();

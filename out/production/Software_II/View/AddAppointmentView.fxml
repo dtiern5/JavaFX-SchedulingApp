@@ -13,11 +13,6 @@
    <children>
       <Button layoutX="368.0" layoutY="300.0" mnemonicParsing="false" onAction="#goBackHandler" text="Return To Main Screen" />
       <ComboBox fx:id="contactCombo" layoutX="444.0" layoutY="70.0" prefWidth="150.0" />
-      <Label fx:id="userLabel" layoutX="465.0" layoutY="336.0" prefHeight="17.0" prefWidth="134.0">
-         <font>
-            <Font name="Avenir Roman" size="13.0" />
-         </font>
-      </Label>
       <Label layoutX="27.0" layoutY="28.0" text="Add Appointment">
          <font>
             <Font name="Avenir Oblique" size="18.0" />
@@ -109,6 +104,6 @@
             <Font name="Avenir Roman" size="14.0" />
          </font>
       </Label>
-      <ComboBox fx:id="userIdCombo" layoutX="139.0" layoutY="299.0" prefWidth="150.0" />
+      <ComboBox fx:id="userComboBox" layoutX="139.0" layoutY="299.0" prefWidth="150.0" />
    </children>
 </AnchorPane>

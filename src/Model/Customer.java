@@ -16,9 +16,9 @@ public class Customer {
     private String postalCode;
     private String phone;
     private LocalDateTime createDate;
-    private String createdBy;
+    private User createdBy;
     private LocalDateTime lastUpdate;
-    private String lastUpdatedBy;
+    private User lastUpdatedBy;
     private int divisionId;
 
     // For use in tables
@@ -27,7 +27,7 @@ public class Customer {
 
     public Customer(int customerId, String customerName, String address,
                     String postalCode, String phone, LocalDateTime createDate,
-                    String createdBy, LocalDateTime lastUpdate, String lastUpdatedBy, int divisionId) {
+                    User createdBy, LocalDateTime lastUpdate, User lastUpdatedBy, int divisionId) {
         this.customerId = customerId;
         this.customerName = customerName;
         this.address = address;
@@ -111,11 +111,11 @@ public class Customer {
         this.createDate = createDate;
     }
 
-    public String getCreatedBy() {
+    public User getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(User createdBy) {
         this.createdBy = createdBy;
     }
 
@@ -127,11 +127,11 @@ public class Customer {
         this.lastUpdate = lastUpdate;
     }
 
-    public String getLastUpdatedBy() {
+    public User getLastUpdatedBy() {
         return lastUpdatedBy;
     }
 
-    public void setLastUpdatedBy(String lastUpdatedBy) {
+    public void setLastUpdatedBy(User lastUpdatedBy) {
         this.lastUpdatedBy = lastUpdatedBy;
     }
 

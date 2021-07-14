@@ -28,8 +28,6 @@ import java.util.ResourceBundle;
  */
 public class MainScreenController implements Initializable {
 
-    public User currentUser;
-
     @FXML
     private TableView<Customer> customerTableView;
     @FXML
@@ -68,16 +66,12 @@ public class MainScreenController implements Initializable {
     @FXML
     private TableColumn<Appointment, Integer> appointmentsCustomerIdColumn;
 
-    @FXML
-    private Label userLabel;
 
     /**
      * Accepts and displays the current user.
      * @param user logged in user
      */
     public void initData(User user) {
-        currentUser = user;
-        userLabel.setText("Current user: " + currentUser.getUserName());
     }
 
     /**
@@ -157,7 +151,6 @@ public class MainScreenController implements Initializable {
         Scene customerViewScene = new Scene(scene);
 
         AddCustomerController controller = loader.getController();
-        controller.initData(currentUser);
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(customerViewScene);
@@ -178,7 +171,6 @@ public class MainScreenController implements Initializable {
         Scene appointmentViewScene = new Scene(scene);
 
         AddAppointmentController controller = loader.getController();
-        controller.initData(currentUser);
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(appointmentViewScene);
@@ -200,7 +192,7 @@ public class MainScreenController implements Initializable {
         Scene modifyCustomerScene = new Scene(scene);
 
         ModifyCustomerController controller = loader.getController();
-        controller.initData(currentUser, customerTableView.getSelectionModel().getSelectedItem());
+        controller.initData(customerTableView.getSelectionModel().getSelectedItem());
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(modifyCustomerScene);
@@ -215,7 +207,7 @@ public class MainScreenController implements Initializable {
      * @param event for changing scene on click
      * @throws IOException signals I/O exception has occurred
      */
-    public void modifyAppointmentHandler(ActionEvent event) throws IOException {
+    public void modifyAppointmentHandler(ActionEvent event) throws IOException, SQLException {
         FXMLLoader loader = new FXMLLoader();
 
         loader.setLocation(getClass().getResource("../View/ModifyAppointmentView.fxml"));
@@ -223,7 +215,7 @@ public class MainScreenController implements Initializable {
         Scene modifyAppointmentScene = new Scene(scene);
 
         ModifyAppointmentController controller = loader.getController();
-        controller.initData(currentUser, appointmentsTableView.getSelectionModel().getSelectedItem());
+        controller.initData(appointmentsTableView.getSelectionModel().getSelectedItem());
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(modifyAppointmentScene);

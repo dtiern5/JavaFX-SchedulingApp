@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="444.0" prefWidth="1075.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AddCustomerController">
+<AnchorPane prefHeight="492.0" prefWidth="1075.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AddCustomerController">
    <children>
       <TextField fx:id="customerIdTF" alignment="CENTER" disable="true" editable="false" layoutX="180.0" layoutY="74.0" prefHeight="27.0" prefWidth="150.0" text="Auto Generated">
          <font>
@@ -45,8 +45,8 @@
          <font>
             <Font name="Avenir Oblique" size="13.0" />
          </font></TextField>
-      <Button layoutX="268.0" layoutY="392.0" mnemonicParsing="false" onAction="#confirmHandler" text="Confirm" />
-      <Button layoutX="111.0" layoutY="392.0" mnemonicParsing="false" onAction="#goBackHandler" text="Return to Main Screen" />
+      <Button layoutX="265.0" layoutY="441.0" mnemonicParsing="false" onAction="#confirmHandler" text="Confirm" />
+      <Button layoutX="108.0" layoutY="441.0" mnemonicParsing="false" onAction="#goBackHandler" text="Return to Main Screen" />
       <Label layoutX="70.0" layoutY="351.0" text="Phone Number">
          <font>
             <Font name="Avenir Roman" size="14.0" />
@@ -72,11 +72,6 @@
             <Font name="Avenir Roman" size="14.0" />
          </font>
       </Label>
-      <Label fx:id="userLabel" alignment="CENTER_RIGHT" layoutX="899.0" layoutY="410.0" prefHeight="17.0" prefWidth="134.0">
-         <font>
-            <Font name="Avenir Roman" size="13.0" />
-         </font>
-      </Label>
       <Label layoutX="422.0" layoutY="33.0" text="Customers">
          <font>
             <Font name="Avenir Oblique" size="18.0" />
@@ -97,6 +92,12 @@
       <Label fx:id="feedbackLabel" layoutX="422.0" layoutY="361.0" prefHeight="32.0" prefWidth="529.0">
          <font>
             <Font name="Hiragino Sans W2" size="18.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="userCombo" layoutX="179.0" layoutY="388.0" prefWidth="150.0" />
+      <Label layoutX="69.0" layoutY="391.0" text="User">
+         <font>
+            <Font name="Avenir Roman" size="14.0" />
          </font>
       </Label>
    </children>
