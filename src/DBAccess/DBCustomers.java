@@ -125,4 +125,13 @@ public class DBCustomers {
         ps.execute();
     }
 
+    public static void deleteCustomer(Integer customerId) throws SQLException {
+        Connection conn = DBConnection.getConnection();
+
+        String deleteStatement = "DELETE FROM customers WHERE Customer_ID = " + customerId.toString();
+        DBQuery.setPreparedStatement(conn, deleteStatement);
+        PreparedStatement ps = DBQuery.getPreparedStatement();
+        ps.execute();
+    }
+
 }

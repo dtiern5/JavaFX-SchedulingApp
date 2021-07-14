@@ -15,6 +15,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -27,6 +28,9 @@ import java.util.ResourceBundle;
  * Controller for the main screen
  */
 public class MainScreenController implements Initializable {
+
+    @FXML
+    private Label feedbackLabel;
 
     @FXML
     private TableView<Customer> customerTableView;
@@ -69,6 +73,7 @@ public class MainScreenController implements Initializable {
 
     /**
      * Accepts and displays the current user.
+     *
      * @param user logged in user
      */
     public void initData(User user) {
@@ -77,45 +82,51 @@ public class MainScreenController implements Initializable {
     /**
      * Populates the customer table and the appointment table.
      *
-     * @param url the location used to resolve relative paths for the root object
+     * @param url            the location used to resolve relative paths for the root object
      * @param resourceBundle resources used to localize the root object
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-
-        ObservableList<Customer> customerList = null;
-        ObservableList<Appointment> appointmentList = null;
-
-
         try {
-            customerList = DBCustomers.getAllCustomers();
-            customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
-            customerNameColumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
-            customerAddressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
-            customerPostalCodeColumn.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
-            customerDivisionColumn.setCellValueFactory(new PropertyValueFactory<>("division"));
-            customerCountryColumn.setCellValueFactory(new PropertyValueFactory<>("country"));
-            customerPhoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
-            customerTableView.setItems(customerList);
-
-
-            appointmentList = DBAppointments.getAllAppointments();
-            appointmentsIdColumn.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
-            appointmentsTitleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
-            appointmentsDescriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
-            appointmentsLocationColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
-            appointmentsContactColumn.setCellValueFactory(new PropertyValueFactory<>("contact"));
-            appointmentsTypeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
-            appointmentsStartTimeColumn.setCellValueFactory(new PropertyValueFactory<>("startTime"));
-            appointmentsEndTimeColumn.setCellValueFactory(new PropertyValueFactory<>("endTime"));
-            appointmentsCustomerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
-            appointmentsTableView.setItems(appointmentList);
-
+            populateAppointmentTable();
+            populateCustomerTable();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+
     }
+
+    private void populateAppointmentTable() throws SQLException {
+        ObservableList<Appointment> appointmentList = null;
+
+        appointmentList = DBAppointments.getAllAppointments();
+        appointmentsIdColumn.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
+        appointmentsTitleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+        appointmentsDescriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+        appointmentsLocationColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
+        appointmentsContactColumn.setCellValueFactory(new PropertyValueFactory<>("contact"));
+        appointmentsTypeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+        appointmentsStartTimeColumn.setCellValueFactory(new PropertyValueFactory<>("startTime"));
+        appointmentsEndTimeColumn.setCellValueFactory(new PropertyValueFactory<>("endTime"));
+        appointmentsCustomerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        appointmentsTableView.setItems(appointmentList);
+    }
+
+    private void populateCustomerTable() throws SQLException {
+        ObservableList<Customer> customerList = null;
+
+        customerList = DBCustomers.getAllCustomers();
+        customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        customerNameColumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
+        customerAddressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
+        customerPostalCodeColumn.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
+        customerDivisionColumn.setCellValueFactory(new PropertyValueFactory<>("division"));
+        customerCountryColumn.setCellValueFactory(new PropertyValueFactory<>("country"));
+        customerPhoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
+        customerTableView.setItems(customerList);
+
+    }
+
 
     /**
      * Reverts back to log in screen.
@@ -223,4 +234,56 @@ public class MainScreenController implements Initializable {
 
     }
 
+    public void deleteCustomerHandler(ActionEvent event) throws SQLException {
+        Customer customer = customerTableView.getSelectionModel().getSelectedItem();
+        ObservableList<Appointment> appointmentList = null;
+
+        appointmentList = DBAppointments.getAppointmentsByCustomerID(customer.getCustomerId());
+
+
+        if (appointmentList.size() > 0) {
+            feedbackLabel.setText("Customer not deleted");
+            feedbackLabel.setTextFill(Color.color(0.6, 0.2, 0.2));
+            int appointmentCount = appointmentList.size();
+            Alert ErrorAlert = new Alert(Alert.AlertType.ERROR);
+            ErrorAlert.setHeaderText("Cannot delete customer");
+            ErrorAlert.setContentText("Customer has " + appointmentCount + " scheduled appointments");
+            ErrorAlert.showAndWait();
+        } else {
+
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete?");
+            alert.setHeaderText("Customer ID: " + customer.getCustomerId());
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (appointmentList.size() == 0 && result.isPresent() && result.get() == ButtonType.OK) {
+                DBCustomers.deleteCustomer(customer.getCustomerId());
+                populateCustomerTable();
+                feedbackLabel.setText("Customer deleted");
+                feedbackLabel.setTextFill(Color.color(0.2, 0.6, 0.2));
+            } else {
+                feedbackLabel.setText("Customer not deleted");
+                feedbackLabel.setTextFill(Color.color(0.6, 0.2, 0.2));
+            }
+        }
+    }
+
+    public void deleteAppointmentHandler(ActionEvent event) throws SQLException {
+        Appointment appointment = appointmentsTableView.getSelectionModel().getSelectedItem();
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete?");
+        alert.setHeaderText("Appointment ID: " + appointment.getAppointmentId());
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+
+            DBAppointments.deleteAppointment(appointment.getAppointmentId());
+            populateAppointmentTable();
+
+            feedbackLabel.setText("Appointment deleted");
+            feedbackLabel.setTextFill(Color.color(0.2, 0.6, 0.2));
+        } else {
+            feedbackLabel.setText("Appointment not deleted");
+            feedbackLabel.setTextFill(Color.color(0.6, 0.2, 0.2));
+        }
+    }
 }

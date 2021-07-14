@@ -47,7 +47,7 @@
             <Font name="Avenir Oblique" size="18.0" />
          </font>
       </Label>
-      <Button layoutX="885.0" layoutY="292.0" mnemonicParsing="false" prefWidth="60.0" text="Delete">
+      <Button layoutX="885.0" layoutY="292.0" mnemonicParsing="false" onAction="#deleteAppointmentHandler" prefWidth="60.0" text="Delete">
          <font>
             <Font name="Avenir Light" size="13.0" />
          </font></Button>
@@ -67,7 +67,7 @@
          <font>
             <Font name="Avenir Light" size="13.0" />
          </font></Button>
-      <Button layoutX="652.0" layoutY="574.0" mnemonicParsing="false" prefWidth="60.0" text="Delete">
+      <Button layoutX="652.0" layoutY="574.0" mnemonicParsing="false" onAction="#deleteCustomerHandler" prefWidth="60.0" text="Delete">
          <font>
             <Font name="Avenir Light" size="13.0" />
          </font></Button>
@@ -104,5 +104,9 @@
             <Font name="Avenir Oblique" size="24.0" />
          </font>
       </Label>
+      <Label fx:id="feedbackLabel" alignment="CENTER" contentDisplay="TOP" layoutX="241.0" layoutY="57.0" prefHeight="17.0" prefWidth="481.0" textAlignment="CENTER">
+         <font>
+            <Font name="Avenir Roman" size="14.0" />
+         </font></Label>
    </children>
 </AnchorPane>
