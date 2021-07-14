@@ -162,7 +162,6 @@ public class AddCustomerController implements Initializable {
         }
     }
 
-    // TODO: Clean up logic for adding customer
     /**
      * Ensures no fields are empty.
      * Adds customer to database.
@@ -170,15 +169,15 @@ public class AddCustomerController implements Initializable {
      * @param event for confirming update on click
      */
     public void confirmHandler(ActionEvent event) {
-        Connection conn = DBConnection.getConnection();
 
         try {
             if (nameTF.getText().isEmpty() ||
                     addressTF.getText().isEmpty() ||
                     postalCodeTF.getText().isEmpty() ||
                     phoneNumberTF.getText().isEmpty() ||
-                    countryComboBox.getSelectionModel().isEmpty() ||
-                    divisionComboBox.getSelectionModel().isEmpty()) {
+                    countryComboBox.getValue() == null ||
+                    divisionComboBox.getValue() == null ||
+                    userCombo.getValue() == null) {
                 feedbackLabel.setText("Error: All fields require values");
                 feedbackLabel.setTextFill(Color.color(0.6, 0.2, 0.2));
             } else {
@@ -191,7 +190,6 @@ public class AddCustomerController implements Initializable {
                 int divisionId = divisionComboBox.getValue().getDivisionId();
 
                 DBCustomers.addCustomer(customerName, address, postalCode, phoneNumber, userString, divisionId);
-
                 feedbackLabel.setText("Customer '" + customerName + "' added");
                 feedbackLabel.setTextFill(Color.color(0.2, 0.6, 0.2));
                 clearData();

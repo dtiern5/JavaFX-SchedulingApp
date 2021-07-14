@@ -320,7 +320,6 @@ public class ModifyCustomerController implements Initializable {
      * @param event for confirming update on click
      */
     public void confirmHandler(ActionEvent event) {
-        Connection conn = DBConnection.getConnection();
         if (currentCustomer == null) {
             return;
         }
@@ -330,8 +329,9 @@ public class ModifyCustomerController implements Initializable {
                     addressTF.getText().isEmpty() ||
                     postalCodeTF.getText().isEmpty() ||
                     phoneNumberTF.getText().isEmpty() ||
-                    countryComboBox.isShowing() ||
-                    divisionComboBox.isShowing()) {
+                    countryComboBox.getValue() == null ||
+                    divisionComboBox.getValue() == null ||
+                    userCombo.getValue() == null) {
                 feedbackLabel.setText("Error: All fields require values");
                 feedbackLabel.setTextFill(Color.color(0.6, 0.2, 0.2));
             } else {
@@ -345,14 +345,14 @@ public class ModifyCustomerController implements Initializable {
                 String userString = userCombo.getValue().toString();
 
                 DBCustomers.modifyCustomer(customerName, address, postalCode, phoneNumber, userString, divisionId, customerId);
+                feedbackLabel.setText("Customer ID: " + customerId + " (" + customerName + ") updated");
+                feedbackLabel.setTextFill(Color.color(0.2, 0.6, 0.2));
+
 
                 populateTableView();
                 System.out.println("Success");
 
                 clearHandler(null);
-
-                feedbackLabel.setText("Customer ID: " + customerId + " (" + customerName + ") updated");
-                feedbackLabel.setTextFill(Color.color(0.2, 0.6, 0.2));
             }
 
         } catch (Exception e) {
