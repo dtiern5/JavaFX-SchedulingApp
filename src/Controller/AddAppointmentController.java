@@ -24,6 +24,7 @@ import java.sql.SQLException;
 import java.time.*;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.TimeZone;
 
 
 /**
@@ -42,7 +43,7 @@ public class AddAppointmentController<value> implements Initializable {
     @FXML
     private ComboBox<Contact> contactCombo;
     @FXML
-    private ComboBox<Customer> customerIdCombo;
+    private ComboBox<Customer> customerCombo;
     @FXML
     private ComboBox<LocalTime> startTimeCombo;
     @FXML
@@ -82,7 +83,7 @@ public class AddAppointmentController<value> implements Initializable {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        customerIdCombo.setItems(customerList);
+        customerCombo.setItems(customerList);
 
         Callback<ListView<Customer>, ListCell<Customer>> customerFactory = lv -> new ListCell<Customer>() {
             @Override
@@ -99,13 +100,10 @@ public class AddAppointmentController<value> implements Initializable {
                 setText(empty ? "" : (customer.toString()));
             }
         };
-        customerIdCombo.setCellFactory(customerFactory);
-        customerIdCombo.setButtonCell(factorySelected.call(null));
-        customerIdCombo.setPromptText("Select customer");
+        customerCombo.setCellFactory(customerFactory);
+        customerCombo.setButtonCell(factorySelected.call(null));
+        customerCombo.setPromptText("Select customer");
 
-
-        // LocalTime start = LocalTime.of(8, 0);
-        // LocalTime end = LocalTime.of(22, 0);
 
         // Set available hours in EST time zone
         LocalTime estStartTime = LocalTime.of(8, 0);
@@ -160,31 +158,67 @@ public class AddAppointmentController<value> implements Initializable {
         endTimeCombo.getItems().clear();
 
         LocalTime availableEndTime = startTimeCombo.getValue().plusMinutes(15);
-        LocalTime lastAvailableTime = LocalTime.of(22, 0);
+        LocalTime lastTimeEst = LocalTime.of(22, 0);
 
-        while (availableEndTime.isBefore(lastAvailableTime.plusSeconds(1))) {
+        LocalDateTime lastTimeLocal = TimeConversions.fromEstToLocal(LocalDateTime.of(LocalDate.now(), lastTimeEst));
+
+        while (availableEndTime.isBefore(LocalTime.from(lastTimeLocal.plusSeconds(1)))) {
             endTimeCombo.getItems().add(availableEndTime);
             availableEndTime = availableEndTime.plusMinutes(15);
-            endTimeCombo.getSelectionModel().select(0);
         }
-
+        endTimeCombo.getSelectionModel().select(0);
     }
 
     // TODO: add logic for scheduling overlapping appointments for customers
     // TODO: add logic for scheduling outside 8am-10pm EST or weekends
     public void confirmHandler(ActionEvent event) {
-        Connection conn = DBConnection.getConnection();
+
+        if (datePicker.getValue() == null) {
+            System.out.println("datepicker null");
+            return;
+        }
+
+        LocalDate date = datePicker.getValue();
+
+        LocalTime estStartTime = LocalTime.of(8, 0);
+        LocalTime estEndTime = LocalTime.of(22, 0);
+
+        LocalDateTime estStart = LocalDateTime.of(date, estStartTime);
+        LocalDateTime estEnd = LocalDateTime.of(date, estEndTime);
+
+        LocalTime startTimer = startTimeCombo.getValue();
+        LocalDateTime startLdt = LocalDateTime.of(date, startTimer);
+        LocalDateTime starter = Bundles.TimeConversions.convertToEst(startLdt);
+
+        LocalTime endTimer = endTimeCombo.getValue();
+        LocalDateTime endLdt = LocalDateTime.of(date, endTimer);
+        LocalDateTime ender = Bundles.TimeConversions.convertToEst(endLdt);
+
 
         try {
             if (titleTF.getText().isEmpty() ||
                     descriptionTF.getText().isEmpty() ||
                     locationTF.getText().isEmpty() ||
                     typeTF.getText().isEmpty() ||
-                    contactCombo.getSelectionModel().isEmpty() ||
-                    customerIdCombo.getSelectionModel().isEmpty() ||
-                    startTimeCombo.getSelectionModel().isEmpty() ||
-                    endTimeCombo.getSelectionModel().isEmpty()) {
+                    userCombo.getValue() == null ||
+                    contactCombo.getValue() == null ||
+                    customerCombo.getValue() == null ||
+                    startTimeCombo.getValue() == null ||
+                    endTimeCombo.getValue() == null ||
+                    datePicker.getValue() == null) {
                 feedbackLabel.setText("Error: All fields require values");
+                feedbackLabel.setTextFill(Color.color(0.6, 0.2, 0.2));
+            } else if (datePicker.getValue().getDayOfWeek() == DayOfWeek.SATURDAY ||
+                    datePicker.getValue().getDayOfWeek() == DayOfWeek.SUNDAY
+            ) {
+                feedbackLabel.setText("Error: Cannot schedule appointment on weekend");
+                feedbackLabel.setTextFill(Color.color(0.6, 0.2, 0.2));
+            } else if (starter.isBefore(estStart) ||
+                    starter.isAfter(estEnd) ||
+                    ender.isBefore(starter) ||
+                    ender.isAfter(estEnd)
+            ) {
+                feedbackLabel.setText("Error: Valid hours are between 8AM and 10PM EST");
                 feedbackLabel.setTextFill(Color.color(0.6, 0.2, 0.2));
             } else {
 
@@ -200,7 +234,7 @@ public class AddAppointmentController<value> implements Initializable {
                 LocalDateTime start = LocalDateTime.of(chosenDate, startTime);
                 LocalDateTime end = LocalDateTime.of(chosenDate, endTime);
 
-                int customerId = customerIdCombo.getValue().getCustomerId();
+                int customerId = customerCombo.getValue().getCustomerId();
                 int userId = userCombo.getValue().getUserId();
                 int contactId = contactCombo.getValue().getContactId();
 

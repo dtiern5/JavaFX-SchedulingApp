@@ -33,6 +33,9 @@ import java.time.LocalTime;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * Controller for the ModifyAppointment screen
+ */
 public class ModifyAppointmentController implements Initializable {
 
     @FXML
@@ -63,7 +66,8 @@ public class ModifyAppointmentController implements Initializable {
     private Appointment currentAppointment;
 
     /**
-     * Accepts and displays the current user and an Appointment's modifiable data.
+     * Accepts and displays the appointment's modifiable data.
+     * Also populates the end time combo based on the given start time
      *
      * @param appointment the appointment to modify
      */
@@ -81,7 +85,7 @@ public class ModifyAppointmentController implements Initializable {
             typeTF.setText(currentAppointment.getType());
             datePicker.setValue(currentAppointment.getStartTime().toLocalDate());
             startTimeCombo.getSelectionModel().select(currentAppointment.getStartTime().toLocalTime());
-            populateEndCombo(); // Need the start time of appoinment to populate the possible end times
+            populateEndCombo(); // Need the start time of appointment to populate the possible end times
             endTimeCombo.getSelectionModel().select(appointment.getEndTime().toLocalTime());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -89,7 +93,12 @@ public class ModifyAppointmentController implements Initializable {
 
     }
 
-    @Override
+    /**
+     * Populates ComboBoxes for contacts, customers, user, and start time
+     *
+     * @param url            the location used to resolve relative paths for the root object
+     * @param resourceBundle resources used to localize the root object
+     */
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         populateCustomerCombo();
@@ -130,10 +139,12 @@ public class ModifyAppointmentController implements Initializable {
                     descriptionTF.getText().isEmpty() ||
                     locationTF.getText().isEmpty() ||
                     typeTF.getText().isEmpty() ||
+                    userCombo.getValue() == null ||
                     contactCombo.getValue() == null ||
                     customerCombo.getValue() == null ||
                     startTimeCombo.getValue() == null ||
-                    endTimeCombo.getValue() == null) {
+                    endTimeCombo.getValue() == null ||
+                    datePicker.getValue() == null) {
                 feedbackLabel.setText("Error: All fields require values");
                 feedbackLabel.setTextFill(Color.color(0.6, 0.2, 0.2));
             } else {
