@@ -76,7 +76,6 @@ public class AddAppointmentController<value> implements Initializable {
         customerCombo.setPromptText("Select customer");
         contactCombo.setPromptText("Select contact");
         userCombo.setPromptText("Select user");
-
     }
 
     private void populateCustomerCombo() {
@@ -215,20 +214,26 @@ public class AddAppointmentController<value> implements Initializable {
                     startTimeCombo.getValue() == null ||
                     endTimeCombo.getValue() == null ||
                     datePicker.getValue() == null) {
+
                 feedbackLabel.setText("Error: All fields require values");
                 feedbackLabel.setTextFill(Color.color(0.6, 0.2, 0.2));
+
             } else if (datePicker.getValue().getDayOfWeek() == DayOfWeek.SATURDAY ||
                     datePicker.getValue().getDayOfWeek() == DayOfWeek.SUNDAY
             ) {
+
                 feedbackLabel.setText("Error: Cannot schedule appointment on weekend");
                 feedbackLabel.setTextFill(Color.color(0.6, 0.2, 0.2));
+
             } else if (starter.isBefore(estStart) ||
                     starter.isAfter(estEnd) ||
                     ender.isBefore(starter) ||
                     ender.isAfter(estEnd)
             ) {
+
                 feedbackLabel.setText("Error: Valid hours are between 8AM and 10PM EST");
                 feedbackLabel.setTextFill(Color.color(0.6, 0.2, 0.2));
+
             } else {
 
                 String title = titleTF.getText();
