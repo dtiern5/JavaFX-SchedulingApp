@@ -65,17 +65,21 @@ public class AddAppointmentController<value> implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        // Populate contact ComboBox
-        ObservableList<Contact> contactList = null;
-        try {
-            contactList = DBContacts.getAllAContacts();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        contactCombo.setItems(contactList);
-        contactCombo.setPromptText("Select Contact");
+        populateCustomerCombo();
+        populateContactCombo();
+        populateStartCombo();
+        populateUserCombo();
 
+        datePicker.setValue(LocalDate.now());
 
+        startTimeCombo.setPromptText("Select start time");
+        customerCombo.setPromptText("Select customer");
+        contactCombo.setPromptText("Select contact");
+        userCombo.setPromptText("Select user");
+
+    }
+
+    private void populateCustomerCombo() {
         // Populate customer ComboBox
         ObservableList<Customer> customerList = null;
         try {
@@ -102,9 +106,18 @@ public class AddAppointmentController<value> implements Initializable {
         };
         customerCombo.setCellFactory(customerFactory);
         customerCombo.setButtonCell(factorySelected.call(null));
-        customerCombo.setPromptText("Select customer");
-
-
+    }
+    private void populateContactCombo() {
+        // Populate contact ComboBox
+        ObservableList<Contact> contactList = null;
+        try {
+            contactList = DBContacts.getAllAContacts();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        contactCombo.setItems(contactList);
+    }
+    private void populateStartCombo() {
         // Set available hours in EST time zone
         LocalTime estStartTime = LocalTime.of(8, 0);
         LocalTime estEndTime = LocalTime.of(22, 0);
@@ -116,10 +129,8 @@ public class AddAppointmentController<value> implements Initializable {
             startTimeCombo.getItems().add(LocalTime.from(start));
             start = start.plusMinutes(15);
         }
-        startTimeCombo.setPromptText("Select start time");
-
-
-        // Initialize userCombo
+    }
+    private void populateUserCombo() {
         ObservableList<User> userList = null;
         try {
             userList = DBUsers.getAllUsers();
@@ -146,7 +157,6 @@ public class AddAppointmentController<value> implements Initializable {
 
         userCombo.setCellFactory(userFactory);
         userCombo.setButtonCell(userFactorySelected.call(null));
-        userCombo.getSelectionModel().select(0);
     }
 
     /**
@@ -170,7 +180,6 @@ public class AddAppointmentController<value> implements Initializable {
     }
 
     // TODO: add logic for scheduling overlapping appointments for customers
-    // TODO: add logic for scheduling outside 8am-10pm EST or weekends
     public void confirmHandler(ActionEvent event) {
 
         if (datePicker.getValue() == null) {
