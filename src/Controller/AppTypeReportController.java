@@ -24,7 +24,7 @@ import java.time.Year;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class ReportAppointmentsController implements Initializable {
+public class AppTypeReportController implements Initializable {
 
     @FXML
     private ComboBox<String> monthCombo;

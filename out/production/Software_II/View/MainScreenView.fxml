@@ -71,21 +71,21 @@
          <font>
             <Font name="Avenir Light" size="13.0" />
          </font></Button>
-      <Button layoutX="746.0" layoutY="422.0" mnemonicParsing="false" onAction="#appointmentReportsHandler" prefHeight="40.0" prefWidth="199.0" text="Appointment Report">
+      <Button layoutX="746.0" layoutY="422.0" mnemonicParsing="false" onAction="#typeReportHandler" prefHeight="40.0" prefWidth="199.0" text="Appointment Report">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
          <font>
             <Font name="Avenir Medium" size="13.0" />
          </font></Button>
-      <Button layoutX="746.0" layoutY="515.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="199.0" text="Third Report">
+      <Button layoutX="746.0" layoutY="515.0" mnemonicParsing="false" onAction="#locationReportHandler" prefHeight="40.0" prefWidth="199.0" text="Customer Location Report">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
          <font>
             <Font name="Avenir Medium" size="13.0" />
          </font></Button>
-      <Button layoutX="746.0" layoutY="469.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="199.0" text="Contact Schedule Report">
+      <Button layoutX="746.0" layoutY="469.0" mnemonicParsing="false" onAction="#contactReportHandler" prefHeight="40.0" prefWidth="199.0" text="Contact Schedule Report">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>

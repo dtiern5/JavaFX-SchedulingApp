@@ -4,7 +4,6 @@ import DBAccess.DBAppointments;
 import DBAccess.DBCustomers;
 import Model.Appointment;
 import Model.Customer;
-import Model.User;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,9 +20,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -189,7 +186,6 @@ public class MainScreenController implements Initializable {
 
     }
 
-
     /**
      * Reverts back to log in screen.
      *
@@ -349,17 +345,46 @@ public class MainScreenController implements Initializable {
         }
     }
 
-    public void appointmentReportsHandler(ActionEvent event) throws IOException {
+    public void typeReportHandler(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
 
-        loader.setLocation(getClass().getResource("../View/ReportAppointmentsView.fxml"));
+        loader.setLocation(getClass().getResource("../View/AppTypeReportView.fxml"));
         Parent scene = loader.load();
         Scene reportAppointmentsScene = new Scene(scene);
 
-        ReportAppointmentsController controller = loader.getController();
+        AppTypeReportController controller = loader.getController();
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(reportAppointmentsScene);
         window.show();
     }
+
+    public void contactReportHandler(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+
+        loader.setLocation(getClass().getResource("../View/ContactSchedReportView.fxml"));
+        Parent scene = loader.load();
+        Scene contactReportScene = new Scene(scene);
+
+        ContactSchedReportController controller = loader.getController();
+
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        window.setScene(contactReportScene);
+        window.show();
+    }
+
+    public void locationReportHandler(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+
+        loader.setLocation(getClass().getResource("../View/CustomerLocationReportView.fxml"));
+        Parent scene = loader.load();
+        Scene locationReportScene = new Scene(scene);
+
+        CustomerLocationReportController controller = loader.getController();
+
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        window.setScene(locationReportScene);
+        window.show();
+    }
+
 }
