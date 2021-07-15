@@ -14,8 +14,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -90,6 +97,13 @@ public class LogInController implements Initializable {
         String userNameAttempt = userNameTextField.getText();
         String passwordAttempt = passwordTextField.getText();
 
+        FileWriter fileWriter = new FileWriter("login_activity.txt", true);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_TIME;
+
+        fileWriter.append("Log in attempt at " + LocalTime.now().truncatedTo(ChronoUnit.SECONDS) + " on " + LocalDate.now() + "\n");
+
+
         /*
          * First check if user name is in the database
          * If so, check if the associated password is correct
@@ -98,15 +112,20 @@ public class LogInController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText(userNameNotFound);
             alert.showAndWait();
+            fileWriter.append("   Unsuccessful\n\n");
+            fileWriter.close();
         } else {
             if (passwordAttempt.equals(DBUsers.getPassword(userNameAttempt))) {
-                System.out.println(userNameAttempt + " logged in");
+                fileWriter.append("   User '" + userNameAttempt + "' logged in successfully\n\n");
+                fileWriter.close();
                 currentUser = DBUsers.getUserByName(userNameAttempt);
                 openMainScreen(event);
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText(incorrectPassword);
                 alert.showAndWait();
+                fileWriter.append("   Unsuccessful (wrong password for " + userNameAttempt + ")\n\n");
+                fileWriter.close();
             }
         }
 

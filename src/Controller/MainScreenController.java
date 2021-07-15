@@ -348,4 +348,18 @@ public class MainScreenController implements Initializable {
             feedbackLabel.setTextFill(Color.color(0.6, 0.2, 0.2));
         }
     }
+
+    public void appointmentReportsHandler(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+
+        loader.setLocation(getClass().getResource("../View/ReportAppointmentsView.fxml"));
+        Parent scene = loader.load();
+        Scene reportAppointmentsScene = new Scene(scene);
+
+        ReportAppointmentsController controller = loader.getController();
+
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        window.setScene(reportAppointmentsScene);
+        window.show();
+    }
 }

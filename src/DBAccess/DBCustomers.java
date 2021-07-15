@@ -50,7 +50,6 @@ public class DBCustomers {
         return null;
     }
 
-
     public static ObservableList getAllCustomers() throws SQLException {
         Connection conn = DBConnection.getConnection();
         String selectStatement = "SELECT * FROM customers";
@@ -99,8 +98,6 @@ public class DBCustomers {
 
         ps.execute();
     }
-
-
 
     public static void addCustomer(String customerName, String address, String postalCode, String phoneNumber,
                                    String userString, int divisionId) throws SQLException {

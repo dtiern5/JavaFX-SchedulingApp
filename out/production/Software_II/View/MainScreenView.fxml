@@ -71,7 +71,7 @@
          <font>
             <Font name="Avenir Light" size="13.0" />
          </font></Button>
-      <Button layoutX="746.0" layoutY="422.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="199.0" text="Customer Appointments Report">
+      <Button layoutX="746.0" layoutY="422.0" mnemonicParsing="false" onAction="#appointmentReportsHandler" prefHeight="40.0" prefWidth="199.0" text="Appointment Report">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>

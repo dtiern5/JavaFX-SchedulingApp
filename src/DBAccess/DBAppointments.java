@@ -4,6 +4,7 @@ import Bundles.TimeConversions;
 import Database.DBConnection;
 import Database.DBQuery;
 import Model.Appointment;
+import Model.Report;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -243,4 +244,5 @@ public class DBAppointments {
         PreparedStatement ps = DBQuery.getPreparedStatement();
         ps.execute();
     }
+
 }
