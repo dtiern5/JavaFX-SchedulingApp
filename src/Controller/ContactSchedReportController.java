@@ -24,6 +24,9 @@ import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * Controller for the ContactSchedReport screen where appointments are displayed for individual contacts.
+ */
 public class ContactSchedReportController implements Initializable {
 
     @FXML
@@ -46,6 +49,12 @@ public class ContactSchedReportController implements Initializable {
     @FXML
     private ComboBox<Contact> contactCombo;
 
+    /**
+     * Sets the ComboBox for selecting a contact.
+     *
+     * @param url the location used to resolve relative paths for the root object
+     * @param resourceBundle resources used to localize the root object
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -59,6 +68,12 @@ public class ContactSchedReportController implements Initializable {
         contactCombo.setItems(contactList);
     }
 
+    /**
+     * Searches the database for a selected contact's associated appointments.
+     *
+     * @param event for displaying appointments of a contact on click
+     * @throws SQLException signals a SQL Exception has occurred
+     */
     public void searchHandler(ActionEvent event) throws SQLException {
         if (contactCombo.getValue() == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Must select contact");
@@ -68,6 +83,11 @@ public class ContactSchedReportController implements Initializable {
         }
     }
 
+    /**
+     * Displays appointments of the selected contact in the TableView.
+     *
+     * @throws SQLException signals a SQL Exception has occurred
+     */
     private void populateAppointmentTable() throws SQLException {
         ObservableList<Appointment> appointmentList = null;
         Contact contact = contactCombo.getValue();

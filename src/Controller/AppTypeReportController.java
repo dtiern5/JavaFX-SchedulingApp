@@ -24,6 +24,9 @@ import java.time.Year;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * Controller for the AppTypeReport screen where appointments are counted by type and month.
+ */
 public class AppTypeReportController implements Initializable {
 
     @FXML
@@ -39,7 +42,9 @@ public class AppTypeReportController implements Initializable {
 
 
     /**
-     * @param url            the location used to resolve relative paths for the root object
+     * Sets the ComboBoxes for month and year selection.
+     *
+     * @param url the location used to resolve relative paths for the root object
      * @param resourceBundle resources used to localize the root object
      */
     @Override
@@ -61,7 +66,12 @@ public class AppTypeReportController implements Initializable {
         yearCombo.setItems(yearObservableList);
     }
 
-
+    /**
+     * Searches the database for a count of appointment types in the selected month and year.
+     *
+     * @param event for displaying appointment counts by type on click
+     * @throws SQLException signals a SQL Exception has occurred
+     */
     public void searchHandler(ActionEvent event) throws SQLException {
         if (yearCombo.getValue() == null || monthCombo.getValue() == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Must select month and year");

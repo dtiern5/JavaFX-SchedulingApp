@@ -24,6 +24,9 @@ import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * Controller for the CustomerLocationReport screen where the number of customers per division is displayed.
+ */
 public class CustomerLocationReportController implements Initializable {
 
     @FXML
@@ -37,6 +40,12 @@ public class CustomerLocationReportController implements Initializable {
     private ComboBox<Country> countryComboBox;
 
 
+    /**
+     * Sets the ComboBox for selecting a country.
+     *
+     * @param url the location used to resolve relative paths for the root object
+     * @param resourceBundle resources used to localize the root object
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Initialize countryComboBox
@@ -49,6 +58,13 @@ public class CustomerLocationReportController implements Initializable {
         }
     }
 
+    /**
+     * Searches the database for a selected country's divisions.
+     * Displays a customer count for each division with at least one customer.
+     *
+     * @param event for displaying appointments of a contact on click
+     * @throws SQLException signals a SQL Exception has occurred
+     */
     public void searchHandler(ActionEvent event) throws SQLException {
         if (countryComboBox.getValue() == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Must select country");
