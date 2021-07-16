@@ -111,7 +111,6 @@ public class ModifyCustomerController implements Initializable {
 
     }
 
-
     /**
      * Populates the countryComboBox with available countries. Populates the table with customers.
      *
@@ -314,7 +313,6 @@ public class ModifyCustomerController implements Initializable {
         userCombo.setDisable(true);
     }
 
-    // TODO: Clean up logic for modifying customer
     /**
      * Ensures no fields are empty.
      * Updates customer in database.
@@ -337,7 +335,6 @@ public class ModifyCustomerController implements Initializable {
                 feedbackLabel.setText("Error: All fields require values");
                 feedbackLabel.setTextFill(Color.color(0.6, 0.2, 0.2));
             } else {
-
                 String customerName = nameTF.getText();
                 String address = addressTF.getText();
                 String postalCode = postalCodeTF.getText();
@@ -349,7 +346,6 @@ public class ModifyCustomerController implements Initializable {
                 DBCustomers.modifyCustomer(customerName, address, postalCode, phoneNumber, userString, divisionId, customerId);
                 feedbackLabel.setText("Customer ID: " + customerId + " (" + customerName + ") updated");
                 feedbackLabel.setTextFill(Color.color(0.2, 0.6, 0.2));
-
 
                 populateTableView();
                 System.out.println("Success");
@@ -364,7 +360,6 @@ public class ModifyCustomerController implements Initializable {
             alert.setContentText("Customer Not Saved");
         }
     }
-
 
     /**
      * Reverts back to main screen

@@ -181,7 +181,6 @@ public class AddCustomerController implements Initializable {
                 feedbackLabel.setText("Error: All fields require values");
                 feedbackLabel.setTextFill(Color.color(0.6, 0.2, 0.2));
             } else {
-
                 String customerName = nameTF.getText();
                 String address = addressTF.getText();
                 String postalCode = postalCodeTF.getText();
@@ -206,6 +205,9 @@ public class AddCustomerController implements Initializable {
         }
     }
 
+    /**
+     * Clears text and values from all fields.
+     */
     private void clearData() {
         customerIdTF.clear();
         nameTF.clear();

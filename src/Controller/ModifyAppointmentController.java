@@ -308,7 +308,7 @@ public class ModifyAppointmentController implements Initializable {
         }
 
     }
-    
+
     /**
      * Sets the user combo box with all users in the database.
      */
