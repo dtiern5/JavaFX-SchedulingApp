@@ -40,7 +40,7 @@ public class DBReports {
 
     public static ObservableList countDivisions(Country country) throws SQLException {
         Connection conn = DBConnection.getConnection();
-        String selectStatement = "SELECT c.Division_ID, d.division, Count(*) " +
+        String selectStatement = "SELECT d.division, Count(*) " +
                 "FROM customers AS c " +
                 "LEFT JOIN first_level_divisions AS d " +
                 "ON d.Division_ID = c.Division_ID " +

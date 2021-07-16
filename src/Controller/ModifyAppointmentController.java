@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -130,9 +131,31 @@ public class ModifyAppointmentController implements Initializable {
     }
 
     // TODO: add logic for scheduling overlapping appointments for customers
-    // TODO: add logic for scheduling outside 8am-10pm EST or weekends
     public void confirmHandler(ActionEvent event) {
-        Connection conn = DBConnection.getConnection();
+        if (datePicker.getValue() == null) {
+            System.out.println("datepicker null");
+            return;
+        }
+
+        LocalDate selectedDate = datePicker.getValue();
+
+        // Start and end times for EST time zone
+        LocalTime estStartTime = LocalTime.of(8, 0);
+        LocalTime estEndTime = LocalTime.of(22, 0);
+
+        // Start and end LDT for EST time zone
+        // For comparing before/after logic
+        LocalDateTime estStartLdt = LocalDateTime.of(selectedDate, estStartTime);
+        LocalDateTime estEndLdt = LocalDateTime.of(selectedDate, estEndTime);
+
+        // Get selected start and end times converted to EST for comparison logic
+        LocalTime selectedStartTime = startTimeCombo.getValue();
+        LocalDateTime selectedStartLdt = LocalDateTime.of(selectedDate, selectedStartTime);
+        LocalDateTime convertedStartLdt = Bundles.TimeConversions.convertToEst(selectedStartLdt);
+
+        LocalTime selectedEndTime = endTimeCombo.getValue();
+        LocalDateTime selectedEndLdt = LocalDateTime.of(selectedDate, selectedEndTime);
+        LocalDateTime convertedEndLdt = Bundles.TimeConversions.convertToEst(selectedEndLdt);
 
         try {
             if (titleTF.getText().isEmpty() ||
@@ -145,10 +168,27 @@ public class ModifyAppointmentController implements Initializable {
                     startTimeCombo.getValue() == null ||
                     endTimeCombo.getValue() == null ||
                     datePicker.getValue() == null) {
+
                 feedbackLabel.setText("Error: All fields require values");
                 feedbackLabel.setTextFill(Color.color(0.6, 0.2, 0.2));
-            } else {
 
+            } else if (datePicker.getValue().getDayOfWeek() == DayOfWeek.SATURDAY ||
+                    datePicker.getValue().getDayOfWeek() == DayOfWeek.SUNDAY
+            ) {
+
+                feedbackLabel.setText("Error: Cannot schedule appointment on weekend");
+                feedbackLabel.setTextFill(Color.color(0.6, 0.2, 0.2));
+
+            } else if (convertedStartLdt.isBefore(estStartLdt) ||
+                    convertedStartLdt.isAfter(estEndLdt) ||
+                    convertedEndLdt.isBefore(convertedStartLdt) ||
+                    convertedEndLdt.isAfter(estEndLdt)
+            ) {
+
+                feedbackLabel.setText("Error: Valid hours are between 8AM and 10PM EST");
+                feedbackLabel.setTextFill(Color.color(0.6, 0.2, 0.2));
+
+            } else {
                 String title = titleTF.getText();
                 String description = descriptionTF.getText();
                 String location = locationTF.getText();

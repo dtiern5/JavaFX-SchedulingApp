@@ -254,6 +254,8 @@ public class ModifyCustomerController implements Initializable {
             countryComboBox.getSelectionModel().select(currentCustomer.getCountry());
             userCombo.getSelectionModel().select(currentCustomer.getLastUpdatedBy());
 
+            // TODO: userCombo is not updating
+
             // Initialize divisionComboBox. After this is set the divisionHandler can handle any changes.
             ObservableList<Division> divisionList = null;
             try {

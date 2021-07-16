@@ -128,3 +128,24 @@ Log in attempt at 18:04:18 on 2021-07-15
 Log in attempt at 18:06:33 on 2021-07-15
    User 'test' logged in successfully
 
+Log in attempt at 18:20:42 on 2021-07-15
+   User 'admin' logged in successfully
+
+Log in attempt at 18:30:37 on 2021-07-15
+   User 'test' logged in successfully
+
+Log in attempt at 18:32:53 on 2021-07-15
+   User 'test' logged in successfully
+
+Log in attempt at 21:40:50 on 2021-07-15
+   User 'test' logged in successfully
+
+Log in attempt at 21:46 on 2021-07-15
+   User 'admin' logged in successfully
+
+Log in attempt at 22:09:41 on 2021-07-15
+   User 'admin' logged in successfully
+
+Log in attempt at 22:13:18 on 2021-07-15
+   User 'test' logged in successfully
+

@@ -81,7 +81,7 @@ public class MainScreenController implements Initializable {
     private TableColumn<Appointment, String> appointmentsEndTimeColumn;
     @FXML
     private TableColumn<Appointment, Integer> appointmentsCustomerIdColumn;
-    
+
 
     /**
      * Populates the customer table and the appointment table.
@@ -277,18 +277,23 @@ public class MainScreenController implements Initializable {
      * @throws IOException signals I/O exception has occurred
      */
     public void modifyAppointmentHandler(ActionEvent event) throws IOException, SQLException {
-        FXMLLoader loader = new FXMLLoader();
+        if (appointmentsTableView.getSelectionModel().isEmpty()) {
+            feedbackLabel.setText("Must select appointment to modify");
+            feedbackLabel.setTextFill(Color.color(0.6, 0.2, 0.2));
+        } else {
+            FXMLLoader loader = new FXMLLoader();
 
-        loader.setLocation(getClass().getResource("../View/ModifyAppointmentView.fxml"));
-        Parent scene = loader.load();
-        Scene modifyAppointmentScene = new Scene(scene);
+            loader.setLocation(getClass().getResource("../View/ModifyAppointmentView.fxml"));
+            Parent scene = loader.load();
+            Scene modifyAppointmentScene = new Scene(scene);
 
-        ModifyAppointmentController controller = loader.getController();
-        controller.initData(appointmentsTableView.getSelectionModel().getSelectedItem());
+            ModifyAppointmentController controller = loader.getController();
+            controller.initData(appointmentsTableView.getSelectionModel().getSelectedItem());
 
-        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        window.setScene(modifyAppointmentScene);
-        window.show();
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(modifyAppointmentScene);
+            window.show();
+        }
 
     }
 

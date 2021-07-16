@@ -186,21 +186,25 @@ public class AddAppointmentController<value> implements Initializable {
             return;
         }
 
-        LocalDate date = datePicker.getValue();
+        LocalDate selectedDate = datePicker.getValue();
 
+        // Start and end times for EST time zone
         LocalTime estStartTime = LocalTime.of(8, 0);
         LocalTime estEndTime = LocalTime.of(22, 0);
 
-        LocalDateTime estStart = LocalDateTime.of(date, estStartTime);
-        LocalDateTime estEnd = LocalDateTime.of(date, estEndTime);
+        // Start and end LDT for EST time zone
+        // For comparing before/after logic
+        LocalDateTime estStartLdt = LocalDateTime.of(selectedDate, estStartTime);
+        LocalDateTime estEndLdt = LocalDateTime.of(selectedDate, estEndTime);
 
-        LocalTime startTimer = startTimeCombo.getValue();
-        LocalDateTime startLdt = LocalDateTime.of(date, startTimer);
-        LocalDateTime starter = Bundles.TimeConversions.convertToEst(startLdt);
+        // Get selected start and end times converted to EST for comparison logic
+        LocalTime selectedStartTime = startTimeCombo.getValue();
+        LocalDateTime selectedStartLdt = LocalDateTime.of(selectedDate, selectedStartTime);
+        LocalDateTime convertedStartLdt = Bundles.TimeConversions.convertToEst(selectedStartLdt);
 
-        LocalTime endTimer = endTimeCombo.getValue();
-        LocalDateTime endLdt = LocalDateTime.of(date, endTimer);
-        LocalDateTime ender = Bundles.TimeConversions.convertToEst(endLdt);
+        LocalTime selectedEndTime = endTimeCombo.getValue();
+        LocalDateTime selectedEndLdt = LocalDateTime.of(selectedDate, selectedEndTime);
+        LocalDateTime convertedEndLdt = Bundles.TimeConversions.convertToEst(selectedEndLdt);
 
 
         try {
@@ -225,17 +229,16 @@ public class AddAppointmentController<value> implements Initializable {
                 feedbackLabel.setText("Error: Cannot schedule appointment on weekend");
                 feedbackLabel.setTextFill(Color.color(0.6, 0.2, 0.2));
 
-            } else if (starter.isBefore(estStart) ||
-                    starter.isAfter(estEnd) ||
-                    ender.isBefore(starter) ||
-                    ender.isAfter(estEnd)
+            } else if (convertedStartLdt.isBefore(estStartLdt) ||
+                    convertedStartLdt.isAfter(estEndLdt) ||
+                    convertedEndLdt.isBefore(convertedStartLdt) ||
+                    convertedEndLdt.isAfter(estEndLdt)
             ) {
 
                 feedbackLabel.setText("Error: Valid hours are between 8AM and 10PM EST");
                 feedbackLabel.setTextFill(Color.color(0.6, 0.2, 0.2));
 
             } else {
-
                 String title = titleTF.getText();
                 String description = descriptionTF.getText();
                 String location = locationTF.getText();
