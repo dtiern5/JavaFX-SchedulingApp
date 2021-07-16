@@ -82,6 +82,11 @@ public class MainScreenController implements Initializable {
     @FXML
     private TableColumn<Appointment, Integer> appointmentsCustomerIdColumn;
 
+    // TODO: watch exception handling webinar
+    // TODO: write javadoc
+    // TODO: write readme
+    // TODO: watch lambda webinar
+    // TODO watch time overlapping webinar
 
     /**
      * Populates the customer table and the appointment table.
@@ -109,6 +114,12 @@ public class MainScreenController implements Initializable {
         this.allRadio.setSelected(true);
     }
 
+    /**
+     * Switches appointment table to show appointments by month, by week, or all appointments
+     * given the selected datePicker value.
+     *
+     * @throws SQLException signals SQL Exception has occurred
+     */
     public void radioButtonChanged() throws SQLException {
         if (calendarViewToggleGroup.getSelectedToggle().equals(allRadio)) {
             populateAppointmentTable();
@@ -122,7 +133,11 @@ public class MainScreenController implements Initializable {
         }
     }
 
-
+    /**
+     * Displays all appointments in the appointment table.
+     *
+     * @throws SQLException signals SQL Exception has occurred
+     */
     private void populateAppointmentTable() throws SQLException {
         ObservableList<Appointment> appointmentList = null;
 
@@ -139,6 +154,11 @@ public class MainScreenController implements Initializable {
         appointmentsTableView.setItems(appointmentList);
     }
 
+    /**
+     * Displays appointments of the selected month in the appointment table.
+     *
+     * @throws SQLException signals SQL Exception has occurred
+     */
     private void populateMonthlyAppointmentTable(int year, int month) throws SQLException {
         ObservableList<Appointment> appointmentList = null;
 
@@ -155,6 +175,11 @@ public class MainScreenController implements Initializable {
         appointmentsTableView.setItems(appointmentList);
     }
 
+    /**
+     * Displays appointments of the selected week in the appointment table.
+     *
+     * @throws SQLException signals SQL Exception has occurred
+     */
     private void populateWeeklyAppointmentTable(LocalDate date) throws SQLException {
         ObservableList<Appointment> appointmentList = null;
 
@@ -171,6 +196,11 @@ public class MainScreenController implements Initializable {
         appointmentsTableView.setItems(appointmentList);
     }
 
+    /**
+     * Displays all customers in the customer table.
+     *
+     * @throws SQLException signals SQL Exception has occurred
+     */
     private void populateCustomerTable() throws SQLException {
         ObservableList<Customer> customerList = null;
 
@@ -297,6 +327,13 @@ public class MainScreenController implements Initializable {
 
     }
 
+    /**
+     * Checks if customer has any scheduled appointments and shows an error if so.
+     * Else, confirms the deletion of selected customer from the database.
+     *
+     * @param event for deleting customer on click
+     * @throws SQLException signals SQL Exception has occurred
+     */
     public void deleteCustomerHandler(ActionEvent event) throws SQLException {
         Customer customer = customerTableView.getSelectionModel().getSelectedItem();
         ObservableList<Appointment> appointmentList = null;
@@ -330,6 +367,12 @@ public class MainScreenController implements Initializable {
         }
     }
 
+    /**
+     * Confirms the deletion of selected appointment from the database.
+     *
+     * @param event for deleting customer on click
+     * @throws SQLException signals SQL Exception has occurred
+     */
     public void deleteAppointmentHandler(ActionEvent event) throws SQLException {
         Appointment appointment = appointmentsTableView.getSelectionModel().getSelectedItem();
 
@@ -350,6 +393,13 @@ public class MainScreenController implements Initializable {
         }
     }
 
+    /**
+     * Switches to the typeReport screen for displaying the count of appointments
+     * by type and month.
+     *
+     * @param event for changing scene on click
+     * @throws IOException signals I/O exception has occurred
+     */
     public void typeReportHandler(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
 
@@ -364,6 +414,12 @@ public class MainScreenController implements Initializable {
         window.show();
     }
 
+    /**
+     * Switches to the contactReport screen for displaying a contact's schedule.
+     *
+     * @param event for changing scene on click
+     * @throws IOException signals I/O exception has occurred
+     */
     public void contactReportHandler(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
 
@@ -378,6 +434,12 @@ public class MainScreenController implements Initializable {
         window.show();
     }
 
+    /**
+     * Switches to the locationReport screen for displaying the number of customers by first level division.
+     *
+     * @param event for changing scene on click
+     * @throws IOException signals I/O exception has occurred
+     */
     public void locationReportHandler(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
 
