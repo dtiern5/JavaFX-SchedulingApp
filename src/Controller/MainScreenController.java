@@ -91,7 +91,7 @@ public class MainScreenController implements Initializable {
     /**
      * Populates the customer table and the appointment table.
      *
-     * @param url            the location used to resolve relative paths for the root object
+     * @param url the location used to resolve relative paths for the root object
      * @param resourceBundle resources used to localize the root object
      */
     @Override

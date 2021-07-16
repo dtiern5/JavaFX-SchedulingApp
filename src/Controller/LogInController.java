@@ -27,10 +27,12 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * Controller for the log in screen.
+ */
 public class LogInController implements Initializable {
 
     public User currentUser;
-
     private String exitPrompt;
     private String closeAlertTitle;
     private String userNameNotFound;
@@ -52,6 +54,14 @@ public class LogInController implements Initializable {
     private TextField passwordTextField;
 
 
+    /**
+     * Checks if current system language is French or English.
+     * If so, sets all the text in the appropriate language.
+     * If not, prints an error to the system and exits.
+     *
+     * @param url the location used to resolve relative paths for the root object
+     * @param resourceBundle resources used to localize the root object
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
@@ -76,6 +86,9 @@ public class LogInController implements Initializable {
         System.out.println("Initialized");
     }
 
+    /**
+     * Confirms user wants to exit the program.
+     */
     public void exitButtonPushed() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, exitPrompt);
         alert.setTitle(closeAlertTitle);
@@ -89,8 +102,12 @@ public class LogInController implements Initializable {
     }
 
     /**
-     * @param event
-     * @throws Exception
+     * Checks given username and password against the database.
+     * Records the log in attempt in a local text file.
+     * If values are valid, opens the main screen of the program.
+     *
+     * @param event for logging in to the program on click
+     * @throws Exception signals an exception has occurred with the FileWriter or database access
      */
     public void handleLogin(ActionEvent event) throws Exception {
 
