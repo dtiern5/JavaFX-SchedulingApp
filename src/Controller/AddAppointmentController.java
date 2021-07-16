@@ -78,6 +78,9 @@ public class AddAppointmentController<value> implements Initializable {
         userCombo.setPromptText("Select user");
     }
 
+    /**
+     * Sets the customer combo box with all customers in the database.
+     */
     private void populateCustomerCombo() {
         // Populate customer ComboBox
         ObservableList<Customer> customerList = null;
@@ -106,6 +109,10 @@ public class AddAppointmentController<value> implements Initializable {
         customerCombo.setCellFactory(customerFactory);
         customerCombo.setButtonCell(factorySelected.call(null));
     }
+
+    /**
+     * Sets the contact combo box with all contacts in the database.
+     */
     private void populateContactCombo() {
         // Populate contact ComboBox
         ObservableList<Contact> contactList = null;
@@ -116,6 +123,10 @@ public class AddAppointmentController<value> implements Initializable {
         }
         contactCombo.setItems(contactList);
     }
+
+    /**
+     * Converts the available start times from EST to the local user's default.
+     */
     private void populateStartCombo() {
         // Set available hours in EST time zone
         LocalTime estStartTime = LocalTime.of(8, 0);
@@ -129,6 +140,10 @@ public class AddAppointmentController<value> implements Initializable {
             start = start.plusMinutes(15);
         }
     }
+
+    /**
+     * Sets the user combo box with all users in the database.
+     */
     private void populateUserCombo() {
         ObservableList<User> userList = null;
         try {
@@ -179,6 +194,13 @@ public class AddAppointmentController<value> implements Initializable {
     }
 
     // TODO: add logic for scheduling overlapping appointments for customers
+    /**
+     * Ensures no fields are empty, selected date is a weekday, start and end times are valid, and customers are not
+     * scheduled for overlapping appointments.
+     * Then, saves the appointment to the database.
+     *
+     * @param event for adding appointment to the database on click.
+     */
     public void confirmHandler(ActionEvent event) {
 
         if (datePicker.getValue() == null) {

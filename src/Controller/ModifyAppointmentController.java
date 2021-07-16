@@ -131,6 +131,13 @@ public class ModifyAppointmentController implements Initializable {
     }
 
     // TODO: add logic for scheduling overlapping appointments for customers
+    /**
+     * Ensures no fields are empty, selected date is a weekday, start and end times are valid, and customers are not
+     * scheduled for overlapping appointments.
+     * Then, saves the appointment to the database.
+     *
+     * @param event for adding appointment to the database on click.
+     */
     public void confirmHandler(ActionEvent event) {
         if (datePicker.getValue() == null) {
             System.out.println("datepicker null");
@@ -223,6 +230,9 @@ public class ModifyAppointmentController implements Initializable {
         }
     }
 
+    /**
+     * Sets the customer combo box with all customers in the database.
+     */
     private void populateCustomerCombo() {
         // Populate customer ComboBox
         ObservableList<Customer> customerList = null;
@@ -251,6 +261,10 @@ public class ModifyAppointmentController implements Initializable {
         customerCombo.setCellFactory(customerFactory);
         customerCombo.setButtonCell(factorySelected.call(null));
     }
+
+    /**
+     * Sets the contact combo box with all contacts in the database.
+     */
     private void populateContactCombo() {
         // Populate contact ComboBox
         ObservableList<Contact> contactList = null;
@@ -261,6 +275,10 @@ public class ModifyAppointmentController implements Initializable {
         }
         contactCombo.setItems(contactList);
     }
+
+    /**
+     * Converts the available start times from EST to the local user's default.
+     */
     private void populateStartCombo() {
         // Set available hours in EST time zone
         LocalTime estStartTime = LocalTime.of(8, 0);
@@ -274,6 +292,11 @@ public class ModifyAppointmentController implements Initializable {
             start = start.plusMinutes(15);
         }
     }
+
+    /**
+     * Converts the available end times from EST to the local user's default.
+     * Only displays options after the selected start time.
+     */
     private void populateEndCombo() {
         LocalTime availableEndTime = startTimeCombo.getValue().plusMinutes(15);
         LocalTime lastAvailableTime = LocalTime.of(22, 0);
@@ -285,6 +308,10 @@ public class ModifyAppointmentController implements Initializable {
         }
 
     }
+    
+    /**
+     * Sets the user combo box with all users in the database.
+     */
     private void populateUserCombo() {
         ObservableList<User> userList = null;
         try {
