@@ -155,7 +155,10 @@ public class LogInController implements Initializable {
 
     }
 
-    // TODO: Set warning if appointment in next 15 minutes
+    /**
+     * Checks if the logged in user has an appointment within the next 15 minutes
+     * @throws SQLException signals a SQL Exception has occurred
+     */
     private void appointmentAlert() throws SQLException {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText("User: " + userNameTextField.getText());

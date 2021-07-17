@@ -22,12 +22,14 @@ public class DBAppointments {
         Connection conn = DBConnection.getConnection();
         String selectStatement = "SELECT * FROM appointments WHERE Appointment_ID = " + Integer.toString(appointmentId);
 
+
         DBQuery.setPreparedStatement(conn, selectStatement);
 
         Appointment appointmentResult;
 
         PreparedStatement ps = DBQuery.getPreparedStatement();
         ResultSet rs = ps.executeQuery();
+
 
         while (rs.next()) {
             int appointmentId1 = rs.getInt("Appointment_ID");

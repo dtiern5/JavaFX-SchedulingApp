@@ -112,10 +112,5 @@
       <RadioButton fx:id="allRadio" layoutX="462.0" layoutY="72.0" mnemonicParsing="false" onAction="#radioButtonChanged" text="All" />
       <RadioButton fx:id="monthlyRadio" layoutX="516.0" layoutY="72.0" mnemonicParsing="false" onAction="#radioButtonChanged" text="Monthly" />
       <DatePicker fx:id="datePicker" layoutX="685.0" layoutY="68.0" onAction="#radioButtonChanged" />
-      <Label fx:id="userLabel" alignment="TOP_LEFT" contentDisplay="TOP" layoutX="14.0" layoutY="14.0" prefHeight="64.0" prefWidth="225.0" text="Label">
-         <font>
-            <Font name="Avenir Roman" size="13.0" />
-         </font>
-      </Label>
    </children>
 </AnchorPane>

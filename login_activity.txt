@@ -224,3 +224,36 @@ Log in attempt at 14:00:37 on 2021-07-17
 Log in attempt at 14:01:22 on 2021-07-17
    User 'test' logged in successfully
 
+Log in attempt at 14:26:05 on 2021-07-17
+   User 'test' logged in successfully
+
+Log in attempt at 14:30:39 on 2021-07-17
+   Unsuccessful
+
+Log in attempt at 14:42:30 on 2021-07-17
+   Unsuccessful
+
+Log in attempt at 14:42:35 on 2021-07-17
+   User 'test' logged in successfully
+
+Log in attempt at 14:47:56 on 2021-07-17
+   User 'test' logged in successfully
+
+Log in attempt at 14:51:03 on 2021-07-17
+   User 'test' logged in successfully
+
+Log in attempt at 14:53:10 on 2021-07-17
+   User 'test' logged in successfully
+
+Log in attempt at 15:01:27 on 2021-07-17
+   User 'test' logged in successfully
+
+Log in attempt at 15:10:08 on 2021-07-17
+   User 'test' logged in successfully
+
+Log in attempt at 15:21:05 on 2021-07-17
+   User 'test' logged in successfully
+
+Log in attempt at 15:23:33 on 2021-07-17
+   User 'test' logged in successfully
+

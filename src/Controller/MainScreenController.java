@@ -32,8 +32,6 @@ public class MainScreenController implements Initializable {
 
     @FXML
     private Label feedbackLabel;
-    @FXML
-    private Label userLabel;
 
     @FXML
     private DatePicker datePicker;
@@ -87,16 +85,12 @@ public class MainScreenController implements Initializable {
 
     private User currentUser;
 
-    // TODO: watch exception handling webinar
-    // TODO: write javadoc
-    // TODO: write readme
+    
     // TODO: watch lambda webinar
-    // TODO watch time overlapping webinar
-
     /**
      * Populates the customer table and the appointment table.
      *
-     * @param url the location used to resolve relative paths for the root object
+     * @param url            the location used to resolve relative paths for the root object
      * @param resourceBundle resources used to localize the root object
      */
     @Override
@@ -289,18 +283,24 @@ public class MainScreenController implements Initializable {
      * @throws IOException signals I/O exception has occurred
      */
     public void modifyCustomerHandler(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader();
+        if (customerTableView.getSelectionModel().isEmpty()) {
+            feedbackLabel.setText("Must select customer to modify");
+            feedbackLabel.setTextFill(Color.color(0.6, 0.2, 0.2));
+        } else {
+            FXMLLoader loader = new FXMLLoader();
 
-        loader.setLocation(getClass().getResource("../View/ModifyCustomerView.fxml"));
-        Parent scene = loader.load();
-        Scene modifyCustomerScene = new Scene(scene);
 
-        ModifyCustomerController controller = loader.getController();
-        controller.initData(customerTableView.getSelectionModel().getSelectedItem());
+            loader.setLocation(getClass().getResource("../View/ModifyCustomerView.fxml"));
+            Parent scene = loader.load();
+            Scene modifyCustomerScene = new Scene(scene);
 
-        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        window.setScene(modifyCustomerScene);
-        window.show();
+            ModifyCustomerController controller = loader.getController();
+            controller.initData(customerTableView.getSelectionModel().getSelectedItem());
+
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(modifyCustomerScene);
+            window.show();
+        }
 
     }
 
@@ -333,6 +333,7 @@ public class MainScreenController implements Initializable {
     }
 
     // TODO: Rewrite this to not be such a mess of if/else statements
+
     /**
      * Checks if customer has any scheduled appointments and shows an error if so.
      * Else, confirms the deletion of selected customer from the database.
@@ -379,6 +380,7 @@ public class MainScreenController implements Initializable {
     }
 
     // TODO: Rewrite this to not be such a mess of if/else statements
+
     /**
      * Confirms the deletion of selected appointment from the database.
      *
