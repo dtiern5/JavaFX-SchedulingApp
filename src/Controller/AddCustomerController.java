@@ -118,6 +118,21 @@ public class AddCustomerController implements Initializable {
         userCombo.setButtonCell(factorySelected.call(null));
         userCombo.getSelectionModel().select(0);
 
+        // Add listener to countryComboBox to automatically populate divisionComboBox on selection
+        countryComboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == null) { // Saving a customer will set the value to null
+                countryComboBox.setPromptText("Select Country");
+            } else {
+                try {
+                    ObservableList<Division> divisionObservableList = DBDivisions.getDivisionByCountryId(countryComboBox.getValue().getCountryID());
+                    divisionComboBox.getItems().setAll(divisionObservableList);
+                    divisionComboBox.getSelectionModel().select(0);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+        });
+
 
         populateTableView();
     }
@@ -140,25 +155,6 @@ public class AddCustomerController implements Initializable {
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        }
-    }
-
-    /**
-     * Creates and sets a list for the divisionComboBox based on the countryComboBox selection
-     *
-     * @param event for limiting available divisions to selected country
-     */
-    public void divisionHandler(ActionEvent event) {
-        if (countryComboBox.getSelectionModel().isEmpty()) {
-            divisionComboBox.getSelectionModel().select(null);
-        } else {
-            try {
-                ObservableList<Division> divisionList = DBDivisions.getDivisionByCountryId(countryComboBox.getValue().getCountryID());
-                divisionComboBox.setItems(divisionList);
-                divisionComboBox.getSelectionModel().select(0);
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
         }
     }
 
@@ -209,11 +205,11 @@ public class AddCustomerController implements Initializable {
      * Clears text and values from all fields.
      */
     private void clearData() {
-        customerIdTF.clear();
         nameTF.clear();
         addressTF.clear();
         postalCodeTF.clear();
         countryComboBox.valueProperty().set(null);
+        divisionComboBox.valueProperty().set(null);
         phoneNumberTF.clear();
         userCombo.valueProperty().set(null);
     }

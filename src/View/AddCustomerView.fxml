@@ -40,7 +40,7 @@
             <Font name="Avenir Roman" size="14.0" />
          </font>
       </Label>
-      <ComboBox fx:id="countryComboBox" layoutX="180.0" layoutY="253.0" onAction="#divisionHandler" prefWidth="150.0" />
+      <ComboBox fx:id="countryComboBox" layoutX="180.0" layoutY="253.0" prefWidth="150.0" />
       <TextField fx:id="phoneNumberTF" layoutX="180.0" layoutY="344.0" prefHeight="27.0" prefWidth="150.0">
          <font>
             <Font name="Avenir Oblique" size="13.0" />
