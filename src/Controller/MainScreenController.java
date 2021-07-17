@@ -4,6 +4,7 @@ import DBAccess.DBAppointments;
 import DBAccess.DBCustomers;
 import Model.Appointment;
 import Model.Customer;
+import Model.User;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -31,6 +32,8 @@ public class MainScreenController implements Initializable {
 
     @FXML
     private Label feedbackLabel;
+    @FXML
+    private Label userLabel;
 
     @FXML
     private DatePicker datePicker;
@@ -81,6 +84,8 @@ public class MainScreenController implements Initializable {
     private TableColumn<Appointment, String> appointmentsEndTimeColumn;
     @FXML
     private TableColumn<Appointment, Integer> appointmentsCustomerIdColumn;
+
+    private User currentUser;
 
     // TODO: watch exception handling webinar
     // TODO: write javadoc
@@ -327,6 +332,7 @@ public class MainScreenController implements Initializable {
 
     }
 
+    // TODO: Rewrite this to not be such a mess of if/else statements
     /**
      * Checks if customer has any scheduled appointments and shows an error if so.
      * Else, confirms the deletion of selected customer from the database.
@@ -335,38 +341,44 @@ public class MainScreenController implements Initializable {
      * @throws SQLException signals SQL Exception has occurred
      */
     public void deleteCustomerHandler(ActionEvent event) throws SQLException {
-        Customer customer = customerTableView.getSelectionModel().getSelectedItem();
-        ObservableList<Appointment> appointmentList = null;
 
-        appointmentList = DBAppointments.getAppointmentsByCustomerID(customer.getCustomerId());
-
-
-        if (appointmentList.size() > 0) {
-            feedbackLabel.setText("Customer not deleted");
+        if (customerTableView.getSelectionModel().isEmpty()) {
+            feedbackLabel.setText("Must select customer to delete");
             feedbackLabel.setTextFill(Color.color(0.6, 0.2, 0.2));
-            int appointmentCount = appointmentList.size();
-            Alert ErrorAlert = new Alert(Alert.AlertType.ERROR);
-            ErrorAlert.setHeaderText("Cannot delete customer");
-            ErrorAlert.setContentText("Customer has " + appointmentCount + " scheduled appointments");
-            ErrorAlert.showAndWait();
         } else {
+            Customer customer = customerTableView.getSelectionModel().getSelectedItem();
+            ObservableList<Appointment> appointmentList = null;
 
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete?");
-            alert.setHeaderText("Customer ID: " + customer.getCustomerId());
-            Optional<ButtonType> result = alert.showAndWait();
+            appointmentList = DBAppointments.getAppointmentsByCustomerID(customer.getCustomerId());
 
-            if (appointmentList.size() == 0 && result.isPresent() && result.get() == ButtonType.OK) {
-                DBCustomers.deleteCustomer(customer.getCustomerId());
-                populateCustomerTable();
-                feedbackLabel.setText("Customer deleted");
-                feedbackLabel.setTextFill(Color.color(0.2, 0.6, 0.2));
-            } else {
+            if (appointmentList.size() > 0) {
                 feedbackLabel.setText("Customer not deleted");
                 feedbackLabel.setTextFill(Color.color(0.6, 0.2, 0.2));
+                int appointmentCount = appointmentList.size();
+                Alert ErrorAlert = new Alert(Alert.AlertType.ERROR);
+                ErrorAlert.setHeaderText("Cannot delete customer");
+                ErrorAlert.setContentText("Customer has " + appointmentCount + " scheduled appointments");
+                ErrorAlert.showAndWait();
+            } else {
+
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete?");
+                alert.setHeaderText("Customer ID: " + customer.getCustomerId());
+                Optional<ButtonType> result = alert.showAndWait();
+
+                if (appointmentList.size() == 0 && result.isPresent() && result.get() == ButtonType.OK) {
+                    DBCustomers.deleteCustomer(customer.getCustomerId());
+                    populateCustomerTable();
+                    feedbackLabel.setText("Customer deleted");
+                    feedbackLabel.setTextFill(Color.color(0.2, 0.6, 0.2));
+                } else {
+                    feedbackLabel.setText("Customer not deleted");
+                    feedbackLabel.setTextFill(Color.color(0.6, 0.2, 0.2));
+                }
             }
         }
     }
 
+    // TODO: Rewrite this to not be such a mess of if/else statements
     /**
      * Confirms the deletion of selected appointment from the database.
      *
@@ -374,22 +386,28 @@ public class MainScreenController implements Initializable {
      * @throws SQLException signals SQL Exception has occurred
      */
     public void deleteAppointmentHandler(ActionEvent event) throws SQLException {
-        Appointment appointment = appointmentsTableView.getSelectionModel().getSelectedItem();
-
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete?");
-        alert.setHeaderText("Appointment ID: " + appointment.getAppointmentId());
-        Optional<ButtonType> result = alert.showAndWait();
-
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-
-            DBAppointments.deleteAppointment(appointment.getAppointmentId());
-            populateAppointmentTable();
-
-            feedbackLabel.setText("Appointment deleted");
-            feedbackLabel.setTextFill(Color.color(0.2, 0.6, 0.2));
-        } else {
-            feedbackLabel.setText("Appointment not deleted");
+        if (appointmentsTableView.getSelectionModel().isEmpty()) {
+            feedbackLabel.setText("Must select appointment to delete");
             feedbackLabel.setTextFill(Color.color(0.6, 0.2, 0.2));
+        } else {
+
+            Appointment appointment = appointmentsTableView.getSelectionModel().getSelectedItem();
+
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete?");
+            alert.setHeaderText("Appointment ID: " + appointment.getAppointmentId());
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+
+                DBAppointments.deleteAppointment(appointment.getAppointmentId());
+                populateAppointmentTable();
+
+                feedbackLabel.setText("Appointment deleted");
+                feedbackLabel.setTextFill(Color.color(0.2, 0.6, 0.2));
+            } else {
+                feedbackLabel.setText("Appointment not deleted");
+                feedbackLabel.setTextFill(Color.color(0.6, 0.2, 0.2));
+            }
         }
     }
 
@@ -453,5 +471,4 @@ public class MainScreenController implements Initializable {
         window.setScene(locationReportScene);
         window.show();
     }
-
 }

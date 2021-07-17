@@ -3,6 +3,7 @@ package DBAccess;
 import Database.DBConnection;
 import Database.DBQuery;
 import Model.User;
+import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -123,4 +124,5 @@ public class DBUsers {
         }
         return userList;
     }
+
 }

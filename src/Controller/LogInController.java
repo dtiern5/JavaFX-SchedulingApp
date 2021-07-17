@@ -1,9 +1,12 @@
 package Controller;
 
 
+import DBAccess.DBAppointments;
 import DBAccess.DBUsers;
 import Database.DBConnection;
+import Model.Appointment;
 import Model.User;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,6 +21,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -136,6 +140,9 @@ public class LogInController implements Initializable {
                 fileWriter.append("   User '" + userNameAttempt + "' logged in successfully\n\n");
                 fileWriter.close();
                 currentUser = DBUsers.getUserByName(userNameAttempt);
+
+                appointmentAlert();
+
                 openMainScreen(event);
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -144,6 +151,42 @@ public class LogInController implements Initializable {
                 fileWriter.append("   Unsuccessful (wrong password for " + userNameAttempt + ")\n\n");
                 fileWriter.close();
             }
+        }
+
+    }
+
+    // TODO: Set warning if appointment in next 15 minutes
+    private void appointmentAlert() throws SQLException {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText("User: " + userNameTextField.getText());
+
+        ObservableList<Appointment> todaysAppointments = DBAppointments.getTodaysAppointmentsByUser(userNameTextField.getText());
+
+        LocalTime currentTime = LocalTime.now();
+
+        boolean upcomingMeeting = false;
+        Long timeToMeeting = null;
+
+        for (Appointment a : todaysAppointments) {
+            LocalTime startTime = a.getStartTime().toLocalTime();
+
+            long timeDifference = ChronoUnit.MINUTES.between(currentTime, startTime);
+
+            System.out.println(timeDifference);
+
+            if (timeDifference <= 15 && timeDifference >= 0) {
+                upcomingMeeting = true;
+                timeToMeeting = timeDifference;
+            }
+
+        }
+
+        if (upcomingMeeting == true) {
+            alert.setContentText("You have an appointment in " + timeToMeeting + " minute(s)");
+            alert.showAndWait();
+        } else {
+            alert.setContentText("No upcoming appointments in the next 15 minutes");
+            alert.showAndWait();
         }
 
     }

@@ -208,6 +208,7 @@ public class AddAppointmentController<value> implements Initializable {
             return;
         }
 
+        // TODO: Can move this time conversion to a separate method
         LocalDate selectedDate = datePicker.getValue();
 
         // Start and end times for EST time zone
@@ -229,6 +230,7 @@ public class AddAppointmentController<value> implements Initializable {
         LocalDateTime convertedEndLdt = Bundles.TimeConversions.convertToEst(selectedEndLdt);
 
 
+        // TODO: UNCOMMENT WEEKEND LOGIC WHEN DONE TESTING
         try {
             if (titleTF.getText().isEmpty() ||
                     descriptionTF.getText().isEmpty() ||
@@ -244,9 +246,9 @@ public class AddAppointmentController<value> implements Initializable {
                 feedbackLabel.setText("Error: All fields require values");
                 feedbackLabel.setTextFill(Color.color(0.6, 0.2, 0.2));
 
-            } else if (datePicker.getValue().getDayOfWeek() == DayOfWeek.SATURDAY ||
+            /*} else if (datePicker.getValue().getDayOfWeek() == DayOfWeek.SATURDAY ||
                     datePicker.getValue().getDayOfWeek() == DayOfWeek.SUNDAY
-            ) {
+            ) {*/
 
                 feedbackLabel.setText("Error: Cannot schedule appointment on weekend");
                 feedbackLabel.setTextFill(Color.color(0.6, 0.2, 0.2));

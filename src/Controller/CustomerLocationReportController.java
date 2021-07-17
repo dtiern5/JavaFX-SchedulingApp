@@ -39,7 +39,6 @@ public class CustomerLocationReportController implements Initializable {
     @FXML
     private ComboBox<Country> countryComboBox;
 
-
     /**
      * Sets the ComboBox for selecting a country.
      *

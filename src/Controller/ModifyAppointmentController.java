@@ -164,6 +164,7 @@ public class ModifyAppointmentController implements Initializable {
         LocalDateTime selectedEndLdt = LocalDateTime.of(selectedDate, selectedEndTime);
         LocalDateTime convertedEndLdt = Bundles.TimeConversions.convertToEst(selectedEndLdt);
 
+        // TODO: UNCOMMENT WEEKEND LOGIC WHEN DONE TESTING
         try {
             if (titleTF.getText().isEmpty() ||
                     descriptionTF.getText().isEmpty() ||
@@ -179,14 +180,14 @@ public class ModifyAppointmentController implements Initializable {
                 feedbackLabel.setText("Error: All fields require values");
                 feedbackLabel.setTextFill(Color.color(0.6, 0.2, 0.2));
 
-            } else if (datePicker.getValue().getDayOfWeek() == DayOfWeek.SATURDAY ||
+            }/* else if (datePicker.getValue().getDayOfWeek() == DayOfWeek.SATURDAY ||
                     datePicker.getValue().getDayOfWeek() == DayOfWeek.SUNDAY
             ) {
 
                 feedbackLabel.setText("Error: Cannot schedule appointment on weekend");
                 feedbackLabel.setTextFill(Color.color(0.6, 0.2, 0.2));
 
-            } else if (convertedStartLdt.isBefore(estStartLdt) ||
+            }*/ else if (convertedStartLdt.isBefore(estStartLdt) ||
                     convertedStartLdt.isAfter(estEndLdt) ||
                     convertedEndLdt.isBefore(convertedStartLdt) ||
                     convertedEndLdt.isAfter(estEndLdt)

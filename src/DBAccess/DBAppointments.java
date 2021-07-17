@@ -6,6 +6,7 @@ import Database.DBQuery;
 import Model.Appointment;
 import Model.Contact;
 import Model.Report;
+import Model.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -53,6 +54,44 @@ public class DBAppointments {
         return null;
     }
 
+    public static ObservableList getTodaysAppointmentsByUser(String user) throws SQLException {
+        Connection conn = DBConnection.getConnection();
+        String selectStatement = "SELECT u.User_Name, a.*\n" +
+                "FROM users AS u\n" +
+                "LEFT JOIN appointments as a\n" +
+                "ON u.User_ID = a.User_ID\n" +
+                "WHERE DAY(a.start) = DAY(NOW()) \n" +
+                "AND u.User_Name = '" + user + "'\n" +
+                "ORDER BY Start;";
+
+        DBQuery.setPreparedStatement(conn, selectStatement);
+
+        Appointment appointmentResult;
+
+        PreparedStatement ps = DBQuery.getPreparedStatement();
+        ResultSet rs = ps.executeQuery();
+
+        ObservableList<Appointment> appointmentList = FXCollections.observableArrayList();
+
+        while (rs.next()) {
+            appointmentList.add(new Appointment(rs.getInt("Appointment_ID"),
+                    rs.getString("Title"),
+                    rs.getString("Description"),
+                    rs.getString("Location"),
+                    rs.getString("Type"),
+                    rs.getTimestamp("Start").toLocalDateTime(),
+                    rs.getTimestamp("End").toLocalDateTime(),
+                    rs.getTimestamp("Create_Date").toLocalDateTime(),
+                    rs.getString("Created_By"),
+                    rs.getTimestamp("Last_Update").toLocalDateTime(),
+                    rs.getString("Last_Updated_By"),
+                    rs.getInt("Customer_ID"),
+                    rs.getInt("User_ID"),
+                    rs.getInt("Contact_ID")));
+        }
+        return appointmentList;
+
+    }
 
     public static ObservableList getAllAppointments() throws SQLException {
         Connection conn = DBConnection.getConnection();
@@ -210,7 +249,6 @@ public class DBAppointments {
         }
         return appointmentList;
     }
-
 
     public static void addAppointment(String title, String description, String location, String type, LocalDateTime start,
                                       LocalDateTime end, String userString, int customerId, int userId, int contactId) throws SQLException {

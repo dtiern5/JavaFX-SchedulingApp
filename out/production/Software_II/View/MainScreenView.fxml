@@ -11,7 +11,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="641.0" prefWidth="962.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.MainScreenController">
+<AnchorPane prefHeight="632.0" prefWidth="962.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.MainScreenController">
    <children>
       <TableView fx:id="customerTableView" layoutX="22.0" layoutY="380.0" prefHeight="223.0" prefWidth="611.0">
         <columns>
@@ -24,17 +24,17 @@
             <TableColumn fx:id="customerPhoneColumn" prefWidth="78.0" text="Phone" />
         </columns>
       </TableView>
-      <TableView fx:id="appointmentsTableView" layoutX="22.0" layoutY="101.0" prefHeight="223.0" prefWidth="843.0">
+      <TableView fx:id="appointmentsTableView" layoutX="22.0" layoutY="101.0" prefHeight="223.0" prefWidth="851.0">
          <columns>
             <TableColumn fx:id="appointmentsIdColumn" prefWidth="36.0" text="ID" />
             <TableColumn fx:id="appointmentsTitleColumn" prefWidth="72.0" text="Title" />
-            <TableColumn fx:id="appointmentsDescriptionColumn" prefWidth="100.0" text="Description" />
-          <TableColumn fx:id="appointmentsLocationColumn" prefWidth="98.0" text="Location" />
-            <TableColumn fx:id="appointmentsContactColumn" prefWidth="99.0" text="Contact" />
-            <TableColumn fx:id="appointmentsTypeColumn" prefWidth="84.0" text="Type" />
-            <TableColumn fx:id="appointmentsStartTimeColumn" prefWidth="137.0" text="Start Time" />
-            <TableColumn fx:id="appointmentsEndTimeColumn" prefWidth="131.0" text="End Time" />
-            <TableColumn fx:id="appointmentsCustomerIdColumn" prefWidth="85.0" text="Customer ID" />
+            <TableColumn fx:id="appointmentsDescriptionColumn" prefWidth="126.0" text="Description" />
+          <TableColumn fx:id="appointmentsLocationColumn" prefWidth="108.0" text="Location" />
+            <TableColumn fx:id="appointmentsContactColumn" prefWidth="116.0" text="Contact" />
+            <TableColumn fx:id="appointmentsTypeColumn" prefWidth="101.0" text="Type" />
+            <TableColumn fx:id="appointmentsStartTimeColumn" minWidth="2.0" prefWidth="100.0" text="Start Time" />
+            <TableColumn fx:id="appointmentsEndTimeColumn" prefWidth="111.0" text="End Time" />
+            <TableColumn fx:id="appointmentsCustomerIdColumn" minWidth="9.0" text="Customer ID" />
          </columns>
       </TableView>
       <Label layoutX="22.0" layoutY="353.0" text="Customers">
@@ -47,52 +47,52 @@
             <Font name="Avenir Oblique" size="18.0" />
          </font>
       </Label>
-      <Button layoutX="885.0" layoutY="292.0" mnemonicParsing="false" onAction="#deleteAppointmentHandler" prefWidth="60.0" text="Delete">
+      <Button layoutX="888.0" layoutY="295.0" mnemonicParsing="false" onAction="#deleteAppointmentHandler" prefWidth="60.0" text="Delete">
          <font>
             <Font name="Avenir Light" size="13.0" />
          </font></Button>
-      <Button layoutX="885.0" layoutY="259.0" mnemonicParsing="false" onAction="#modifyAppointmentHandler" prefWidth="60.0" text="Modify">
+      <Button layoutX="888.0" layoutY="262.0" mnemonicParsing="false" onAction="#modifyAppointmentHandler" prefWidth="60.0" text="Modify">
          <font>
             <Font name="Avenir Light" size="13.0" />
          </font></Button>
-      <Button layoutX="885.0" layoutY="226.0" mnemonicParsing="false" onAction="#addAppointmentHandler" prefWidth="60.0" text="Add">
+      <Button layoutX="888.0" layoutY="229.0" mnemonicParsing="false" onAction="#addAppointmentHandler" prefWidth="60.0" text="Add">
          <font>
             <Font name="Avenir Light" size="13.0" />
          </font></Button>
-      <Button layoutX="652.0" layoutY="507.0" mnemonicParsing="false" onAction="#addCustomerHandler" prefWidth="60.0" text="Add">
+      <Button layoutX="638.0" layoutY="507.0" mnemonicParsing="false" onAction="#addCustomerHandler" prefWidth="60.0" text="Add">
          <font>
             <Font name="Avenir Light" size="13.0" />
          </font></Button>
-      <Button layoutX="652.0" layoutY="541.0" mnemonicParsing="false" onAction="#modifyCustomerHandler" prefWidth="60.0" text="Modify">
+      <Button layoutX="638.0" layoutY="541.0" mnemonicParsing="false" onAction="#modifyCustomerHandler" prefWidth="60.0" text="Modify">
          <font>
             <Font name="Avenir Light" size="13.0" />
          </font></Button>
-      <Button layoutX="652.0" layoutY="574.0" mnemonicParsing="false" onAction="#deleteCustomerHandler" prefWidth="60.0" text="Delete">
+      <Button layoutX="638.0" layoutY="574.0" mnemonicParsing="false" onAction="#deleteCustomerHandler" prefWidth="60.0" text="Delete">
          <font>
             <Font name="Avenir Light" size="13.0" />
          </font></Button>
-      <Button layoutX="746.0" layoutY="422.0" mnemonicParsing="false" onAction="#typeReportHandler" prefHeight="40.0" prefWidth="199.0" text="Appointment Report">
+      <Button layoutX="749.0" layoutY="420.0" mnemonicParsing="false" onAction="#typeReportHandler" prefHeight="40.0" prefWidth="199.0" text="Appointment Report">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
          <font>
             <Font name="Avenir Medium" size="13.0" />
          </font></Button>
-      <Button layoutX="746.0" layoutY="515.0" mnemonicParsing="false" onAction="#locationReportHandler" prefHeight="40.0" prefWidth="199.0" text="Customer Location Report">
+      <Button layoutX="749.0" layoutY="517.0" mnemonicParsing="false" onAction="#locationReportHandler" prefHeight="40.0" prefWidth="199.0" text="Customer Location Report">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
          <font>
             <Font name="Avenir Medium" size="13.0" />
          </font></Button>
-      <Button layoutX="746.0" layoutY="469.0" mnemonicParsing="false" onAction="#contactReportHandler" prefHeight="40.0" prefWidth="199.0" text="Contact Schedule Report">
+      <Button layoutX="749.0" layoutY="469.0" mnemonicParsing="false" onAction="#contactReportHandler" prefHeight="40.0" prefWidth="199.0" text="Contact Schedule Report">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
          <font>
             <Font name="Avenir Medium" size="13.0" />
          </font></Button>
-      <Button layoutX="746.0" layoutY="562.0" mnemonicParsing="false" onAction="#logOutHandler" prefHeight="40.0" prefWidth="199.0" text="Log  out">
+      <Button layoutX="749.0" layoutY="563.0" mnemonicParsing="false" onAction="#logOutHandler" prefHeight="40.0" prefWidth="199.0" text="Log  out">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
@@ -104,13 +104,18 @@
             <Font name="Avenir Oblique" size="24.0" />
          </font>
       </Label>
-      <Label fx:id="feedbackLabel" alignment="CENTER" contentDisplay="TOP" layoutX="241.0" layoutY="49.0" prefHeight="17.0" prefWidth="481.0" textAlignment="CENTER">
+      <Label fx:id="feedbackLabel" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="628.0" layoutY="340.0" prefHeight="27.0" prefWidth="320.0" textAlignment="RIGHT">
          <font>
             <Font name="Avenir Roman" size="14.0" />
          </font></Label>
-      <RadioButton fx:id="weeklyRadio" layoutX="420.0" layoutY="71.0" mnemonicParsing="false" onAction="#radioButtonChanged" text="Weekly" />
-      <RadioButton fx:id="allRadio" layoutX="614.0" layoutY="71.0" mnemonicParsing="false" onAction="#radioButtonChanged" text="All" />
-      <RadioButton fx:id="monthlyRadio" layoutX="515.0" layoutY="71.0" mnemonicParsing="false" onAction="#radioButtonChanged" text="Monthly" />
-      <DatePicker fx:id="datePicker" layoutX="677.0" layoutY="66.0" onAction="#radioButtonChanged" />
+      <RadioButton fx:id="weeklyRadio" layoutX="601.0" layoutY="72.0" mnemonicParsing="false" onAction="#radioButtonChanged" text="Weekly" />
+      <RadioButton fx:id="allRadio" layoutX="462.0" layoutY="72.0" mnemonicParsing="false" onAction="#radioButtonChanged" text="All" />
+      <RadioButton fx:id="monthlyRadio" layoutX="516.0" layoutY="72.0" mnemonicParsing="false" onAction="#radioButtonChanged" text="Monthly" />
+      <DatePicker fx:id="datePicker" layoutX="685.0" layoutY="68.0" onAction="#radioButtonChanged" />
+      <Label fx:id="userLabel" alignment="TOP_LEFT" contentDisplay="TOP" layoutX="14.0" layoutY="14.0" prefHeight="64.0" prefWidth="225.0" text="Label">
+         <font>
+            <Font name="Avenir Roman" size="13.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
