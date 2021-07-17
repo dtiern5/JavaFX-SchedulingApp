@@ -6,6 +6,12 @@ import java.time.ZonedDateTime;
 
 public class TimeConversions {
 
+    /**
+     * Converts a given LocalDateTime from the user system's default to UTC
+     *
+     * @param ldt the LocalDateTime to convert
+     * @return the given LocalDateTime converted to UTC
+     */
     public static LocalDateTime convertToUtc(LocalDateTime ldt) {
         ZoneId systemZoneId = ZoneId.systemDefault();
         ZoneId utcZoneId = ZoneId.of("UTC");
@@ -19,6 +25,12 @@ public class TimeConversions {
         return zonedUtc.toLocalDateTime();
     }
 
+    /**
+     * Converts a given LocalDateTime from the user system's default to EST
+     *
+     * @param ldt the LocalDateTime to convert
+     * @return the given LocalDateTime converted to EST
+     */
     public static LocalDateTime convertToEst(LocalDateTime ldt) {
         ZoneId systemZoneId = ZoneId.systemDefault();
         ZoneId estZoneId = ZoneId.of("America/New_York");
@@ -32,6 +44,12 @@ public class TimeConversions {
         return zonedEst.toLocalDateTime();
     }
 
+    /**
+     * Converts a given LocalDateTime from the EST to the user system's default time zone
+     *
+     * @param ldt the LocalDateTime to convert
+     * @return the given LocalDateTime converted to the user system's default time zone
+     */
     public static LocalDateTime fromEstToLocal(LocalDateTime ldt) {
 
         ZoneId systemZoneId = ZoneId.systemDefault();
