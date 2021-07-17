@@ -1,6 +1,5 @@
 Desktop Scheduling Application Version 1.0
 Daniel Tierney
-Student ID: 001510821
 dtiern5@wgu.edu
 July 17, 2021
 

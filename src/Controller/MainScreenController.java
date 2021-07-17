@@ -85,7 +85,7 @@ public class MainScreenController implements Initializable {
 
     private User currentUser;
 
-    
+
     // TODO: watch lambda webinar
     /**
      * Populates the customer table and the appointment table.
