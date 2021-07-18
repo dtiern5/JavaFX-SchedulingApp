@@ -1,5 +1,6 @@
 package Controller;
 
+import Bundles.AlertInterface;
 import DBAccess.DBAppointments;
 import DBAccess.DBCustomers;
 import Model.Appointment;
@@ -216,26 +217,6 @@ public class MainScreenController implements Initializable {
     }
 
     /**
-     * Reverts back to log in screen.
-     *
-     * @param event for changing scene on click
-     * @throws IOException signals I/O exception has occurred
-     */
-    public void logOutHandler(ActionEvent event) throws IOException {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to log out?");
-        Optional<ButtonType> result = alert.showAndWait();
-
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-
-            Parent loginScreenViewParent = FXMLLoader.load(getClass().getResource("../View/LogInView.fxml"));
-            Scene mainViewScene = new Scene(loginScreenViewParent);
-            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            window.setScene(mainViewScene);
-            window.show();
-        }
-    }
-
-    /**
      * Switches to AddCustomer screen.
      *
      * @param event for changing scene on click
@@ -333,7 +314,6 @@ public class MainScreenController implements Initializable {
     }
 
     // TODO: Rewrite this to not be such a mess of if/else statements
-
     /**
      * Checks if customer has any scheduled appointments and shows an error if so.
      * Else, confirms the deletion of selected customer from the database.
@@ -380,7 +360,6 @@ public class MainScreenController implements Initializable {
     }
 
     // TODO: Rewrite this to not be such a mess of if/else statements
-
     /**
      * Confirms the deletion of selected appointment from the database.
      *
@@ -472,5 +451,25 @@ public class MainScreenController implements Initializable {
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(locationReportScene);
         window.show();
+    }
+
+    /**
+     * Reverts back to log in screen.
+     *
+     * @param event for changing scene on click
+     * @throws IOException signals I/O exception has occurred
+     */
+    public void logOutHandler(ActionEvent event) throws IOException {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to log out?");
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+
+            Parent loginScreenViewParent = FXMLLoader.load(getClass().getResource("../View/LogInView.fxml"));
+            Scene mainViewScene = new Scene(loginScreenViewParent);
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(mainViewScene);
+            window.show();
+        }
     }
 }

@@ -2,11 +2,10 @@ package Controller;
 
 import DBAccess.DBAppointments;
 import DBAccess.DBContacts;
-import DBAccess.DBReports;
 import Model.Appointment;
 import Model.Contact;
-import Model.Report;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,6 +22,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 /**
  * Controller for the ContactSchedReport screen where appointments are displayed for individual contacts.
@@ -49,10 +49,12 @@ public class ContactSchedReportController implements Initializable {
     @FXML
     private ComboBox<Contact> contactCombo;
 
+    private ObservableList<Appointment> appointmentList;
+
     /**
      * Sets the ComboBox for selecting a contact.
      *
-     * @param url the location used to resolve relative paths for the root object
+     * @param url            the location used to resolve relative paths for the root object
      * @param resourceBundle resources used to localize the root object
      */
     @Override
@@ -66,6 +68,22 @@ public class ContactSchedReportController implements Initializable {
             throwables.printStackTrace();
         }
         contactCombo.setItems(contactList);
+
+        try {
+            appointmentList = DBAppointments.getAllAppointments();
+
+            appointmentsIdColumn.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
+            appointmentsTitleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+            appointmentsDescriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+            appointmentsTypeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+            appointmentsStartTimeColumn.setCellValueFactory(new PropertyValueFactory<>("startTime"));
+            appointmentsEndTimeColumn.setCellValueFactory(new PropertyValueFactory<>("endTime"));
+            appointmentsCustomerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+            appointmentsTableView.setItems(appointmentList);
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     /**
@@ -86,21 +104,21 @@ public class ContactSchedReportController implements Initializable {
     /**
      * Displays appointments of the selected contact in the TableView.
      *
+     * Using a lambda increases efficiency here. We create a list of all appointments by accessing the database only
+     * once. The lambda expression simply filters that list based on the selected Contact.
+     *
      * @throws SQLException signals a SQL Exception has occurred
      */
     private void populateAppointmentTable() throws SQLException {
-        ObservableList<Appointment> appointmentList = null;
         Contact contact = contactCombo.getValue();
 
-        appointmentList = DBAppointments.getAppointmentsByContact(contact);
-        appointmentsIdColumn.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
-        appointmentsTitleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
-        appointmentsDescriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
-        appointmentsTypeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
-        appointmentsStartTimeColumn.setCellValueFactory(new PropertyValueFactory<>("startTime"));
-        appointmentsEndTimeColumn.setCellValueFactory(new PropertyValueFactory<>("endTime"));
-        appointmentsCustomerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
-        appointmentsTableView.setItems(appointmentList);
+        FilteredList<Appointment> contactAppointments = new FilteredList<Appointment>(appointmentList);
+
+        // check if the contact for the appointment equals the selected contact
+        contactAppointments.setPredicate(a -> {
+            return a.getContact().toString().equals(contact.toString());
+        });
+        appointmentsTableView.setItems(contactAppointments);
     }
 
     /**

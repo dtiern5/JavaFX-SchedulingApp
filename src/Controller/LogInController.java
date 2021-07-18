@@ -41,6 +41,9 @@ public class LogInController implements Initializable {
     private String closeAlertTitle;
     private String userNameNotFound;
     private String incorrectPassword;
+    private String appointmentAlert;
+    private String minutes;
+    private String noAppointments;
 
     @FXML
     private Label appName;
@@ -82,6 +85,9 @@ public class LogInController implements Initializable {
             closeAlertTitle = rb.getString("Close_alert_title");
             userNameNotFound = rb.getString("Username_not_found");
             incorrectPassword = rb.getString("Incorrect_password");
+            appointmentAlert = rb.getString("Appointment_Alert");
+            minutes = rb.getString("minutes");
+            noAppointments = rb.getString("No_Appointment_Alert");
         } catch (Exception e) {
             System.out.println("Language not supported");
             System.out.println("Exiting");
@@ -181,14 +187,13 @@ public class LogInController implements Initializable {
                 upcomingMeeting = true;
                 timeToMeeting = timeDifference;
             }
-
         }
 
         if (upcomingMeeting == true) {
-            alert.setContentText("You have an appointment in " + timeToMeeting + " minute(s)");
+            alert.setContentText(appointmentAlert + " " + timeToMeeting + " " + minutes);
             alert.showAndWait();
         } else {
-            alert.setContentText("No upcoming appointments in the next 15 minutes");
+            alert.setContentText(noAppointments);
             alert.showAndWait();
         }
 

@@ -75,13 +75,41 @@ public class AddCustomerController implements Initializable {
 
     /**
      * Populates the countryComboBox with available countries. Populates the table with customers.
+     * <p>
+     * Using a lambda expression to set a listener on the country ComboBox makes for more readable code than my
+     * initial solution for populating the division ComboBox, which was to use a separate method to associate
+     * an event handler with the country ComboBox.
      *
-     * @param url            the location used to resolve relative paths for the root object
+     * @param url            he location used to resolve relative paths for the root object
      * @param resourceBundle resources used to localize the root object
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Initialize countryComboBox
+        populateCountryCombo();
+        populateUserCombo();
+
+        // Add listener to countryComboBox to automatically populate divisionComboBox on selection
+        countryComboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == null) { // Saving a customer will set the value to null
+                countryComboBox.setPromptText("Select Country");
+            } else {
+                try {
+                    ObservableList<Division> divisionObservableList = DBDivisions.getDivisionByCountryId(countryComboBox.getValue().getCountryID());
+                    divisionComboBox.getItems().setAll(divisionObservableList);
+                    divisionComboBox.getSelectionModel().select(0);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+        });
+
+        populateTableView();
+    }
+
+    /**
+     * Populates table with countries.
+     */
+    private void populateCountryCombo() {
         try {
             ObservableList<Country> countryList = DBCountries.getAllACountries();
             countryComboBox.setItems(countryList);
@@ -89,8 +117,12 @@ public class AddCustomerController implements Initializable {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+    }
 
-        // Initialize userCombo
+    /**
+     * Populates table with users.
+     */
+    private void populateUserCombo() {
         ObservableList<User> userList = null;
         try {
             userList = DBUsers.getAllUsers();
@@ -117,28 +149,10 @@ public class AddCustomerController implements Initializable {
         userCombo.setCellFactory(userFactory);
         userCombo.setButtonCell(factorySelected.call(null));
         userCombo.getSelectionModel().select(0);
-
-        // Add listener to countryComboBox to automatically populate divisionComboBox on selection
-        countryComboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue == null) { // Saving a customer will set the value to null
-                countryComboBox.setPromptText("Select Country");
-            } else {
-                try {
-                    ObservableList<Division> divisionObservableList = DBDivisions.getDivisionByCountryId(countryComboBox.getValue().getCountryID());
-                    divisionComboBox.getItems().setAll(divisionObservableList);
-                    divisionComboBox.getSelectionModel().select(0);
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
-                }
-            }
-        });
-
-
-        populateTableView();
     }
 
     /**
-     * Populates table with customers
+     * Populates table with customers.
      */
     private void populateTableView() {
         ObservableList<Customer> customerList = null;
