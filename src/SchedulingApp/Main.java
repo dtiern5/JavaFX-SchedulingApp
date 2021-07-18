@@ -24,7 +24,6 @@ public class Main extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws SQLException {
-        Connection conn = DBConnection.startConnection();
         launch(args);
         DBConnection.closeConnection();
     }

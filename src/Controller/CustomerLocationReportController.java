@@ -30,9 +30,9 @@ public class CustomerLocationReportController implements Initializable {
     @FXML
     private TableView<Report> reportTableView;
     @FXML
-    private TableColumn divisionColumn;
+    private TableColumn<Report, String> divisionColumn;
     @FXML
-    private TableColumn countColumn;
+    private TableColumn<Report, Integer> countColumn;
 
     @FXML
     private ComboBox<Country> countryComboBox;
@@ -59,15 +59,14 @@ public class CustomerLocationReportController implements Initializable {
      * Searches the database for a selected country's divisions.
      * Displays a customer count for each division with at least one customer.
      *
-     * @param event for displaying appointments of a contact on click
      * @throws SQLException signals a SQL Exception has occurred
      */
-    public void searchHandler(ActionEvent event) throws SQLException {
+    public void searchHandler() throws SQLException {
         if (countryComboBox.getValue() == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Must select country");
             alert.showAndWait();
         } else {
-            ObservableList<Report> divisionList = null;
+            ObservableList<Report> divisionList;
             divisionList = DBReports.countDivisions(countryComboBox.getValue());
             divisionColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
             countColumn.setCellValueFactory(new PropertyValueFactory<>("count"));
@@ -91,8 +90,6 @@ public class CustomerLocationReportController implements Initializable {
             loader.setLocation(getClass().getResource("../View/MainScreenView.fxml"));
             Parent scene = loader.load();
             Scene mainViewScene = new Scene(scene);
-
-            MainScreenController controller = loader.getController();
 
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
             window.setScene(mainViewScene);

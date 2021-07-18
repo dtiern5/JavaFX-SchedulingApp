@@ -3,7 +3,6 @@ package Database;
 import com.mysql.cj.jdbc.MysqlDataSource;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 
 
@@ -25,23 +24,13 @@ public class DBConnection {
     private static final String userName = "U08AkY";
     private static final String password = "53689231354";
 
-    public static Connection startConnectionDriverManager() {
-        try {
-            conn = DriverManager.getConnection(jdbcURL, userName, password);
-            System.out.println("Connection successful");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return conn;
-    }
-
     public static Connection startConnection() throws SQLException {
         MysqlDataSource source = new MysqlDataSource();
         source.setUser(userName);
         source.setPassword(password);
         source.setUrl(jdbcURL);
 
-        conn = (Connection) source.getConnection();
+        conn = source.getConnection();
         System.out.println("Connection successful");
 
         return conn;

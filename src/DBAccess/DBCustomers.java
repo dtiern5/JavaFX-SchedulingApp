@@ -17,11 +17,11 @@ public class DBCustomers {
 
     public static Customer getCustomer(int customerId) throws SQLException {
         Connection conn = DBConnection.getConnection();
-        String selectStatement = "SELECT * FROM customers WHERE Customer_ID = " + Integer.toString(customerId);
+        String selectStatement = "SELECT * FROM customers WHERE Customer_ID = " + customerId;
 
         DBQuery.setPreparedStatement(conn, selectStatement);
 
-        Customer customerResult =  null;
+        Customer customerResult;
 
         PreparedStatement ps = DBQuery.getPreparedStatement();
         ResultSet rs = ps.executeQuery();

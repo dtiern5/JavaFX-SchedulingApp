@@ -3,7 +3,6 @@ package DBAccess;
 import Database.DBConnection;
 import Database.DBQuery;
 import Model.Appointment;
-import Model.Contact;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -14,7 +13,7 @@ public class DBAppointments {
 
     public static Appointment getAppointment(int appointmentId) throws SQLException {
         Connection conn = DBConnection.getConnection();
-        String selectStatement = "SELECT * FROM appointments WHERE Appointment_ID = " + Integer.toString(appointmentId);
+        String selectStatement = "SELECT * FROM appointments WHERE Appointment_ID = " + appointmentId;
 
 
         DBQuery.setPreparedStatement(conn, selectStatement);
@@ -61,8 +60,6 @@ public class DBAppointments {
                 "ORDER BY Start;";
 
         DBQuery.setPreparedStatement(conn, selectStatement);
-
-        Appointment appointmentResult;
 
         PreparedStatement ps = DBQuery.getPreparedStatement();
         ResultSet rs = ps.executeQuery();
@@ -216,7 +213,7 @@ public class DBAppointments {
         return appointmentList;
     }
 
-    public static ObservableList getAppointmentsByContact(Contact contact) throws SQLException {
+    /*public static ObservableList getAppointmentsByContact(Contact contact) throws SQLException {
         Connection conn = DBConnection.getConnection();
         String selectStatement = "SELECT * FROM appointments WHERE Contact_ID = " + contact.getContactId();
 
@@ -244,7 +241,7 @@ public class DBAppointments {
                     rs.getInt("Contact_ID")));
         }
         return appointmentList;
-    }
+    }*/
 
     public static void addAppointment(String title, String description, String location, String type, LocalDateTime start,
                                       LocalDateTime end, String userString, int customerId, int userId, int contactId) throws SQLException {

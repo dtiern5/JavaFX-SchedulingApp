@@ -39,6 +39,7 @@ public class Customer {
 
         try {
             this.division = DBDivisions.getDivision(divisionId);
+            assert division != null;
             this.country = DBCountries.getCountry(division.getCountryId());
         } catch (SQLException throwables) {
             throwables.printStackTrace();

@@ -15,7 +15,7 @@ public class DBContacts {
 
     public static Contact getContact(int contactId) throws SQLException {
         Connection conn = DBConnection.getConnection();
-        String selectStatement = "SELECT * FROM contacts WHERE Contact_ID = " + Integer.toString(contactId);
+        String selectStatement = "SELECT * FROM contacts WHERE Contact_ID = " + contactId;
 
         DBQuery.setPreparedStatement(conn, selectStatement);
 

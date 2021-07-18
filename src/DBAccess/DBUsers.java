@@ -47,7 +47,7 @@ public class DBUsers {
 
     public static User getUser(int userId) throws SQLException {
         Connection conn = DBConnection.getConnection();
-        String selectStatement = "SELECT * FROM users WHERE User_ID = " + Integer.toString(userId);
+        String selectStatement = "SELECT * FROM users WHERE User_ID = " + userId;
 
         DBQuery.setPreparedStatement(conn, selectStatement);
 

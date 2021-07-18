@@ -88,10 +88,8 @@ public class ContactSchedReportController implements Initializable {
     /**
      * Searches the database for a selected contact's associated appointments.
      *
-     * @param event for displaying appointments of a contact on click
-     * @throws SQLException signals a SQL Exception has occurred
      */
-    public void searchHandler(ActionEvent event) throws SQLException {
+    public void searchHandler() {
         if (contactCombo.getValue() == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Must select contact");
             alert.showAndWait();
@@ -106,17 +104,14 @@ public class ContactSchedReportController implements Initializable {
      * Using a lambda increases efficiency here. We create a list of all appointments by accessing the database only
      * once. The lambda expression simply filters that list based on the selected Contact.
      *
-     * @throws SQLException signals a SQL Exception has occurred
      */
-    private void populateAppointmentTable() throws SQLException {
+    private void populateAppointmentTable() {
         Contact contact = contactCombo.getValue();
 
-        FilteredList<Appointment> contactAppointments = new FilteredList<Appointment>(appointmentList);
+        FilteredList<Appointment> contactAppointments = new FilteredList<>(appointmentList);
 
         // check if the contact for the appointment equals the selected contact
-        contactAppointments.setPredicate(a -> {
-            return a.getContact().toString().equals(contact.toString());
-        });
+        contactAppointments.setPredicate(a -> a.getContact().toString().equals(contact.toString()));
         appointmentsTableView.setItems(contactAppointments);
     }
 
@@ -136,8 +131,6 @@ public class ContactSchedReportController implements Initializable {
             loader.setLocation(getClass().getResource("../View/MainScreenView.fxml"));
             Parent scene = loader.load();
             Scene mainViewScene = new Scene(scene);
-
-            MainScreenController controller = loader.getController();
 
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
             window.setScene(mainViewScene);

@@ -68,24 +68,23 @@ public class AppTypeReportController implements Initializable {
     /**
      * Searches the database for a count of appointment types in the selected month and year.
      *
-     * @param event for displaying appointment counts by type on click
      * @throws SQLException signals a SQL Exception has occurred
      */
-    public void searchHandler(ActionEvent event) throws SQLException {
+    public void searchHandler() throws SQLException {
         if (yearCombo.getValue() == null || monthCombo.getValue() == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Must select month and year");
             alert.showAndWait();
         } else {
             // Convert year to integer
             String yearString = String.valueOf((yearCombo.getValue()));
-            int yearInt = Integer.valueOf(yearString);
+            int yearInt = Integer.parseInt(yearString);
 
             // Convert month to integer, removing all non-digit characters
             String monthString = monthCombo.getValue();
             String monthDigitString = monthString.replaceAll("[^0-9]", "");
-            int monthInt = Integer.valueOf(monthDigitString);
+            int monthInt = Integer.parseInt(monthDigitString);
 
-            ObservableList<Report> appointmentList = null;
+            ObservableList<Report> appointmentList;
             appointmentList = DBReports.countAppointmentTypes(yearInt, monthInt);
             typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
             countColumn.setCellValueFactory(new PropertyValueFactory<>("count"));
@@ -109,8 +108,6 @@ public class AppTypeReportController implements Initializable {
             loader.setLocation(getClass().getResource("../View/MainScreenView.fxml"));
             Parent scene = loader.load();
             Scene mainViewScene = new Scene(scene);
-
-            MainScreenController controller = loader.getController();
 
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
             window.setScene(mainViewScene);

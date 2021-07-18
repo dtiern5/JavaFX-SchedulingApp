@@ -12,11 +12,11 @@ public class DBCountries {
 
     public static Country getCountry(int countryId) throws SQLException {
         Connection conn = DBConnection.getConnection();
-        String selectStatement = "SELECT * FROM countries WHERE Country_ID = " + Integer.toString(countryId);
+        String selectStatement = "SELECT * FROM countries WHERE Country_ID = " + countryId;
 
         DBQuery.setPreparedStatement(conn, selectStatement);
 
-        Country countryResult = null;
+        Country countryResult;
 
         PreparedStatement ps = DBQuery.getPreparedStatement();
         ResultSet rs = ps.executeQuery();
@@ -62,7 +62,7 @@ public class DBCountries {
 
 
     // Code from Getting The DBConnection Class Project Ready
-    public static void checkDateConversion() {
+    /*public static void checkDateConversion() {
         System.out.println("CREATE DATE TEST");
         String sql = "SELECT Create_Date FROM countries";
 
@@ -77,5 +77,5 @@ public class DBCountries {
             throwables.printStackTrace();
         }
 
-    }
+    }*/
 }

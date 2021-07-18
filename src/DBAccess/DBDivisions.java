@@ -15,7 +15,7 @@ public class DBDivisions {
 
     public static Division getDivision(int divisionId) throws SQLException {
         Connection conn = DBConnection.getConnection();
-        String selectStatement = "SELECT * FROM first_level_divisions WHERE Division_Id = " + Integer.toString(divisionId);
+        String selectStatement = "SELECT * FROM first_level_divisions WHERE Division_Id = " + divisionId;
 
         DBQuery.setPreparedStatement(conn, selectStatement);
 

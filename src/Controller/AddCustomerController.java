@@ -4,7 +4,6 @@ import DBAccess.DBCountries;
 import DBAccess.DBCustomers;
 import DBAccess.DBDivisions;
 import DBAccess.DBUsers;
-import Database.DBConnection;
 import Model.Country;
 import Model.Customer;
 import Model.Division;
@@ -25,7 +24,6 @@ import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -129,7 +127,7 @@ public class AddCustomerController implements Initializable {
         }
         userCombo.setItems(userList);
 
-        Callback<ListView<User>, ListCell<User>> userFactory = lv -> new ListCell<User>() {
+        Callback<ListView<User>, ListCell<User>> userFactory = lv -> new ListCell<>() {
             @Override
             protected void updateItem(User user, boolean empty) {
                 super.updateItem(user, empty);
@@ -137,7 +135,7 @@ public class AddCustomerController implements Initializable {
             }
         };
 
-        Callback<ListView<User>, ListCell<User>> factorySelected = lv -> new ListCell<User>() {
+        Callback<ListView<User>, ListCell<User>> factorySelected = lv -> new ListCell<>() {
             @Override
             protected void updateItem(User user, boolean empty) {
                 super.updateItem(user, empty);
@@ -153,7 +151,7 @@ public class AddCustomerController implements Initializable {
      * Populates table with customers.
      */
     private void populateTableView() {
-        ObservableList<Customer> customerList = null;
+        ObservableList<Customer> customerList;
         try {
             customerList = DBCustomers.getAllCustomers();
             customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
@@ -174,9 +172,8 @@ public class AddCustomerController implements Initializable {
      * Ensures no fields are empty.
      * Adds customer to database.
      *
-     * @param event for confirming update on click
      */
-    public void confirmHandler(ActionEvent event) {
+    public void confirmHandler() {
 
         try {
             if (nameTF.getText().isEmpty() ||
@@ -242,8 +239,6 @@ public class AddCustomerController implements Initializable {
             loader.setLocation(getClass().getResource("../View/MainScreenView.fxml"));
             Parent scene = loader.load();
             Scene mainViewScene = new Scene(scene);
-
-            MainScreenController controller = loader.getController();
 
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
             window.setScene(mainViewScene);

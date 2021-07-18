@@ -93,7 +93,7 @@ public class ModifyCustomerController implements Initializable {
             countryComboBox.getSelectionModel().select(currentCustomer.getCountry());
             userCombo.getSelectionModel().select(currentCustomer.getLastUpdatedBy());
 
-            ObservableList<Division> divisionList = null;
+            ObservableList<Division> divisionList;
             try {
                 divisionList = DBDivisions.getDivisionByCountryId(countryComboBox.getValue().getCountryID());
                 divisionComboBox.setItems(divisionList);
@@ -112,7 +112,7 @@ public class ModifyCustomerController implements Initializable {
     /**
      * Populates the countryComboBox with available countries. Populates the table with customers.
      *
-     * @param url the location used to resolve relative paths for the root object
+     * @param url            the location used to resolve relative paths for the root object
      * @param resourceBundle resources used to localize the root object
      */
     @Override
@@ -136,7 +136,7 @@ public class ModifyCustomerController implements Initializable {
         }
         userCombo.setItems(userList);
 
-        Callback<ListView<User>, ListCell<User>> userFactory = lv -> new ListCell<User>() {
+        Callback<ListView<User>, ListCell<User>> userFactory = lv -> new ListCell<>() {
             @Override
             protected void updateItem(User user, boolean empty) {
                 super.updateItem(user, empty);
@@ -144,7 +144,7 @@ public class ModifyCustomerController implements Initializable {
             }
         };
 
-        Callback<ListView<User>, ListCell<User>> factorySelected = lv -> new ListCell<User>() {
+        Callback<ListView<User>, ListCell<User>> factorySelected = lv -> new ListCell<>() {
             @Override
             protected void updateItem(User user, boolean empty) {
                 super.updateItem(user, empty);
@@ -160,7 +160,7 @@ public class ModifyCustomerController implements Initializable {
      * Populates table with customers
      */
     private void populateTableView() {
-        ObservableList<Customer> customerList = null;
+        ObservableList<Customer> customerList;
         try {
             customerList = DBCustomers.getAllCustomers();
             customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
@@ -179,10 +179,8 @@ public class ModifyCustomerController implements Initializable {
 
     /**
      * Creates and sets a list for the divisionComboBox based on the countryComboBox selection.
-     *
-     * @param event for limiting available divisions to selected country
      */
-    public void divisionHandler(ActionEvent event) {
+    public void divisionHandler() {
         if (countryComboBox.getSelectionModel().isEmpty()) {
             divisionComboBox.getSelectionModel().select(null);
         } else {
@@ -199,13 +197,9 @@ public class ModifyCustomerController implements Initializable {
     /**
      * Populates fields with chosen customer data. Disables further tableview selections until selection is cleared
      * or customer data saved.
-     *
-     * @param event for selecting customer on click
      */
-    public void selectHandler(ActionEvent event) {
-        if (customersTableView.getSelectionModel().isEmpty()) {
-            //do nothing
-        } else {
+    public void selectHandler() {
+        if (!customersTableView.getSelectionModel().isEmpty()) {
             disableTableView();
             enableFields();
             populateFields();
@@ -215,9 +209,8 @@ public class ModifyCustomerController implements Initializable {
     /**
      * Sets currentCustomer to null and clears their data from editing fields.
      *
-     * @param actionEvent for clearing current selection on click
      */
-    public void clearHandler(ActionEvent actionEvent) {
+    public void clearHandler() {
 
         customersTableView.getSelectionModel().clearSelection();
         customerIdTF.clear();
@@ -315,9 +308,8 @@ public class ModifyCustomerController implements Initializable {
      * Ensures no fields are empty.
      * Updates customer in database.
      *
-     * @param event for confirming update on click
      */
-    public void confirmHandler(ActionEvent event) {
+    public void confirmHandler() {
         if (currentCustomer == null) {
             return;
         }
@@ -338,7 +330,7 @@ public class ModifyCustomerController implements Initializable {
                 String postalCode = postalCodeTF.getText();
                 String phoneNumber = phoneNumberTF.getText();
                 int divisionId = divisionComboBox.getValue().getDivisionId();
-                int customerId = Integer.valueOf(customerIdTF.getText());
+                int customerId = Integer.parseInt(customerIdTF.getText());
                 String userString = userCombo.getValue().toString();
 
                 DBCustomers.modifyCustomer(customerName, address, postalCode, phoneNumber, userString, divisionId, customerId);
@@ -348,7 +340,7 @@ public class ModifyCustomerController implements Initializable {
                 populateTableView();
                 System.out.println("Success");
 
-                clearHandler(null);
+                clearHandler();
             }
 
         } catch (Exception e) {
@@ -375,8 +367,6 @@ public class ModifyCustomerController implements Initializable {
             loader.setLocation(getClass().getResource("../View/MainScreenView.fxml"));
             Parent scene = loader.load();
             Scene mainViewScene = new Scene(scene);
-
-            MainScreenController controller = loader.getController();
 
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
             window.setScene(mainViewScene);
