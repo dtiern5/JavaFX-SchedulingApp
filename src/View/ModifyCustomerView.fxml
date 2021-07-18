@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -27,7 +28,7 @@
       <ComboBox fx:id="userCombo" layoutX="208.0" layoutY="387.0" prefWidth="150.0" />
       <Button layoutX="296.0" layoutY="450.0" mnemonicParsing="false" onAction="#confirmHandler" text="Confirm" />
       <Button layoutX="184.0" layoutY="451.0" mnemonicParsing="false" onAction="#clearHandler" text="Clear Selection" />
-      <Button layoutX="1006.0" layoutY="430.0" mnemonicParsing="false" onAction="#selectHandler" text="Select" />
+      <Button layoutX="1006.0" layoutY="397.0" mnemonicParsing="false" onAction="#selectHandler" text="Select" />
       <Button layoutX="31.0" layoutY="452.0" mnemonicParsing="false" onAction="#goBackHandler" text="Return to Main Screen" />
       <TextField fx:id="customerIdTF" alignment="CENTER" disable="true" editable="false" layoutX="208.0" layoutY="71.0" prefHeight="27.0" prefWidth="150.0">
          <font>
@@ -59,9 +60,9 @@
             <Font name="Avenir Roman" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="375.0" layoutY="14.0" text="Update Customer Information">
+      <Label layoutX="97.0" layoutY="22.0" text="Update Customer Information">
          <font>
-            <Font name="Avenir Oblique" size="24.0" />
+            <Font name="Avenir Oblique" size="18.0" />
          </font>
       </Label>
       <Label layoutX="98.0" layoutY="254.0" text="Country">
@@ -74,12 +75,12 @@
             <Font name="Avenir Roman" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="450.0" layoutY="71.0" text="Customers">
+      <Label layoutX="450.0" layoutY="61.0" text="Customers">
          <font>
-            <Font name="Avenir Oblique" size="18.0" />
+            <Font name="Avenir Oblique" size="14.0" />
          </font>
       </Label>
-      <TableView fx:id="customersTableView" layoutX="450.0" layoutY="107.0" prefHeight="306.0" prefWidth="611.0">
+      <TableView fx:id="customersTableView" layoutX="448.0" layoutY="81.0" prefHeight="306.0" prefWidth="611.0">
          <columns>
             <TableColumn fx:id="customerIdColumn" prefWidth="23.0" text="ID" />
             <TableColumn fx:id="customerNameColumn" prefWidth="155.0" text="Name" />
@@ -91,9 +92,9 @@
          </columns>
       </TableView>
       <Label fx:id="currentCustomerLabel" layoutX="96.0" layoutY="49.0" prefHeight="17.0" prefWidth="257.0" />
-      <Label fx:id="feedbackLabel" layoutX="450.0" layoutY="428.0" prefHeight="32.0" prefWidth="541.0">
+      <Label fx:id="feedbackLabel" layoutX="448.0" layoutY="395.0" prefHeight="27.0" prefWidth="541.0">
          <font>
-            <Font name="Hiragino Sans W2" size="18.0" />
+            <Font name="Avenir Roman" size="14.0" />
          </font>
       </Label>
       <Label layoutX="98.0" layoutY="390.0" text="User">

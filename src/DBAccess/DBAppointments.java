@@ -51,17 +51,22 @@ public class DBAppointments {
 
     public static ObservableList getTodaysAppointmentsByUser(String user) throws SQLException {
         Connection conn = DBConnection.getConnection();
+
         String selectStatement = "SELECT u.User_Name, a.*\n" +
                 "FROM users AS u\n" +
                 "LEFT JOIN appointments as a\n" +
                 "ON u.User_ID = a.User_ID\n" +
-                "WHERE DAY(a.start) = DAY(NOW()) \n" +
-                "AND u.User_Name = '" + user + "'\n" +
+                "WHERE a.start BETWEEN ? AND ?\n" +
+                "AND u.User_Name = ?\n" +
                 "ORDER BY Start;";
 
         DBQuery.setPreparedStatement(conn, selectStatement);
 
         PreparedStatement ps = DBQuery.getPreparedStatement();
+        ps.setString(1, String.valueOf(LocalDateTime.now(ZoneId.of("UTC"))));
+        ps.setString(2, String.valueOf(LocalDateTime.now(ZoneId.of("UTC")).plusMinutes(15)));
+        ps.setString(3, user);
+
         ResultSet rs = ps.executeQuery();
 
         ObservableList<Appointment> appointmentList = FXCollections.observableArrayList();

@@ -252,8 +252,6 @@ public class ModifyAppointmentController implements Initializable {
         // check if the contact for the appointment equals the selected contact
         customerAppointments.setPredicate(a -> a.getCustomerId() == selectedCustomer.getCustomerId());
 
-        System.out.println("Customer appointments: " + customerAppointments);
-
         boolean overlappingAppointment = false;
 
         for (Appointment a : customerAppointments) {
@@ -263,7 +261,6 @@ public class ModifyAppointmentController implements Initializable {
                 continue;
             }
 
-            System.out.println("Appointment: " + a);
             if (a.getStartTime().isAfter(start) && a.getStartTime().isBefore(end)) {
                 overlappingAppointment = true;
             } else if (a.getStartTime().equals(start) || a.getStartTime().equals(end) || a.getEndTime().equals(start) || a.getEndTime().equals(end)) {

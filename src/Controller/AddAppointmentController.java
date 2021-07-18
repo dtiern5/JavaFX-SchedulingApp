@@ -250,24 +250,21 @@ public class AddAppointmentController implements Initializable {
                 feedbackLabel.setTextFill(Color.color(0.6, 0.2, 0.2));
 
             } else if (datePicker.getValue().getDayOfWeek() == DayOfWeek.SATURDAY ||
-                    datePicker.getValue().getDayOfWeek() == DayOfWeek.SUNDAY
-            ) {
-
+                    datePicker.getValue().getDayOfWeek() == DayOfWeek.SUNDAY) {
                 feedbackLabel.setText("Error: Cannot schedule appointment on weekend");
                 feedbackLabel.setTextFill(Color.color(0.6, 0.2, 0.2));
 
             } else if (convertedStartLdt.isBefore(estStartLdt) ||
                     convertedStartLdt.isAfter(estEndLdt) ||
                     convertedEndLdt.isBefore(convertedStartLdt) ||
-                    convertedEndLdt.isAfter(estEndLdt)
-            ) {
-
+                    convertedEndLdt.isAfter(estEndLdt)) {
                 feedbackLabel.setText("Error: Valid hours are between 8AM and 10PM EST");
                 feedbackLabel.setTextFill(Color.color(0.6, 0.2, 0.2));
 
             } else if (overlappingAppointment()) {
                 feedbackLabel.setText("Error: Customer has overlapping appointment");
                 feedbackLabel.setTextFill(Color.color(0.6, 0.2, 0.2));
+
             } else {
                 String title = titleTF.getText();
                 String description = descriptionTF.getText();
@@ -324,12 +321,9 @@ public class AddAppointmentController implements Initializable {
         // check if the contact for the appointment equals the selected contact
         customerAppointments.setPredicate(a -> a.getCustomerId() == selectedCustomer.getCustomerId());
 
-        System.out.println("Customer appointments: " + customerAppointments);
-
         boolean overlappingAppointment = false;
 
         for (Appointment a : customerAppointments) {
-            System.out.println("Appointment: " + a);
             if (a.getStartTime().isAfter(start) && a.getStartTime().isBefore(end)) {
                 overlappingAppointment = true;
             } else if (a.getStartTime().equals(start) || a.getStartTime().equals(end) || a.getEndTime().equals(start) || a.getEndTime().equals(end)) {

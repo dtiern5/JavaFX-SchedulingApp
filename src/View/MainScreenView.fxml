@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
@@ -98,7 +99,7 @@
             <Font name="Avenir Oblique" size="24.0" />
          </font>
       </Label>
-      <Label fx:id="feedbackLabel" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="628.0" layoutY="340.0" prefHeight="27.0" prefWidth="320.0" textAlignment="RIGHT">
+      <Label fx:id="feedbackLabel" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="532.0" layoutY="340.0" prefHeight="27.0" prefWidth="416.0" textAlignment="RIGHT">
          <font>
             <Font name="Avenir Roman" size="14.0" />
          </font></Label>

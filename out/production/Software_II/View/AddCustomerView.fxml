@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
 <?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
@@ -57,11 +55,6 @@
             <Font name="Avenir Roman" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="108.0" layoutY="14.0" text="Add Customer">
-         <font>
-            <Font name="Futura Bold" size="24.0" />
-         </font>
-      </Label>
       <Label layoutX="70.0" layoutY="257.0" text="Country">
          <font>
             <Font name="Avenir Roman" size="14.0" />
@@ -72,9 +65,9 @@
             <Font name="Avenir Roman" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="422.0" layoutY="33.0" text="Customers">
+      <Label layoutX="422.0" layoutY="47.0" text="Customers">
          <font>
-            <Font name="Avenir Oblique" size="18.0" />
+            <Font name="Avenir Oblique" size="14.0" />
          </font>
       </Label>
       <TableView fx:id="customersTableView" layoutX="422.0" layoutY="69.0" prefHeight="283.0" prefWidth="611.0">
@@ -89,15 +82,20 @@
          </columns>
       </TableView>
       <ComboBox fx:id="divisionComboBox" layoutX="180.0" layoutY="300.0" prefWidth="150.0" />
-      <Label fx:id="feedbackLabel" layoutX="422.0" layoutY="361.0" prefHeight="32.0" prefWidth="529.0">
+      <Label fx:id="feedbackLabel" layoutX="422.0" layoutY="361.0" prefHeight="27.0" prefWidth="529.0">
          <font>
-            <Font name="Hiragino Sans W2" size="18.0" />
+            <Font name="Avenir Roman" size="14.0" />
          </font>
       </Label>
       <ComboBox fx:id="userCombo" layoutX="179.0" layoutY="388.0" prefWidth="150.0" />
       <Label layoutX="69.0" layoutY="391.0" text="User">
          <font>
             <Font name="Avenir Roman" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="70.0" layoutY="20.0" text="Add Customer">
+         <font>
+            <Font name="Avenir Oblique" size="18.0" />
          </font>
       </Label>
    </children>

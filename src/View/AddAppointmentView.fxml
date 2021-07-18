@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 
 <AnchorPane fx:id="label" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="359.0" prefWidth="613.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AddAppointmentController">
    <children>
@@ -35,7 +35,7 @@
       <ComboBox fx:id="endTimeCombo" layoutX="442.0" layoutY="249.0" prefWidth="150.0" />
       <Button layoutX="527.0" layoutY="299.0" mnemonicParsing="false" onAction="#confirmHandler" text="Confirm" />
       <Button layoutX="368.0" layoutY="300.0" mnemonicParsing="false" onAction="#goBackHandler" text="Return To Main Screen" />
-      <Label layoutX="27.0" layoutY="28.0" text="Add Appointment">
+      <Label layoutX="233.0" layoutY="14.0" text="Add Appointment">
          <font>
             <Font name="Avenir Oblique" size="18.0" />
          </font>
@@ -95,7 +95,7 @@
             <Font name="Avenir Roman" size="14.0" />
          </font>
       </Label>
-      <Label fx:id="feedbackLabel" layoutX="233.0" layoutY="47.0" prefHeight="17.0" prefWidth="357.0">
+      <Label fx:id="feedbackLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="76.0" layoutY="41.0" prefHeight="20.0" prefWidth="462.0" textAlignment="CENTER">
          <font>
             <Font name="Avenir Roman" size="14.0" />
          </font></Label>

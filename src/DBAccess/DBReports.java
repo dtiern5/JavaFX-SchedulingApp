@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+// TODO: Fix this report so it matches the "Little Things" article
 public class DBReports {
 
     public static ObservableList countAppointmentTypes(int year, int month) throws SQLException {

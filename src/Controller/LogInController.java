@@ -22,7 +22,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Locale;
@@ -42,6 +44,7 @@ public class LogInController implements Initializable {
     private String appointmentAlert;
     private String minutes;
     private String noAppointments;
+    private String zoneId;
 
     @FXML
     private Label appName;
@@ -57,6 +60,8 @@ public class LogInController implements Initializable {
     private TextField userNameTextField;
     @FXML
     private TextField passwordTextField;
+    @FXML
+    private Label locationLabel;
 
 
     /**
@@ -86,11 +91,13 @@ public class LogInController implements Initializable {
             appointmentAlert = rb.getString("Appointment_Alert");
             minutes = rb.getString("minutes");
             noAppointments = rb.getString("No_Appointment_Alert");
+            zoneId = rb.getString("Zone_ID");
         } catch (Exception e) {
             System.out.println("Language not supported");
             System.out.println("Exiting");
             System.exit(0);
         }
+        locationLabel.setText(String.valueOf(zoneId + ": " + ZoneId.systemDefault()));
         System.out.println("Initialized");
     }
 
@@ -126,7 +133,8 @@ public class LogInController implements Initializable {
 
         DateTimeFormatter formatter = DateTimeFormatter.ISO_TIME;
 
-        fileWriter.append("Log in attempt at " + LocalTime.now().truncatedTo(ChronoUnit.SECONDS) + " on " + LocalDate.now() + "\n");
+        // fileWriter.append("Log in attempt at " + LocalTime.now().truncatedTo(ChronoUnit.SECONDS) + " on " + LocalDate.now() + "\n");
+        fileWriter.append("Log in attempt at " + LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS) + "\n");
 
 
         /*

@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
-<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="252.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.LogInController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="257.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.LogInController">
    <children>
       <Label fx:id="appName" alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="14.0" prefHeight="35.0" prefWidth="305.0" textAlignment="CENTER" underline="true">
          <font>
@@ -34,5 +30,10 @@
          </font></Button>
       <TextField fx:id="userNameTextField" layoutX="149.0" layoutY="75.0" />
       <TextField fx:id="passwordTextField" layoutX="149.0" layoutY="142.0" />
+      <Label fx:id="locationLabel" layoutX="16.0" layoutY="224.0" text="Location">
+         <font>
+            <Font name="Avenir Roman" size="13.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

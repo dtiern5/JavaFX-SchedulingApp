@@ -346,10 +346,10 @@ public class MainScreenController implements Initializable {
                 Optional<ButtonType> result = alert.showAndWait();
 
                 if (appointmentList.size() == 0 && result.isPresent() && result.get() == ButtonType.OK) {
+                    feedbackLabel.setText("Customer ID " + customer.getCustomerId() + " deleted");
+                    feedbackLabel.setTextFill(Color.color(0.2, 0.6, 0.2));
                     DBCustomers.deleteCustomer(customer.getCustomerId());
                     populateCustomerTable();
-                    feedbackLabel.setText("Customer deleted");
-                    feedbackLabel.setTextFill(Color.color(0.2, 0.6, 0.2));
                 } else {
                     feedbackLabel.setText("Customer not deleted");
                     feedbackLabel.setTextFill(Color.color(0.6, 0.2, 0.2));
@@ -378,12 +378,12 @@ public class MainScreenController implements Initializable {
             Optional<ButtonType> result = alert.showAndWait();
 
             if (result.isPresent() && result.get() == ButtonType.OK) {
+                feedbackLabel.setText("Appointment ID " + appointment.getAppointmentId() + " of type "
+                + appointment.getType() + " deleted");
+                feedbackLabel.setTextFill(Color.color(0.2, 0.6, 0.2));
 
                 DBAppointments.deleteAppointment(appointment.getAppointmentId());
                 populateAppointmentTable();
-
-                feedbackLabel.setText("Appointment deleted");
-                feedbackLabel.setTextFill(Color.color(0.2, 0.6, 0.2));
             } else {
                 feedbackLabel.setText("Appointment not deleted");
                 feedbackLabel.setTextFill(Color.color(0.6, 0.2, 0.2));
