@@ -1,6 +1,5 @@
 package Controller;
 
-import Bundles.AlertInterface;
 import DBAccess.DBAppointments;
 import DBAccess.DBCustomers;
 import Model.Appointment;

@@ -2,7 +2,6 @@ package DBAccess;
 
 import Database.DBConnection;
 import Database.DBQuery;
-import Model.Customer;
 import Model.Division;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

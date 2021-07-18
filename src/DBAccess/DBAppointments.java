@@ -1,20 +1,14 @@
 package DBAccess;
 
-import Bundles.TimeConversions;
 import Database.DBConnection;
 import Database.DBQuery;
 import Model.Appointment;
 import Model.Contact;
-import Model.Report;
-import Model.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.*;
 import java.time.*;
-import java.util.Calendar;
-
-import static Bundles.TimeConversions.convertToUtc;
 
 public class DBAppointments {
 

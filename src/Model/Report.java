@@ -1,7 +1,5 @@
 package Model;
 
-import DBAccess.DBDivisions;
-
 public class Report {
     private String type;
     private Division division;

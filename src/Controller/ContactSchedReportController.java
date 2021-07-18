@@ -22,7 +22,6 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 /**
  * Controller for the ContactSchedReport screen where appointments are displayed for individual contacts.

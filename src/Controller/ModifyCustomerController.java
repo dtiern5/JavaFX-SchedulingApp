@@ -4,7 +4,6 @@ import DBAccess.DBCountries;
 import DBAccess.DBCustomers;
 import DBAccess.DBDivisions;
 import DBAccess.DBUsers;
-import Database.DBConnection;
 import Model.Country;
 import Model.Customer;
 import Model.Division;
@@ -25,7 +24,6 @@ import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;

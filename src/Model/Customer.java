@@ -3,9 +3,7 @@ package Model;
 import DBAccess.DBCountries;
 import DBAccess.DBDivisions;
 
-import java.sql.Date;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Customer {

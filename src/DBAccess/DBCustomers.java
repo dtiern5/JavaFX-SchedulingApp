@@ -2,7 +2,6 @@ package DBAccess;
 
 import Database.DBConnection;
 import Database.DBQuery;
-import Model.Country;
 import Model.Customer;
 import Model.User;
 import javafx.collections.FXCollections;
@@ -12,7 +11,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class DBCustomers {

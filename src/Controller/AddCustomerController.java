@@ -41,8 +41,6 @@ public class AddCustomerController implements Initializable {
     ComboBox<User> userCombo;
 
     @FXML
-    private TextField customerIdTF;
-    @FXML
     private TextField nameTF;
     @FXML
     private TextField addressTF;

@@ -1,11 +1,10 @@
 package Controller;
 
-import Bundles.TimeConversions;
+import BundlesAndUtilities.TimeConversions;
 import DBAccess.DBAppointments;
 import DBAccess.DBContacts;
 import DBAccess.DBCustomers;
 import DBAccess.DBUsers;
-import Database.DBConnection;
 import Model.Appointment;
 import Model.Contact;
 import Model.Customer;
@@ -25,9 +24,7 @@ import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
 import java.sql.SQLException;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -158,11 +155,11 @@ public class ModifyAppointmentController implements Initializable {
         // Get selected start and end times converted to EST for comparison logic
         LocalTime selectedStartTime = startTimeCombo.getValue();
         LocalDateTime selectedStartLdt = LocalDateTime.of(selectedDate, selectedStartTime);
-        LocalDateTime convertedStartLdt = Bundles.TimeConversions.convertToEst(selectedStartLdt);
+        LocalDateTime convertedStartLdt = BundlesAndUtilities.TimeConversions.convertToEst(selectedStartLdt);
 
         LocalTime selectedEndTime = endTimeCombo.getValue();
         LocalDateTime selectedEndLdt = LocalDateTime.of(selectedDate, selectedEndTime);
-        LocalDateTime convertedEndLdt = Bundles.TimeConversions.convertToEst(selectedEndLdt);
+        LocalDateTime convertedEndLdt = BundlesAndUtilities.TimeConversions.convertToEst(selectedEndLdt);
 
         // TODO: UNCOMMENT WEEKEND LOGIC WHEN DONE TESTING
         try {

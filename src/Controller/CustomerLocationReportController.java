@@ -1,10 +1,8 @@
 package Controller;
 
 import DBAccess.DBCountries;
-import DBAccess.DBDivisions;
 import DBAccess.DBReports;
 import Model.Country;
-import Model.Division;
 import Model.Report;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
