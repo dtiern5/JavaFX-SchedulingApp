@@ -173,4 +173,8 @@ public class Appointment {
     public void setContactId(int contactId) {
         this.contactId = contactId;
     }
+
+    public String toString() {
+        return title;
+    }
 }

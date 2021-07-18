@@ -10,6 +10,7 @@ import Model.Contact;
 import Model.Customer;
 import Model.User;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,6 +26,7 @@ import javafx.util.Callback;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -61,7 +63,7 @@ public class ModifyAppointmentController implements Initializable {
     @FXML
     private ComboBox<User> userCombo;
 
-    private Appointment currentAppointment;
+    private ObservableList<Appointment> appointmentList;
 
     /**
      * Accepts and displays the appointment's modifiable data.
@@ -70,25 +72,18 @@ public class ModifyAppointmentController implements Initializable {
      * @param appointment the appointment to modify
      */
     public void initData(Appointment appointment) throws SQLException {
-        currentAppointment = appointment;
-
-        try {
-            userCombo.setValue(DBUsers.getUser(currentAppointment.getUserId()));
-            contactCombo.setValue(DBContacts.getContact(currentAppointment.getContactId()));
-            customerCombo.setValue(DBCustomers.getCustomer(currentAppointment.getCustomerId()));
-            appointmentIdTF.setText(String.valueOf(currentAppointment.getAppointmentId()));
-            titleTF.setText(currentAppointment.getTitle());
-            descriptionTF.setText(currentAppointment.getDescription());
-            locationTF.setText(currentAppointment.getLocation());
-            typeTF.setText(currentAppointment.getType());
-            datePicker.setValue(currentAppointment.getStartTime().toLocalDate());
-            startTimeCombo.getSelectionModel().select(currentAppointment.getStartTime().toLocalTime());
-            populateEndCombo(); // Need the start time of appointment to populate the possible end times
-            endTimeCombo.getSelectionModel().select(appointment.getEndTime().toLocalTime());
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
+        userCombo.setValue(DBUsers.getUser(appointment.getUserId()));
+        contactCombo.setValue(DBContacts.getContact(appointment.getContactId()));
+        customerCombo.setValue(DBCustomers.getCustomer(appointment.getCustomerId()));
+        appointmentIdTF.setText(String.valueOf(appointment.getAppointmentId()));
+        titleTF.setText(appointment.getTitle());
+        descriptionTF.setText(appointment.getDescription());
+        locationTF.setText(appointment.getLocation());
+        typeTF.setText(appointment.getType());
+        datePicker.setValue(appointment.getStartTime().toLocalDate());
+        startTimeCombo.getSelectionModel().select(appointment.getStartTime().toLocalTime());
+        populateEndCombo(); // Need the start time of appointment to populate the possible end times
+        endTimeCombo.getSelectionModel().select(appointment.getEndTime().toLocalTime());
     }
 
     /**
@@ -98,20 +93,26 @@ public class ModifyAppointmentController implements Initializable {
      * @param resourceBundle resources used to localize the root object
      */
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         populateCustomerCombo();
         populateContactCombo();
         populateStartCombo();
         populateUserCombo();
+        populateAppointments();
+    }
 
+    private void populateAppointments() {
+        try {
+            appointmentList = DBAppointments.getAllAppointments();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     /**
      * Creates and sets a list for the endTimeCombo of possible end times (between 15 after start time and 22:00 EST)
      *
-     * @param event for limiting end times to viable times
      */
-    public void endTimeHandler(ActionEvent event) {
+    public void endTimeHandler() {
         endTimeCombo.getItems().clear();
 
         LocalTime start = startTimeCombo.getValue().plusMinutes(15);
@@ -127,20 +128,22 @@ public class ModifyAppointmentController implements Initializable {
 
     }
 
-    // TODO: add logic for scheduling overlapping appointments for customers
     /**
      * Ensures no fields are empty, selected date is a weekday, start and end times are valid, and customers are not
      * scheduled for overlapping appointments.
      * Then, saves the appointment to the database.
      *
-     * @param event for adding appointment to the database on click.
      */
-    public void confirmHandler(ActionEvent event) {
-        if (datePicker.getValue() == null) {
-            System.out.println("datepicker null");
+    public void confirmHandler() {
+        if (datePicker.getValue() == null ||
+                startTimeCombo.getValue() == null ||
+                endTimeCombo.getValue() == null) {
+            feedbackLabel.setText("Error: All fields require values");
+            feedbackLabel.setTextFill(Color.color(0.6, 0.2, 0.2));
             return;
         }
 
+        // TODO: Can move this time conversion to a separate method
         LocalDate selectedDate = datePicker.getValue();
 
         // Start and end times for EST time zone
@@ -161,7 +164,6 @@ public class ModifyAppointmentController implements Initializable {
         LocalDateTime selectedEndLdt = LocalDateTime.of(selectedDate, selectedEndTime);
         LocalDateTime convertedEndLdt = BundlesAndUtilities.TimeConversions.convertToEst(selectedEndLdt);
 
-        // TODO: UNCOMMENT WEEKEND LOGIC WHEN DONE TESTING
         try {
             if (titleTF.getText().isEmpty() ||
                     descriptionTF.getText().isEmpty() ||
@@ -169,22 +171,19 @@ public class ModifyAppointmentController implements Initializable {
                     typeTF.getText().isEmpty() ||
                     userCombo.getValue() == null ||
                     contactCombo.getValue() == null ||
-                    customerCombo.getValue() == null ||
-                    startTimeCombo.getValue() == null ||
-                    endTimeCombo.getValue() == null ||
-                    datePicker.getValue() == null) {
+                    customerCombo.getValue() == null) {
 
                 feedbackLabel.setText("Error: All fields require values");
                 feedbackLabel.setTextFill(Color.color(0.6, 0.2, 0.2));
 
-            }/* else if (datePicker.getValue().getDayOfWeek() == DayOfWeek.SATURDAY ||
+            } else if (datePicker.getValue().getDayOfWeek() == DayOfWeek.SATURDAY ||
                     datePicker.getValue().getDayOfWeek() == DayOfWeek.SUNDAY
             ) {
 
                 feedbackLabel.setText("Error: Cannot schedule appointment on weekend");
                 feedbackLabel.setTextFill(Color.color(0.6, 0.2, 0.2));
 
-            }*/ else if (convertedStartLdt.isBefore(estStartLdt) ||
+            } else if (convertedStartLdt.isBefore(estStartLdt) ||
                     convertedStartLdt.isAfter(estEndLdt) ||
                     convertedEndLdt.isBefore(convertedStartLdt) ||
                     convertedEndLdt.isAfter(estEndLdt)
@@ -193,6 +192,9 @@ public class ModifyAppointmentController implements Initializable {
                 feedbackLabel.setText("Error: Valid hours are between 8AM and 10PM EST");
                 feedbackLabel.setTextFill(Color.color(0.6, 0.2, 0.2));
 
+            } else if (overlappingAppointment()) {
+                feedbackLabel.setText("Error: Customer has overlapping appointment");
+                feedbackLabel.setTextFill(Color.color(0.6, 0.2, 0.2));
             } else {
                 String title = titleTF.getText();
                 String description = descriptionTF.getText();
@@ -210,13 +212,12 @@ public class ModifyAppointmentController implements Initializable {
                 int userId = userCombo.getValue().getUserId();
                 int contactId = contactCombo.getValue().getContactId();
                 int appointmentId = Integer.parseInt(appointmentIdTF.getText());
-                String userString = DBUsers.getUser(userId).toString();
 
-                DBAppointments.modifyAppointment(title, description, location, type, start, end, userString, customerId, userId, contactId, appointmentId);
+                DBAppointments.modifyAppointment(title, description, location, type, start, end, userCombo.getValue().toString(), customerId, userId, contactId, appointmentId);
 
                 feedbackLabel.setText("Appointment updated");
                 feedbackLabel.setTextFill(Color.color(0.2, 0.6, 0.2));
-
+                populateAppointments();
             }
 
         } catch (Exception e) {
@@ -226,6 +227,54 @@ public class ModifyAppointmentController implements Initializable {
             alert.setContentText("Appointment Not Saved");
             alert.showAndWait();
         }
+    }
+
+    /**
+     * Logic for checking for potential overlapping appointments
+     * <p>
+     * The lambda expression filters the list of all appointments to only include appointments associated with
+     * the selected customer. It increases efficiency by allowing us to use one list to filter from, instead
+     * of accessing the database to create a new list for each customer.
+     *
+     * @return a boolean true for an overlapping appointment, and false for no overlap
+     */
+    private boolean overlappingAppointment() {
+        LocalDate chosenDate = datePicker.getValue();
+        LocalTime startTime = startTimeCombo.getValue();
+        LocalTime endTime = endTimeCombo.getValue();
+        LocalDateTime start = LocalDateTime.of(chosenDate, startTime);
+        LocalDateTime end = LocalDateTime.of(chosenDate, endTime);
+
+        Customer selectedCustomer = customerCombo.getValue();
+
+        FilteredList<Appointment> customerAppointments = new FilteredList<>(appointmentList);
+
+        // check if the contact for the appointment equals the selected contact
+        customerAppointments.setPredicate(a -> a.getCustomerId() == selectedCustomer.getCustomerId());
+
+        System.out.println("Customer appointments: " + customerAppointments);
+
+        boolean overlappingAppointment = false;
+
+        for (Appointment a : customerAppointments) {
+
+            // Appointment can't overlap with itself
+            if (a.getAppointmentId() == Integer.parseInt(appointmentIdTF.getText())) {
+                continue;
+            }
+
+            System.out.println("Appointment: " + a);
+            if (a.getStartTime().isAfter(start) && a.getStartTime().isBefore(end)) {
+                overlappingAppointment = true;
+            } else if (a.getStartTime().equals(start) || a.getStartTime().equals(end) || a.getEndTime().equals(start) || a.getEndTime().equals(end)) {
+                overlappingAppointment = true;
+            } else if (a.getEndTime().isAfter(start) && a.getEndTime().isBefore(end)) {
+                overlappingAppointment = true;
+            } else if (a.getStartTime().isBefore(start) && a.getEndTime().isAfter(end)) {
+                overlappingAppointment = true;
+            }
+        }
+        return overlappingAppointment;
     }
 
     /**
@@ -241,7 +290,7 @@ public class ModifyAppointmentController implements Initializable {
         }
         customerCombo.setItems(customerList);
 
-        Callback<ListView<Customer>, ListCell<Customer>> customerFactory = lv -> new ListCell<Customer>() {
+        Callback<ListView<Customer>, ListCell<Customer>> customerFactory = lv -> new ListCell<>() {
             @Override
             protected void updateItem(Customer customer, boolean empty) {
                 super.updateItem(customer, empty);
@@ -249,7 +298,7 @@ public class ModifyAppointmentController implements Initializable {
             }
         };
 
-        Callback<ListView<Customer>, ListCell<Customer>> factorySelected = lv -> new ListCell<Customer>() {
+        Callback<ListView<Customer>, ListCell<Customer>> factorySelected = lv -> new ListCell<>() {
             @Override
             protected void updateItem(Customer customer, boolean empty) {
                 super.updateItem(customer, empty);
@@ -319,7 +368,7 @@ public class ModifyAppointmentController implements Initializable {
         }
         userCombo.setItems(userList);
 
-        Callback<ListView<User>, ListCell<User>> userFactory = lv -> new ListCell<User>() {
+        Callback<ListView<User>, ListCell<User>> userFactory = lv -> new ListCell<>() {
             @Override
             protected void updateItem(User user, boolean empty) {
                 super.updateItem(user, empty);
@@ -327,7 +376,7 @@ public class ModifyAppointmentController implements Initializable {
             }
         };
 
-        Callback<ListView<User>, ListCell<User>> userFactorySelected = lv -> new ListCell<User>() {
+        Callback<ListView<User>, ListCell<User>> userFactorySelected = lv -> new ListCell<>() {
             @Override
             protected void updateItem(User user, boolean empty) {
                 super.updateItem(user, empty);
@@ -355,8 +404,6 @@ public class ModifyAppointmentController implements Initializable {
             loader.setLocation(getClass().getResource("../View/MainScreenView.fxml"));
             Parent scene = loader.load();
             Scene mainViewScene = new Scene(scene);
-
-            MainScreenController controller = loader.getController();
 
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
             window.setScene(mainViewScene);

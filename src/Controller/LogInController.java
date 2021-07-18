@@ -70,7 +70,7 @@ public class LogInController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
-            ResourceBundle rb = ResourceBundle.getBundle("Bundles.MessagesBundle", Locale.getDefault());
+            ResourceBundle rb = ResourceBundle.getBundle("BundlesAndUtilities.MessagesBundle", Locale.getDefault());
             if (Locale.getDefault().getLanguage().equals("fr") || Locale.getDefault().getLanguage().equals("en")) {
                 System.out.println(rb.getString("hello") + " " + rb.getString("world"));
             }
@@ -194,7 +194,6 @@ public class LogInController implements Initializable {
             alert.setContentText(noAppointments);
             alert.showAndWait();
         }
-
     }
 
     /**
@@ -217,7 +216,5 @@ public class LogInController implements Initializable {
         window.show();
 
     }
-
-
 }
 
