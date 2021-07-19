@@ -227,7 +227,7 @@ public class DBAppointments {
     }
 
     /**
-     * Returns an Appointment by the given customer ID.
+     * Returns a Appointments by the given customer ID.
      *
      * @param customerId the Customer ID used for retrieval
      * @return ObservableList of the appointments
