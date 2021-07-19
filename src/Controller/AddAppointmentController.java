@@ -301,7 +301,7 @@ public class AddAppointmentController implements Initializable {
     /**
      * Logic for checking for potential overlapping appointments
      * <p>
-     * The lambda expression filters the list of all appointments to only include appointments associated with
+     * LAMBDA: The lambda expression filters the list of all appointments to only include appointments associated with
      * the selected customer. It increases efficiency by allowing us to use one list to filter from, instead
      * of accessing the database to create a new list for each customer.
      *

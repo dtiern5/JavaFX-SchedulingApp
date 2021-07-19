@@ -4,7 +4,6 @@ import DBAccess.DBAppointments;
 import DBAccess.DBCustomers;
 import Model.Appointment;
 import Model.Customer;
-import Model.User;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -83,10 +82,7 @@ public class MainScreenController implements Initializable {
     @FXML
     private TableColumn<Appointment, Integer> appointmentsCustomerIdColumn;
 
-    private User currentUser;
 
-
-    // TODO: watch lambda webinar
     /**
      * Populates the customer table and the appointment table.
      *
@@ -138,7 +134,7 @@ public class MainScreenController implements Initializable {
      * @throws SQLException signals SQL Exception has occurred
      */
     private void populateAppointmentTable() throws SQLException {
-        ObservableList<Appointment> appointmentList = null;
+        ObservableList<Appointment> appointmentList;
 
         appointmentList = DBAppointments.getAllAppointments();
         appointmentsIdColumn.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
@@ -159,7 +155,7 @@ public class MainScreenController implements Initializable {
      * @throws SQLException signals SQL Exception has occurred
      */
     private void populateMonthlyAppointmentTable(int year, int month) throws SQLException {
-        ObservableList<Appointment> appointmentList = null;
+        ObservableList<Appointment> appointmentList;
 
         appointmentList = DBAppointments.getAllAppointmentsByMonth(year, month);
         appointmentsIdColumn.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
@@ -180,7 +176,7 @@ public class MainScreenController implements Initializable {
      * @throws SQLException signals SQL Exception has occurred
      */
     private void populateWeeklyAppointmentTable(LocalDate date) throws SQLException {
-        ObservableList<Appointment> appointmentList = null;
+        ObservableList<Appointment> appointmentList;
 
         appointmentList = DBAppointments.getAllAppointmentsByWeek(date);
         appointmentsIdColumn.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
@@ -201,7 +197,7 @@ public class MainScreenController implements Initializable {
      * @throws SQLException signals SQL Exception has occurred
      */
     private void populateCustomerTable() throws SQLException {
-        ObservableList<Customer> customerList = null;
+        ObservableList<Customer> customerList;
 
         customerList = DBCustomers.getAllCustomers();
         customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
@@ -228,8 +224,6 @@ public class MainScreenController implements Initializable {
         Parent scene = loader.load();
         Scene customerViewScene = new Scene(scene);
 
-        AddCustomerController controller = loader.getController();
-
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(customerViewScene);
         window.show();
@@ -247,8 +241,6 @@ public class MainScreenController implements Initializable {
         loader.setLocation(getClass().getResource("../View/AddAppointmentView.fxml"));
         Parent scene = loader.load();
         Scene appointmentViewScene = new Scene(scene);
-
-        AddAppointmentController controller = loader.getController();
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(appointmentViewScene);
@@ -317,17 +309,16 @@ public class MainScreenController implements Initializable {
      * Checks if customer has any scheduled appointments and shows an error if so.
      * Else, confirms the deletion of selected customer from the database.
      *
-     * @param event for deleting customer on click
      * @throws SQLException signals SQL Exception has occurred
      */
-    public void deleteCustomerHandler(ActionEvent event) throws SQLException {
+    public void deleteCustomerHandler() throws SQLException {
 
         if (customerTableView.getSelectionModel().isEmpty()) {
             feedbackLabel.setText("Must select customer to delete");
             feedbackLabel.setTextFill(Color.color(0.6, 0.2, 0.2));
         } else {
             Customer customer = customerTableView.getSelectionModel().getSelectedItem();
-            ObservableList<Appointment> appointmentList = null;
+            ObservableList<Appointment> appointmentList;
 
             appointmentList = DBAppointments.getAppointmentsByCustomerID(customer.getCustomerId());
 
@@ -358,14 +349,14 @@ public class MainScreenController implements Initializable {
         }
     }
 
-    // TODO: Rewrite this to not be such a mess of if/else statements
     /**
      * Confirms the deletion of selected appointment from the database.
+     * <p>
+     * LAMBDA: Before implementing this lambda, this logic was a mess of if/else statements. The lambda helps
+     * simplify the code and make it more readable.
      *
-     * @param event for deleting customer on click
-     * @throws SQLException signals SQL Exception has occurred
      */
-    public void deleteAppointmentHandler(ActionEvent event) throws SQLException {
+    public void deleteAppointmentHandler() {
         if (appointmentsTableView.getSelectionModel().isEmpty()) {
             feedbackLabel.setText("Must select appointment to delete");
             feedbackLabel.setTextFill(Color.color(0.6, 0.2, 0.2));
@@ -375,21 +366,28 @@ public class MainScreenController implements Initializable {
 
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete?");
             alert.setHeaderText("Appointment ID: " + appointment.getAppointmentId());
-            Optional<ButtonType> result = alert.showAndWait();
 
-            if (result.isPresent() && result.get() == ButtonType.OK) {
-                feedbackLabel.setText("Appointment ID " + appointment.getAppointmentId() + " of type "
-                + appointment.getType() + " deleted");
-                feedbackLabel.setTextFill(Color.color(0.2, 0.6, 0.2));
+            alert.showAndWait().ifPresent((response -> {
+                if (response == ButtonType.OK) {
+                    feedbackLabel.setText("Appointment ID " + appointment.getAppointmentId() + " of type '"
+                            + appointment.getType() + "' deleted");
+                    feedbackLabel.setTextFill(Color.color(0.2, 0.6, 0.2));
 
-                DBAppointments.deleteAppointment(appointment.getAppointmentId());
-                populateAppointmentTable();
-            } else {
-                feedbackLabel.setText("Appointment not deleted");
-                feedbackLabel.setTextFill(Color.color(0.6, 0.2, 0.2));
-            }
+                    try {
+                        DBAppointments.deleteAppointment(appointment.getAppointmentId());
+                        populateAppointmentTable();
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+                } else {
+                    feedbackLabel.setText("Appointment not deleted");
+                    feedbackLabel.setTextFill(Color.color(0.6, 0.2, 0.2));
+                }
+            }));
         }
     }
+
+
 
     /**
      * Switches to the typeReport screen for displaying the count of appointments
@@ -404,8 +402,6 @@ public class MainScreenController implements Initializable {
         loader.setLocation(getClass().getResource("../View/AppTypeReportView.fxml"));
         Parent scene = loader.load();
         Scene reportAppointmentsScene = new Scene(scene);
-
-        AppTypeReportController controller = loader.getController();
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(reportAppointmentsScene);
@@ -425,8 +421,6 @@ public class MainScreenController implements Initializable {
         Parent scene = loader.load();
         Scene contactReportScene = new Scene(scene);
 
-        ContactSchedReportController controller = loader.getController();
-
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(contactReportScene);
         window.show();
@@ -444,8 +438,6 @@ public class MainScreenController implements Initializable {
         loader.setLocation(getClass().getResource("../View/CustomerLocationReportView.fxml"));
         Parent scene = loader.load();
         Scene locationReportScene = new Scene(scene);
-
-        CustomerLocationReportController controller = loader.getController();
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(locationReportScene);

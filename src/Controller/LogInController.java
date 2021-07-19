@@ -154,7 +154,6 @@ public class LogInController implements Initializable {
                 currentUser = DBUsers.getUserByName(userNameAttempt);
 
                 appointmentAlert();
-
                 openMainScreen(event);
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
