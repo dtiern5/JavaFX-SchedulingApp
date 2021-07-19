@@ -1,7 +1,8 @@
-Desktop Scheduling Application Version 1.0
+Desktop Scheduling Application
+C195 Course Version 4
 Daniel Tierney
 dtiern5@wgu.edu
-July 17, 2021
+July 19, 2021
 
 Built with:
 IntelliJ IDEA 2020.3.2 (Community Edition)
