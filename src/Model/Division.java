@@ -1,5 +1,8 @@
 package Model;
 
+/**
+ * Model for Divisions. Contains a constructor and basic getters and setters.
+ */
 public class Division {
 
     private int divisionId;

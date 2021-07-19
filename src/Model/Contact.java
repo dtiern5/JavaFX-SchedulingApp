@@ -1,5 +1,8 @@
 package Model;
 
+/**
+ * Model for Contacts. Contains a constructor and basic getters and setters.
+ */
 public class Contact {
 
     private int contactId;

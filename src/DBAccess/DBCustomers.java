@@ -126,7 +126,7 @@ public class DBCustomers {
     }
 
     /**
-     * Creates a customer in the database using the given parameters
+     * Creates a customer in the database using the given parameters.
      *
      * @param customerName name of the customer
      * @param address address of the customer
@@ -160,7 +160,7 @@ public class DBCustomers {
     }
 
     /**
-     * Deletes a Customer from the database using a given Customer ID
+     * Deletes a Customer from the database using a given Customer ID.
      *
      * @param customerId the Customer ID indicating the Customer to be deleted
      * @throws SQLException signals a SQL Exception has occurred

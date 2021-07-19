@@ -6,6 +6,9 @@ import DBAccess.DBDivisions;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
+/**
+ * Model for Customers. Contains a constructor and basic getters and setters.
+ */
 public class Customer {
 
     private int customerId;

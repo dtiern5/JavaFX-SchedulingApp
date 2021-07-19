@@ -1,5 +1,8 @@
 package Model;
 
+/**
+ * Model for Countries. Contains a constructor and basic getters and setters.
+ */
 public class Country {
 
     private int countryID;

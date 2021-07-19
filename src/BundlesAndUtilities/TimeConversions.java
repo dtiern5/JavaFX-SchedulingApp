@@ -4,6 +4,9 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
+/**
+ * Class for doing time conversions between the User's system default, Eastern Standard Time, and Coordinated Universal Time.
+ */
 public class TimeConversions {
 
     /**

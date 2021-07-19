@@ -5,6 +5,9 @@ import DBAccess.DBContacts;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
+/**
+ * Model for Appointments. Contains a constructor and basic getters and setters.
+ */
 public class Appointment {
 
     private int appointmentId;
