@@ -6,7 +6,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-
+/**
+ * Class for starting and retrieving database connection
+ */
 public class DBConnection {
 
     // JDBC URL parts
@@ -25,7 +27,8 @@ public class DBConnection {
     private static final String userName = "U08AkY";
     private static final String password = "53689231354";
 
-    public static Connection startConnectionDriverManager() {
+
+    /*public static Connection startConnectionDriverManager() {
         try {
             conn = DriverManager.getConnection(jdbcURL, userName, password);
             System.out.println("Connection successful");
@@ -33,8 +36,13 @@ public class DBConnection {
             e.printStackTrace();
         }
         return conn;
-    }
+    }*/
 
+    /**
+     * Starts a connection with the database
+     * @return Connection to the database
+     * @throws SQLException signals a SQL Exception has occurred
+     */
     public static Connection startConnection() throws SQLException {
         MysqlDataSource source = new MysqlDataSource();
         source.setUser(userName);
@@ -47,10 +55,18 @@ public class DBConnection {
         return conn;
     }
 
+    /**
+     * Gets the connection to the database. Used anytime after the startConnection() method is run and before
+     * closeConnection() is run. More efficient than starting new connections.
+     * @return The Connection
+     */
     public static Connection getConnection() {
         return conn;
     }
 
+    /**
+     * Closes the Connection
+     */
     public static void closeConnection() {
         try {
             conn.close();
