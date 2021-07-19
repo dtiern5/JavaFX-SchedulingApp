@@ -21,11 +21,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Locale;
 import java.util.Optional;
@@ -97,7 +95,7 @@ public class LogInController implements Initializable {
             System.out.println("Exiting");
             System.exit(0);
         }
-        locationLabel.setText(String.valueOf(zoneId + ": " + ZoneId.systemDefault()));
+        locationLabel.setText(zoneId + ": " + ZoneId.systemDefault());
         System.out.println("Initialized");
     }
 
@@ -130,8 +128,6 @@ public class LogInController implements Initializable {
         String passwordAttempt = passwordTextField.getText();
 
         FileWriter fileWriter = new FileWriter("login_activity.txt", true);
-
-        DateTimeFormatter formatter = DateTimeFormatter.ISO_TIME;
 
         // fileWriter.append("Log in attempt at " + LocalTime.now().truncatedTo(ChronoUnit.SECONDS) + " on " + LocalDate.now() + "\n");
         fileWriter.append("Log in attempt at " + LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS) + "\n");
@@ -194,13 +190,12 @@ public class LogInController implements Initializable {
             }
         }
 
-        if (upcomingMeeting == true) {
+        if (upcomingMeeting) {
             alert.setContentText(appointmentAlert + " " + timeToMeeting + " " + minutes);
-            alert.showAndWait();
         } else {
             alert.setContentText(noAppointments);
-            alert.showAndWait();
         }
+        alert.showAndWait();
     }
 
     /**
@@ -215,8 +210,6 @@ public class LogInController implements Initializable {
         loader.setLocation(getClass().getResource("../View/MainScreenView.fxml"));
         Parent scene = loader.load();
         Scene mainViewScene = new Scene(scene);
-
-        MainScreenController controller = loader.getController();
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(mainViewScene);
