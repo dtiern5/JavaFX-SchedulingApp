@@ -8,6 +8,9 @@ import javafx.collections.ObservableList;
 
 import java.sql.*;
 
+/**
+ * Database Access class for Countries
+ */
 public class DBCountries {
 
     /**

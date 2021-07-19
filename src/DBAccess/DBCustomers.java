@@ -13,8 +13,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
+/**
+ * Database access class for Customers
+ */
 public class DBCustomers {
 
+    /**
+     * Returns a Customer by the given Customer ID.
+     *
+     * @param customerId the Customer ID used for retrieval
+     * @return the Customer being returned
+     * @throws SQLException signals SQL Exception has occurred
+     */
     public static Customer getCustomer(int customerId) throws SQLException {
         Connection conn = DBConnection.getConnection();
         String selectStatement = "SELECT * FROM customers WHERE Customer_ID = " + customerId;
@@ -48,6 +58,12 @@ public class DBCustomers {
         return null;
     }
 
+    /**
+     * Returns an ObservableList of all Customers in the database.
+     *
+     * @return ObservableList of Customers
+     * @throws SQLException signals SQL Exception has occurred
+     */
     public static ObservableList getAllCustomers() throws SQLException {
         Connection conn = DBConnection.getConnection();
         String selectStatement = "SELECT * FROM customers";
@@ -74,6 +90,18 @@ public class DBCustomers {
         return customerList;
     }
 
+    /**
+     * Modifies a Customer in the database using the given parameters.
+     *
+     * @param customerName modified name
+     * @param address modified address
+     * @param postalCode modified postal code
+     * @param phoneNumber modified phone number
+     * @param userString string of the user modifying the customer
+     * @param divisionId modified division ID
+     * @param customerId modified customer ID
+     * @throws SQLException signals SQL Exception has occurred
+     */
     public static void modifyCustomer(String customerName, String address, String postalCode, String phoneNumber,
                                       String userString, int divisionId, int customerId) throws SQLException {
         Connection conn = DBConnection.getConnection();
@@ -97,6 +125,17 @@ public class DBCustomers {
         ps.execute();
     }
 
+    /**
+     * Creates a customer in the database using the given parameters
+     *
+     * @param customerName name of the customer
+     * @param address address of the customer
+     * @param postalCode postal code of the customer
+     * @param phoneNumber phone number of the customer
+     * @param userString string of the user adding the customer
+     * @param divisionId division ID of the customer
+     * @throws SQLException Signals a SQL Exception has occurred
+     */
     public static void addCustomer(String customerName, String address, String postalCode, String phoneNumber,
                                    String userString, int divisionId) throws SQLException {
         Connection conn = DBConnection.getConnection();
@@ -120,6 +159,12 @@ public class DBCustomers {
         ps.execute();
     }
 
+    /**
+     * Deletes a Customer from the database using a given Customer ID
+     *
+     * @param customerId the Customer ID indicating the Customer to be deleted
+     * @throws SQLException signals a SQL Exception has occurred
+     */
     public static void deleteCustomer(Integer customerId) throws SQLException {
         Connection conn = DBConnection.getConnection();
 

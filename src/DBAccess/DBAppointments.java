@@ -9,6 +9,9 @@ import javafx.collections.ObservableList;
 import java.sql.*;
 import java.time.*;
 
+/**
+ * Database access class for Appointments
+ */
 public class DBAppointments {
 
     /**
@@ -16,7 +19,7 @@ public class DBAppointments {
      *
      * @param appointmentId the Appointment ID used for retrieval
      * @return the Appointment being returned
-     * @throws SQLException signals SQL Exception has occurred
+     * @throws SQLException signals a SQL Exception has occurred
      */
     public static Appointment getAppointment(int appointmentId) throws SQLException {
         Connection conn = DBConnection.getConnection();
@@ -60,7 +63,7 @@ public class DBAppointments {
      * Returns an ObservableList of all Appointments in the database.
      *
      * @return ObservableList of Appointments
-     * @throws SQLException signals SQL Exception has occurred
+     * @throws SQLException signals a SQL Exception has occurred
      */
     public static ObservableList getAllAppointments() throws SQLException {
         Connection conn = DBConnection.getConnection();
@@ -97,7 +100,7 @@ public class DBAppointments {
      *
      * @param user the user string used for retrieval
      * @return Observable List of the appointments
-     * @throws SQLException signals SQL Exception has occurred
+     * @throws SQLException signals a SQL Exception has occurred
      */
     public static ObservableList getTodaysAppointmentsByUser(String user) throws SQLException {
         Connection conn = DBConnection.getConnection();
@@ -147,7 +150,7 @@ public class DBAppointments {
      * @param year the year used for retrieval
      * @param month the month used for retrieval
      * @return Observable List of the appointments
-     * @throws SQLException signals SQL Exception has occurred
+     * @throws SQLException signals a SQL Exception has occurred
      */
     public static ObservableList getAllAppointmentsByMonth(int year, int month) throws SQLException {
         Connection conn = DBConnection.getConnection();
@@ -188,7 +191,7 @@ public class DBAppointments {
      *
      * @param date the date used for retrieval
      * @return Observable List of the appointments
-     * @throws SQLException signals SQL Exception has occurred
+     * @throws SQLException signals a SQL Exception has occurred
      */
     public static ObservableList getAllAppointmentsByWeek(LocalDate date) throws SQLException {
         Connection conn = DBConnection.getConnection();
@@ -228,7 +231,7 @@ public class DBAppointments {
      *
      * @param customerId the customerId used for retrieval
      * @return Observable List of the appointments
-     * @throws SQLException signals SQL Exception has occurred
+     * @throws SQLException signals a SQL Exception has occurred
      */
     public static ObservableList getAppointmentsByCustomerID(Integer customerId) throws SQLException {
         Connection conn = DBConnection.getConnection();
@@ -303,7 +306,7 @@ public class DBAppointments {
      * @param customerId customerId of appointment to add
      * @param userId userId of appointment to add
      * @param contactId contactId of appointment to add
-     * @throws SQLException signals SQL Exception has occurred
+     * @throws SQLException signals a SQL Exception has occurred
      */
     public static void addAppointment(String title, String description, String location, String type, LocalDateTime start,
                                       LocalDateTime end, String userString, int customerId, int userId, int contactId) throws SQLException {
@@ -346,7 +349,7 @@ public class DBAppointments {
      * @param userId userId of appointment to modify
      * @param contactId contactId of appointment to modify
      * @param appointmentId appointmentId of the appointment to modify
-     * @throws SQLException signals SQL Exception has occurred
+     * @throws SQLException signals a SQL Exception has occurred
      */
     public static void modifyAppointment(String title, String description, String location, String type, LocalDateTime start,
                                          LocalDateTime end, String userString, int customerId, int userId, int contactId,
@@ -377,10 +380,10 @@ public class DBAppointments {
     }
 
     /**
-     * Deletes an appointment from the database using a given appointment ID.
+     * Deletes an Appointment from the database using a given Appointment ID.
      *
-     * @param appointmentId the appointmentId used for deletion
-     * @throws SQLException signals SQL Exception has occurred
+     * @param appointmentId the appointmentId indicating the Appointment to be delet
+     * @throws SQLException signals a SQL Exception has occurred
      */
     public static void deleteAppointment(Integer appointmentId) throws SQLException {
         Connection conn = DBConnection.getConnection();
