@@ -31,7 +31,7 @@ public class Contact {
 
     /**
      * Sets the Contact's ID
-     * @return the Contact's ID
+     * @param contactId the Contact's ID
      */
     public void setContactId(int contactId) {
         this.contactId = contactId;
@@ -47,7 +47,7 @@ public class Contact {
 
     /**
      * Sets the Contact's name
-     * @return the Contact's name
+     * @param contactName the Contact's name
      */
     public void setContactName(String contactName) {
         this.contactName = contactName;
@@ -63,7 +63,7 @@ public class Contact {
 
     /**
      * Sets the Contact's email
-     * @return the Contact's email
+     * @param contactEmail the Contact's email
      */
     public void setContactEmail(String contactEmail) {
         this.contactEmail = contactEmail;

@@ -40,7 +40,7 @@ public class Country {
 
     /**
      * Sets the Country's ID
-     * @return the Country's ID
+     * @param countryID the Country's ID
      */
     public void setCountryID(int countryID) {
         this.countryID = countryID;
@@ -55,7 +55,7 @@ public class Country {
     }
     /**
      * Sets the Country's name
-     * @return the Country's name
+     * @param countryName the Country's name
      */
     public void setCountryName(String countryName) {
         this.countryName = countryName;
@@ -72,7 +72,7 @@ public class Country {
 
     /**
      * Sets the date the Country was created
-     * @return the date
+     * @param createDate the date
      */
     public void setCreateDate(String createDate) {
         this.createDate = createDate;
@@ -88,7 +88,7 @@ public class Country {
 
     /**
      * Sets the one who created the Country
-     * @return the one who created the Country
+     * @param createdBy the one who created the Country
      */
     public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
@@ -104,7 +104,7 @@ public class Country {
 
     /**
      * Sets the date the Country was updated
-     * @return the date the Country was updated
+     * @param lastUpdate the date the Country was updated
      */
     public void setLastUpdate(String lastUpdate) {
         this.lastUpdate = lastUpdate;

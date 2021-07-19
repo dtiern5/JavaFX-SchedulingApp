@@ -72,7 +72,7 @@ public class Customer {
 
     /**
      * Sets the Division of the Customer
-     * @return the Division
+     * @param division the Division
      */
     public void setDivision(Division division) {
         this.division = division;
@@ -88,7 +88,7 @@ public class Customer {
 
     /**
      * Sets the Country of the Customer
-     * @return the Country
+     * @param country the Country
      */
     public void setCountry(Country country) {
         this.country = country;
@@ -104,7 +104,7 @@ public class Customer {
 
     /**
      * Sets the ID of the Customer
-     * @return the ID
+     * @param customerId Customer's ID
      */
     public void setCustomerId(int customerId) {
         this.customerId = customerId;
@@ -120,7 +120,7 @@ public class Customer {
 
     /**
      * Sets the name of the Customer
-     * @return the name
+     * @param customerName the name
      */
     public void setCustomerName(String customerName) {
         this.customerName = customerName;
@@ -136,7 +136,7 @@ public class Customer {
 
     /**
      * Sets the address of the Customer
-     * @return the address
+     * @param address the address
      */
     public void setAddress(String address) {
         this.address = address;
@@ -151,7 +151,7 @@ public class Customer {
     }
     /**
      * Sets the postal code of the Customer
-     * @return the postal code
+     * @param postalCode the postal code
      */
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
@@ -167,7 +167,7 @@ public class Customer {
 
     /**
      * Sets the phone number of the Customer
-     * @return the phone number
+     * @param phone the phone number
      */
     public void setPhone(String phone) {
         this.phone = phone;
@@ -246,14 +246,14 @@ public class Customer {
 
     /**
      * Sets the Division ID of the Customer
-     * @return the Division ID
+     * @param divisionId the Division ID
      */
     public void setDivisionId(int divisionId) {
         this.divisionId = divisionId;
     }
 
     /**
-     * Returns a string that contains both the Customers's ID and name
+     * Returns a string that contains both the Customer's ID and name
      * @return String with Customer's ID and name
      */
     public String toStringWithId() {

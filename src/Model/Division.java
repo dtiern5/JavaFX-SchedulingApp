@@ -147,7 +147,7 @@ public class Division {
 
     /**
      * Overrides the toString() method to return the division
-     * @return
+     * @return the Division
      */
     @Override
     public String toString() {
