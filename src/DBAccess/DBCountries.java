@@ -10,6 +10,13 @@ import java.sql.*;
 
 public class DBCountries {
 
+    /**
+     * Returns a Country by the given Country ID.
+     *
+     * @param countryId the Country ID used for retrieval
+     * @return the Country being returned
+     * @throws SQLException signals SQL Exception has occurred
+     */
     public static Country getCountry(int countryId) throws SQLException {
         Connection conn = DBConnection.getConnection();
         String selectStatement = "SELECT * FROM countries WHERE Country_ID = " + countryId;
@@ -37,7 +44,12 @@ public class DBCountries {
         return null;
     }
 
-
+    /**
+     * Returns an ObservableList of all Countries in the database.
+     *
+     * @return ObservableList of all Countries
+     * @throws SQLException signals SQL Exception has occurred
+     */
     public static ObservableList getAllACountries() throws SQLException {
         Connection conn = DBConnection.getConnection();
         String selectStatement = "SELECT * FROM countries";
@@ -59,23 +71,4 @@ public class DBCountries {
         }
         return countryList;
     }
-
-
-    // Code from Getting The DBConnection Class Project Ready
-    /*public static void checkDateConversion() {
-        System.out.println("CREATE DATE TEST");
-        String sql = "SELECT Create_Date FROM countries";
-
-        try {
-            PreparedStatement ps = DBConnection.getConnection().prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-            while(rs.next()) {
-                Timestamp ts = rs.getTimestamp("Create_Date");
-                System.out.println("Create_Date: " + ts.toLocalDateTime().toString());
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-    }*/
 }

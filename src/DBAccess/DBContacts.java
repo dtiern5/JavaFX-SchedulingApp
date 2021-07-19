@@ -13,6 +13,13 @@ import java.sql.SQLException;
 
 public class DBContacts {
 
+    /**
+     * Returns a contact by the given contact ID.
+     *
+     * @param contactId the contact ID used for retrieval
+     * @return the contact being returned
+     * @throws SQLException signals SQL Exception has occurred
+     */
     public static Contact getContact(int contactId) throws SQLException {
         Connection conn = DBConnection.getConnection();
         String selectStatement = "SELECT * FROM contacts WHERE Contact_ID = " + contactId;
@@ -36,7 +43,12 @@ public class DBContacts {
         return null;
     }
 
-
+    /**
+     * Returns an ObservableList of all contacts in the database.
+     *
+     * @return ObservableList of all contacts
+     * @throws SQLException signals SQL Exception has occurred
+     */
     public static ObservableList getAllAContacts() throws SQLException {
         Connection conn = DBConnection.getConnection();
         String selectStatement = "SELECT * FROM contacts";

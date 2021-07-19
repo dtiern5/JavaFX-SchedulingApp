@@ -12,10 +12,10 @@ import java.time.*;
 public class DBAppointments {
 
     /**
-     * Returns an appointment object by the given appointmentId.
+     * Returns an Appointment by the given Appointment ID.
      *
-     * @param appointmentId the appointment Id used for retrieval
-     * @return the appointment being returned
+     * @param appointmentId the Appointment ID used for retrieval
+     * @return the Appointment being returned
      * @throws SQLException signals SQL Exception has occurred
      */
     public static Appointment getAppointment(int appointmentId) throws SQLException {
@@ -54,6 +54,42 @@ public class DBAppointments {
             return appointmentResult;
         }
         return null;
+    }
+
+    /**
+     * Returns an ObservableList of all Appointments in the database.
+     *
+     * @return ObservableList of Appointments
+     * @throws SQLException signals SQL Exception has occurred
+     */
+    public static ObservableList getAllAppointments() throws SQLException {
+        Connection conn = DBConnection.getConnection();
+        String selectStatement = "SELECT * FROM appointments";
+
+        DBQuery.setPreparedStatement(conn, selectStatement);
+
+        PreparedStatement ps = DBQuery.getPreparedStatement();
+        ResultSet rs = ps.executeQuery();
+
+        ObservableList<Appointment> appointmentList = FXCollections.observableArrayList();
+
+        while (rs.next()) {
+            appointmentList.add(new Appointment(rs.getInt("Appointment_ID"),
+                    rs.getString("Title"),
+                    rs.getString("Description"),
+                    rs.getString("Location"),
+                    rs.getString("Type"),
+                    rs.getTimestamp("Start").toLocalDateTime(),
+                    rs.getTimestamp("End").toLocalDateTime(),
+                    rs.getTimestamp("Create_Date").toLocalDateTime(),
+                    rs.getString("Created_By"),
+                    rs.getTimestamp("Last_Update").toLocalDateTime(),
+                    rs.getString("Last_Updated_By"),
+                    rs.getInt("Customer_ID"),
+                    rs.getInt("User_ID"),
+                    rs.getInt("Contact_ID")));
+        }
+        return appointmentList;
     }
 
     /**
@@ -103,42 +139,6 @@ public class DBAppointments {
         }
         return appointmentList;
 
-    }
-
-    /**
-     * Returns an ObservableList of all appointments in the database.
-     *
-     * @return Observable List of the appointments
-     * @throws SQLException signals SQL Exception has occurred
-     */
-    public static ObservableList getAllAppointments() throws SQLException {
-        Connection conn = DBConnection.getConnection();
-        String selectStatement = "SELECT * FROM appointments";
-
-        DBQuery.setPreparedStatement(conn, selectStatement);
-
-        PreparedStatement ps = DBQuery.getPreparedStatement();
-        ResultSet rs = ps.executeQuery();
-
-        ObservableList<Appointment> appointmentList = FXCollections.observableArrayList();
-
-        while (rs.next()) {
-            appointmentList.add(new Appointment(rs.getInt("Appointment_ID"),
-                    rs.getString("Title"),
-                    rs.getString("Description"),
-                    rs.getString("Location"),
-                    rs.getString("Type"),
-                    rs.getTimestamp("Start").toLocalDateTime(),
-                    rs.getTimestamp("End").toLocalDateTime(),
-                    rs.getTimestamp("Create_Date").toLocalDateTime(),
-                    rs.getString("Created_By"),
-                    rs.getTimestamp("Last_Update").toLocalDateTime(),
-                    rs.getString("Last_Updated_By"),
-                    rs.getInt("Customer_ID"),
-                    rs.getInt("User_ID"),
-                    rs.getInt("Contact_ID")));
-        }
-        return appointmentList;
     }
 
     /**
