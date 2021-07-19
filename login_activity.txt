@@ -34,3 +34,21 @@ Log in attempt at 2021-07-19T08:14:18
 Log in attempt at 2021-07-19T08:15:16
    User 'test' logged in successfully
 
+Log in attempt at 2021-07-19T08:47:18
+   User 'test' logged in successfully
+
+Log in attempt at 2021-07-19T08:52:44
+   User 'test' logged in successfully
+
+Log in attempt at 2021-07-19T08:55:47
+   User 'test' logged in successfully
+
+Log in attempt at 2021-07-19T09:00:23
+   User 'test' logged in successfully
+
+Log in attempt at 2021-07-19T09:06:46
+   User 'test' logged in successfully
+
+Log in attempt at 2021-07-19T09:08:15
+   User 'test' logged in successfully
+

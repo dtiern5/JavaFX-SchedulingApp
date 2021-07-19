@@ -29,15 +29,16 @@ import java.util.ResourceBundle;
 public class AppTypeReportController implements Initializable {
 
     @FXML
-    private ComboBox<String> monthCombo;
-    @FXML
     private ComboBox<Year> yearCombo;
     @FXML
     private TableView<Report> reportTableView;
     @FXML
+    private TableColumn<Appointment, String> monthColumn;
+    @FXML
     private TableColumn<Appointment, String> typeColumn;
     @FXML
     private TableColumn<Appointment, Integer> countColumn;
+
 
 
     /**
@@ -48,13 +49,10 @@ public class AppTypeReportController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        monthCombo.getItems().addAll("1. January", "2. February", "3. March",
-                "4. April", "5. May", "6. June", "7. July", "8. August", "9. September",
-                "10. October", "11. November", "12. December");
 
-                // Populate year ComboBox (arbitrarily 5 years back and 5 years out)
-        Year startYear = Year.now().minusYears(5);
-        Year endYear = Year.now().plusYears(6);
+        // Populate year ComboBox (arbitrarily 3 years back and 7 years out)
+        Year startYear = Year.now().minusYears(3);
+        Year endYear = Year.now().plusYears(7);
 
         ObservableList<Year> yearObservableList = FXCollections.observableArrayList();
         while (startYear.isBefore(endYear)) {
@@ -71,7 +69,7 @@ public class AppTypeReportController implements Initializable {
      * @throws SQLException signals a SQL Exception has occurred
      */
     public void searchHandler() throws SQLException {
-        if (yearCombo.getValue() == null || monthCombo.getValue() == null) {
+        if (yearCombo.getValue() == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Must select month and year");
             alert.showAndWait();
         } else {
@@ -79,13 +77,9 @@ public class AppTypeReportController implements Initializable {
             String yearString = String.valueOf((yearCombo.getValue()));
             int yearInt = Integer.parseInt(yearString);
 
-            // Convert month to integer, removing all non-digit characters
-            String monthString = monthCombo.getValue();
-            String monthDigitString = monthString.replaceAll("[^0-9]", "");
-            int monthInt = Integer.parseInt(monthDigitString);
-
             ObservableList<Report> appointmentList;
-            appointmentList = DBReports.countAppointmentTypes(yearInt, monthInt);
+            appointmentList = DBReports.countAppointmentTypes(yearInt);
+            monthColumn.setCellValueFactory(new PropertyValueFactory<>("month"));
             typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
             countColumn.setCellValueFactory(new PropertyValueFactory<>("count"));
             reportTableView.setItems(appointmentList);

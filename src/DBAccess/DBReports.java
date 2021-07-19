@@ -12,27 +12,26 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-// TODO: Fix this report so it matches the "Little Things" article
 public class DBReports {
 
-    public static ObservableList countAppointmentTypes(int year, int month) throws SQLException {
+    public static ObservableList countAppointmentTypes(int year) throws SQLException {
         Connection conn = DBConnection.getConnection();
-        String selectStatement = "SELECT Type, Count(*) FROM appointments " +
-                "WHERE YEAR(Start) = ? AND MONTH(Start) = ? GROUP BY Type";
+        String selectStatement = "SELECT Month(Start), Type, Count(*) " +
+                "FROM appointments " +
+                "WHERE Year(Start) = ? " +
+                "GROUP BY Month(Start), Type;";
 
         DBQuery.setPreparedStatement(conn, selectStatement);
-
         PreparedStatement ps = DBQuery.getPreparedStatement();
-
         ps.setString(1, String.valueOf(year));
-        ps.setString(2, String.valueOf(month));
 
         ResultSet rs = ps.executeQuery();
 
         ObservableList<Report> reportList = FXCollections.observableArrayList();
 
         while (rs.next()) {
-            reportList.add(new Report(rs.getString("Type"),
+            reportList.add(new Report(Integer.valueOf(rs.getString("Month(Start)")),
+                    rs.getString("Type"),
                     rs.getInt("Count(*)")));
         }
         return reportList;

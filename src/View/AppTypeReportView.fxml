@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.text.*?>
-
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
 <AnchorPane prefHeight="362.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AppTypeReportController">
    <children>
-      <TableView fx:id="reportTableView" layoutX="256.0" layoutY="57.0" prefHeight="240.0" prefWidth="299.0">
+      <TableView fx:id="reportTableView" layoutX="256.0" layoutY="57.0" prefHeight="240.0" prefWidth="284.0">
         <columns>
-          <TableColumn fx:id="typeColumn" prefWidth="149.0" text="Type" />
-          <TableColumn fx:id="countColumn" minWidth="9.0" prefWidth="149.0" text="Count" />
+            <TableColumn fx:id="monthColumn" prefWidth="90.0" text="Month" />
+          <TableColumn fx:id="typeColumn" prefWidth="129.0" text="Type" />
+          <TableColumn fx:id="countColumn" minWidth="9.0" prefWidth="64.0" text="Count" />
         </columns>
       </TableView>
-      <ComboBox fx:id="monthCombo" layoutX="72.0" layoutY="173.0" prefHeight="27.0" prefWidth="152.0" promptText="Select Month" />
-      <Button layoutX="403.0" layoutY="319.0" mnemonicParsing="false" onAction="#goBackHandler" text="Return To Main Screen">
+      <Button layoutX="388.0" layoutY="309.0" mnemonicParsing="false" onAction="#goBackHandler" text="Return To Main Screen">
          <font>
             <Font name="Avenir Roman" size="13.0" />
          </font>
@@ -25,16 +25,11 @@
             <Font name="Avenir Roman" size="13.0" />
          </font>
       </Label>
-      <Label layoutX="17.0" layoutY="177.0" text="Month">
-         <font>
-            <Font name="Avenir Roman" size="13.0" />
-         </font>
-      </Label>
       <Label layoutX="205.0" layoutY="14.0" text="Appointment Types">
          <font>
             <Font name="Avenir Oblique" size="18.0" />
          </font>
       </Label>
-      <Button layoutX="132.0" layoutY="220.0" mnemonicParsing="false" onAction="#searchHandler" text="Show Results" />
+      <Button layoutX="132.0" layoutY="168.0" mnemonicParsing="false" onAction="#searchHandler" text="Show Results" />
    </children>
 </AnchorPane>
