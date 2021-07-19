@@ -25,7 +25,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 /**
- * Controller for the main screen
+ * Controller for the main screen.
  */
 public class MainScreenController implements Initializable {
 
@@ -354,7 +354,7 @@ public class MainScreenController implements Initializable {
      * <p>
      * LAMBDA: Before implementing this lambda, this logic was a mess of if/else statements. The lambda helps
      * simplify the code and make it more readable.
-     *
+     * </p>
      */
     public void deleteAppointmentHandler() {
         if (appointmentsTableView.getSelectionModel().isEmpty()) {

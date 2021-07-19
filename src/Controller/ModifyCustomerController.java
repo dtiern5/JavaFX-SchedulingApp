@@ -29,7 +29,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 /**
- * Controller for the ModifyCustomer screen
+ * Controller for the ModifyCustomer screen.
  */
 public class ModifyCustomerController implements Initializable {
 

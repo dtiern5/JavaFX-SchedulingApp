@@ -100,10 +100,10 @@ public class ContactSchedReportController implements Initializable {
 
     /**
      * Displays appointments of the selected contact in the TableView.
-     *
-     * Using a lambda increases efficiency here. We create a list of all appointments by accessing the database only
+     * <p>
+     * LAMBDA: Using a lambda increases efficiency here. We create a list of all appointments by accessing the database only
      * once. The lambda expression simply filters that list based on the selected Contact.
-     *
+     * </p>
      */
     private void populateAppointmentTable() {
         Contact contact = contactCombo.getValue();

@@ -26,7 +26,7 @@ import java.util.ResourceBundle;
 
 
 /**
- * Controller for the AddAppointment screen
+ * Controller for the AddAppointment screen.
  */
 public class AddAppointmentController implements Initializable {
 
@@ -304,7 +304,7 @@ public class AddAppointmentController implements Initializable {
      * LAMBDA: The lambda expression filters the list of all appointments to only include appointments associated with
      * the selected customer. It increases efficiency by allowing us to use one list to filter from, instead
      * of accessing the database to create a new list for each customer.
-     *
+     * </p>
      * @return a boolean true for an overlapping appointment, and false for no overlap
      */
     private boolean overlappingAppointment() {

@@ -29,7 +29,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 /**
- * Controller for the AddCustomer screen
+ * Controller for the AddCustomer screen.
  */
 public class AddCustomerController implements Initializable {
 
@@ -72,10 +72,10 @@ public class AddCustomerController implements Initializable {
     /**
      * Populates the countryComboBox with available countries. Populates the table with customers.
      * <p>
-     * Using a lambda expression to set a listener on the country ComboBox makes for more readable code than my
+     * LAMBDA: Using a lambda expression to set a listener on the country ComboBox makes for more readable code than my
      * initial solution for populating the division ComboBox, which was to use a separate method to associate
      * an event handler with the country ComboBox.
-     *
+     *</p>
      * @param url            he location used to resolve relative paths for the root object
      * @param resourceBundle resources used to localize the root object
      */
