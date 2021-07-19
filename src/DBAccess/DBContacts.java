@@ -21,7 +21,7 @@ public class DBContacts {
      *
      * @param contactId the contact ID used for retrieval
      * @return the contact being returned
-     * @throws SQLException signals SQL Exception has occurred
+     * @throws SQLException signals a SQL Exception has occurred
      */
     public static Contact getContact(int contactId) throws SQLException {
         Connection conn = DBConnection.getConnection();
@@ -50,7 +50,7 @@ public class DBContacts {
      * Returns an ObservableList of all contacts in the database.
      *
      * @return ObservableList of all contacts
-     * @throws SQLException signals SQL Exception has occurred
+     * @throws SQLException signals a SQL Exception has occurred
      */
     public static ObservableList getAllAContacts() throws SQLException {
         Connection conn = DBConnection.getConnection();

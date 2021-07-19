@@ -18,7 +18,7 @@ public class DBCountries {
      *
      * @param countryId the Country ID used for retrieval
      * @return the Country being returned
-     * @throws SQLException signals SQL Exception has occurred
+     * @throws SQLException signals a SQL Exception has occurred
      */
     public static Country getCountry(int countryId) throws SQLException {
         Connection conn = DBConnection.getConnection();
@@ -51,7 +51,7 @@ public class DBCountries {
      * Returns an ObservableList of all Countries in the database.
      *
      * @return ObservableList of all Countries
-     * @throws SQLException signals SQL Exception has occurred
+     * @throws SQLException signals a SQL Exception has occurred
      */
     public static ObservableList getAllACountries() throws SQLException {
         Connection conn = DBConnection.getConnection();
