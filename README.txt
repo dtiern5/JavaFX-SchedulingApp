@@ -9,6 +9,13 @@ Java SE 11.0.10
 JavaFX-SDK-11.0.2
 mysql-connector-java:8.0.22
 
+Purpose:
+This application is designed for a fictional consulting organization. It allows for simple interaction with a database,
+including adding to, deleting, and modifying database records for Customers and Appointments. The organization operates
+in multiple time zones, and with multiple languages. This application ensures an ease of use for end users by displaying
+all appointment times in the user's local time, and ensures integrity of data by storing those same appointment times
+in UTC. It also disallows scheduling outside of business hours (8am - 10pm EST) and weekends in order to reduce
+scheduling errors.
 
 Directions:
 

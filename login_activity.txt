@@ -1,63 +1,18 @@
-Log in attempt at 2021-07-18T14:05:43
+Log in attempt at 16:32:33 on 2021-07-19
+   Unsuccessful (Username not found)
+
+Log in attempt at 16:32:36 on 2021-07-19
+   Unsuccessful (wrong password for user 'test')
+
+Log in attempt at 16:32:39 on 2021-07-19
    User 'test' logged in successfully
 
-Log in attempt at 2021-07-18T14:50:53
-   User 'test' logged in successfully
+Log in attempt at 16:32:53 on 2021-07-19
+   Unsuccessful (wrong password for user 'admin')
 
-Log in attempt at 2021-07-18T14:52:12
-   User 'test' logged in successfully
+Log in attempt at 16:32:58 on 2021-07-19
+   Unsuccessful (wrong password for user 'test')
 
-Log in attempt at 2021-07-23T11:46:10
-   User 'test' logged in successfully
-
-Log in attempt at 2021-07-23T11:46:44
-   User 'test' logged in successfully
-
-Log in attempt at 2021-07-23T11:47:08
-   User 'test' logged in successfully
-
-Log in attempt at 2021-07-23T11:48:12
-   User 'test' logged in successfully
-
-Log in attempt at 2021-07-18T14:57:13
-   User 'test' logged in successfully
-
-Log in attempt at 2021-07-18T15:00:57
-   User 'test' logged in successfully
-
-Log in attempt at 2021-07-18T15:03:09
-   User 'test' logged in successfully
-
-Log in attempt at 2021-07-19T08:14:18
-   User 'test' logged in successfully
-
-Log in attempt at 2021-07-19T08:15:16
-   User 'test' logged in successfully
-
-Log in attempt at 2021-07-19T08:47:18
-   User 'test' logged in successfully
-
-Log in attempt at 2021-07-19T08:52:44
-   User 'test' logged in successfully
-
-Log in attempt at 2021-07-19T08:55:47
-   User 'test' logged in successfully
-
-Log in attempt at 2021-07-19T09:00:23
-   User 'test' logged in successfully
-
-Log in attempt at 2021-07-19T09:06:46
-   User 'test' logged in successfully
-
-Log in attempt at 2021-07-19T09:08:15
-   User 'test' logged in successfully
-
-Log in attempt at 2021-07-19T15:01:24
-   User 'test' logged in successfully
-
-Log in attempt at 2021-07-19T16:17:40
-   User 'test' logged in successfully
-
-Log in attempt at 2021-07-19T16:26:32
+Log in attempt at 16:33 on 2021-07-19
    User 'test' logged in successfully
 

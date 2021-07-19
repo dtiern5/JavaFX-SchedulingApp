@@ -21,6 +21,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
@@ -129,8 +130,8 @@ public class LogInController implements Initializable {
 
         FileWriter fileWriter = new FileWriter("login_activity.txt", true);
 
-        // fileWriter.append("Log in attempt at " + LocalTime.now().truncatedTo(ChronoUnit.SECONDS) + " on " + LocalDate.now() + "\n");
-        fileWriter.append("Log in attempt at " + LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS) + "\n");
+        fileWriter.append("Log in attempt at " + LocalTime.now().truncatedTo(ChronoUnit.SECONDS) + " on " + LocalDate.now() + "\n");
+        // fileWriter.append("Log in attempt at " + LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS) + "\n");
 
 
         /*
@@ -141,7 +142,7 @@ public class LogInController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText(userNameNotFound);
             alert.showAndWait();
-            fileWriter.append("   Unsuccessful\n\n");
+            fileWriter.append("   Unsuccessful (Username not found)\n\n");
             fileWriter.close();
         } else {
             if (passwordAttempt.equals(DBUsers.getPassword(userNameAttempt))) {
@@ -155,7 +156,7 @@ public class LogInController implements Initializable {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText(incorrectPassword);
                 alert.showAndWait();
-                fileWriter.append("   Unsuccessful (wrong password for " + userNameAttempt + ")\n\n");
+                fileWriter.append("   Unsuccessful (wrong password for user '" + userNameAttempt + "')\n\n");
                 fileWriter.close();
             }
         }
