@@ -11,6 +11,13 @@ import java.time.*;
 
 public class DBAppointments {
 
+    /**
+     * Returns an appointment object by the given appointmentId.
+     *
+     * @param appointmentId the appointment Id used for retrieval
+     * @return the appointment being returned
+     * @throws SQLException signals SQL Exception has occurred
+     */
     public static Appointment getAppointment(int appointmentId) throws SQLException {
         Connection conn = DBConnection.getConnection();
         String selectStatement = "SELECT * FROM appointments WHERE Appointment_ID = " + appointmentId;
@@ -49,6 +56,13 @@ public class DBAppointments {
         return null;
     }
 
+    /**
+     * Returns an ObservableList of appointments by a String matching a user name.
+     *
+     * @param user the user string used for retrieval
+     * @return Observable List of the appointments
+     * @throws SQLException signals SQL Exception has occurred
+     */
     public static ObservableList getTodaysAppointmentsByUser(String user) throws SQLException {
         Connection conn = DBConnection.getConnection();
 
@@ -91,6 +105,12 @@ public class DBAppointments {
 
     }
 
+    /**
+     * Returns an ObservableList of all appointments in the database.
+     *
+     * @return Observable List of the appointments
+     * @throws SQLException signals SQL Exception has occurred
+     */
     public static ObservableList getAllAppointments() throws SQLException {
         Connection conn = DBConnection.getConnection();
         String selectStatement = "SELECT * FROM appointments";
@@ -121,6 +141,14 @@ public class DBAppointments {
         return appointmentList;
     }
 
+    /**
+     * Returns an ObservableList of all appointments in the database of the given year and month.
+     *
+     * @param year the year used for retrieval
+     * @param month the month used for retrieval
+     * @return Observable List of the appointments
+     * @throws SQLException signals SQL Exception has occurred
+     */
     public static ObservableList getAllAppointmentsByMonth(int year, int month) throws SQLException {
         Connection conn = DBConnection.getConnection();
         String selectStatement = "SELECT * FROM appointments WHERE year(start) = ? AND month(start) = ?";
@@ -155,6 +183,13 @@ public class DBAppointments {
         return appointmentList;
     }
 
+    /**
+     * Returns an ObservableList of all appointments in the database of the given week.
+     *
+     * @param date the date used for retrieval
+     * @return Observable List of the appointments
+     * @throws SQLException signals SQL Exception has occurred
+     */
     public static ObservableList getAllAppointmentsByWeek(LocalDate date) throws SQLException {
         Connection conn = DBConnection.getConnection();
         String selectStatement = "SELECT * FROM appointments WHERE YEARWEEK(Start, 0) = YEARWEEK(?, 0)";
@@ -188,6 +223,13 @@ public class DBAppointments {
         return appointmentList;
     }
 
+    /**
+     * Returns an Appointment by the given customer ID.
+     *
+     * @param customerId the customerId used for retrieval
+     * @return Observable List of the appointments
+     * @throws SQLException signals SQL Exception has occurred
+     */
     public static ObservableList getAppointmentsByCustomerID(Integer customerId) throws SQLException {
         Connection conn = DBConnection.getConnection();
         String selectStatement = "SELECT * FROM appointments WHERE Customer_ID = " + customerId;
@@ -248,6 +290,21 @@ public class DBAppointments {
         return appointmentList;
     }*/
 
+    /**
+     * Creates an appointment in the database using the given parameters.
+     *
+     * @param title title of appointment to add
+     * @param description description of appointment to add
+     * @param location location of appointment to add
+     * @param type type of appointment to add
+     * @param start start of appointment to add
+     * @param end end of appointment to add
+     * @param userString userString of appointment to add
+     * @param customerId customerId of appointment to add
+     * @param userId userId of appointment to add
+     * @param contactId contactId of appointment to add
+     * @throws SQLException signals SQL Exception has occurred
+     */
     public static void addAppointment(String title, String description, String location, String type, LocalDateTime start,
                                       LocalDateTime end, String userString, int customerId, int userId, int contactId) throws SQLException {
         Connection conn = DBConnection.getConnection();
@@ -275,8 +332,24 @@ public class DBAppointments {
         ps.execute();
     }
 
+    /**
+     * Modifies an appointment in the database using the given parameters.
+     *
+     * @param title title of appointment to modify
+     * @param description description of appointment to modify
+     * @param location location of appointment to modify
+     * @param type type of appointment to modify
+     * @param start start of appointment to modify
+     * @param end end of appointment to modify
+     * @param userString userString of appointment to modify
+     * @param customerId customerId of appointment to modify
+     * @param userId userId of appointment to modify
+     * @param contactId contactId of appointment to modify
+     * @param appointmentId appointmentId of the appointment to modify
+     * @throws SQLException signals SQL Exception has occurred
+     */
     public static void modifyAppointment(String title, String description, String location, String type, LocalDateTime start,
-                                         LocalDateTime end, String currentUser, int customerId, int userId, int contactId,
+                                         LocalDateTime end, String userString, int customerId, int userId, int contactId,
                                          int appointmentId) throws SQLException {
         Connection conn = DBConnection.getConnection();
 
@@ -294,7 +367,7 @@ public class DBAppointments {
         ps.setString(4, type);
         ps.setTimestamp(5, Timestamp.valueOf(start));
         ps.setTimestamp(6, Timestamp.valueOf(end));
-        ps.setString(7, currentUser);
+        ps.setString(7, userString);
         ps.setInt(8, customerId);
         ps.setInt(9, userId);
         ps.setInt(10, contactId);
@@ -303,6 +376,12 @@ public class DBAppointments {
         ps.execute();
     }
 
+    /**
+     * Deletes an appointment from the database using a given appointment ID.
+     *
+     * @param appointmentId the appointmentId used for deletion
+     * @throws SQLException signals SQL Exception has occurred
+     */
     public static void deleteAppointment(Integer appointmentId) throws SQLException {
         Connection conn = DBConnection.getConnection();
 
