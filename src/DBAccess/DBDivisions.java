@@ -11,8 +11,18 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Database access class for Divisions
+ */
 public class DBDivisions {
 
+    /**
+     * Returns a Division by the given Division ID.
+     *
+     * @param divisionId the Division ID used for retrieval
+     * @return the Division being returned
+     * @throws SQLException Signals a SQL Exception has occurred
+     */
     public static Division getDivision(int divisionId) throws SQLException {
         Connection conn = DBConnection.getConnection();
         String selectStatement = "SELECT * FROM first_level_divisions WHERE Division_Id = " + divisionId;
@@ -41,7 +51,12 @@ public class DBDivisions {
         return null;
     }
 
-
+    /**
+     * Returns an ObservableList of all Divisions in the database.
+     *
+     * @return ObservableList of Divisions
+     * @throws SQLException signals a SQL Exception has occurred
+     */
     public static ObservableList getAllDivisions() throws SQLException {
         Connection conn = DBConnection.getConnection();
         String selectStatement = "SELECT * FROM first_level_divisions";
@@ -65,6 +80,13 @@ public class DBDivisions {
         return divisionList;
     }
 
+    /**
+     * Returns a Division by the given Country ID.
+     *
+     * @param countryId the Country ID used for retrieval
+     * @return ObservableList of the appointments
+     * @throws SQLException signals a SQL Exception has occurred
+     */
     public static ObservableList getDivisionByCountryId(int countryId) throws SQLException {
         Connection conn = DBConnection.getConnection();
         String selectStatement = "SELECT * FROM first_level_divisions WHERE COUNTRY_ID = '" + countryId + "'";

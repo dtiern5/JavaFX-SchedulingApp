@@ -96,10 +96,10 @@ public class DBAppointments {
     }
 
     /**
-     * Returns an ObservableList of appointments by a String matching a user name.
+     * Returns an ObservableList of Appointments by a String matching a user name.
      *
      * @param user the user string used for retrieval
-     * @return Observable List of the appointments
+     * @return Observable List of the Appointments
      * @throws SQLException signals a SQL Exception has occurred
      */
     public static ObservableList getTodaysAppointmentsByUser(String user) throws SQLException {
@@ -145,7 +145,7 @@ public class DBAppointments {
     }
 
     /**
-     * Returns an ObservableList of all appointments in the database of the given year and month.
+     * Returns an ObservableList of all Appointments in the database of the given year and month.
      *
      * @param year the year used for retrieval
      * @param month the month used for retrieval
@@ -187,7 +187,7 @@ public class DBAppointments {
     }
 
     /**
-     * Returns an ObservableList of all appointments in the database of the given week.
+     * Returns an ObservableList of all Appointments in the database of the given week.
      *
      * @param date the date used for retrieval
      * @return Observable List of the appointments
@@ -229,8 +229,8 @@ public class DBAppointments {
     /**
      * Returns an Appointment by the given customer ID.
      *
-     * @param customerId the customerId used for retrieval
-     * @return Observable List of the appointments
+     * @param customerId the Customer ID used for retrieval
+     * @return ObservableList of the appointments
      * @throws SQLException signals a SQL Exception has occurred
      */
     public static ObservableList getAppointmentsByCustomerID(Integer customerId) throws SQLException {
@@ -296,16 +296,16 @@ public class DBAppointments {
     /**
      * Creates an appointment in the database using the given parameters.
      *
-     * @param title title of appointment to add
-     * @param description description of appointment to add
-     * @param location location of appointment to add
-     * @param type type of appointment to add
-     * @param start start of appointment to add
-     * @param end end of appointment to add
-     * @param userString userString of appointment to add
-     * @param customerId customerId of appointment to add
-     * @param userId userId of appointment to add
-     * @param contactId contactId of appointment to add
+     * @param title title of appointment
+     * @param description description of appointment
+     * @param location location of appointment
+     * @param type type of appointment
+     * @param start start of appointment
+     * @param end end of appointment
+     * @param userString userString of appointment
+     * @param customerId customerId of appointment
+     * @param userId userId of appointment
+     * @param contactId contactId of appointment
      * @throws SQLException signals a SQL Exception has occurred
      */
     public static void addAppointment(String title, String description, String location, String type, LocalDateTime start,
@@ -336,19 +336,19 @@ public class DBAppointments {
     }
 
     /**
-     * Modifies an appointment in the database using the given parameters.
+     * Modifies an Appointment in the database using the given parameters.
      *
-     * @param title title of appointment to modify
-     * @param description description of appointment to modify
-     * @param location location of appointment to modify
-     * @param type type of appointment to modify
-     * @param start start of appointment to modify
-     * @param end end of appointment to modify
-     * @param userString userString of appointment to modify
-     * @param customerId customerId of appointment to modify
-     * @param userId userId of appointment to modify
-     * @param contactId contactId of appointment to modify
-     * @param appointmentId appointmentId of the appointment to modify
+     * @param title modified title
+     * @param description modified description
+     * @param location modified location
+     * @param type modified type
+     * @param start modified start
+     * @param end modified end
+     * @param userString modified userString
+     * @param customerId modified customerId
+     * @param userId modified userId
+     * @param contactId modified contactId
+     * @param appointmentId modified Appointment ID
      * @throws SQLException signals a SQL Exception has occurred
      */
     public static void modifyAppointment(String title, String description, String location, String type, LocalDateTime start,
@@ -382,7 +382,7 @@ public class DBAppointments {
     /**
      * Deletes an Appointment from the database using a given Appointment ID.
      *
-     * @param appointmentId the appointmentId indicating the Appointment to be delet
+     * @param appointmentId the Appointment ID indicating the Appointment to be deleted
      * @throws SQLException signals a SQL Exception has occurred
      */
     public static void deleteAppointment(Integer appointmentId) throws SQLException {
