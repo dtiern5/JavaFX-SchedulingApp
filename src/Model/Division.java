@@ -115,7 +115,7 @@ public class Division {
 
     /**
      * Gets the one who last updated the Division
-     * @return
+     * @return the one who last updated the Division
      */
     public String getLastUpdatedBy() {
         return lastUpdatedBy;
