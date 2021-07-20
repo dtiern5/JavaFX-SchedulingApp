@@ -44,6 +44,9 @@ public class LogInController implements Initializable {
     private String minutes;
     private String noAppointments;
     private String zoneId;
+    private String appointmentId;
+    private String time;
+    private String date;
 
     @FXML
     private Label appName;
@@ -91,6 +94,10 @@ public class LogInController implements Initializable {
             minutes = rb.getString("minutes");
             noAppointments = rb.getString("No_Appointment_Alert");
             zoneId = rb.getString("Zone_ID");
+            appointmentId = rb.getString("Appointment_ID");
+            time = rb.getString("Time");
+            date = rb.getString("Date");
+
         } catch (Exception e) {
             System.out.println("Language not supported");
             System.out.println("Exiting");
@@ -175,8 +182,12 @@ public class LogInController implements Initializable {
 
         LocalTime currentTime = LocalTime.now();
 
+        // Initialize potential upcoming meeting
         boolean upcomingMeeting = false;
         Long timeToMeeting = null;
+        int upcomingAppointmentId = 0;
+        LocalTime upcomingAppointmentTime = null;
+        LocalDate upcomingAppointmentDate = null;
 
         for (Appointment a : todaysAppointments) {
             LocalTime startTime = a.getStartTime().toLocalTime();
@@ -188,11 +199,17 @@ public class LogInController implements Initializable {
             if (timeDifference <= 15 && timeDifference >= 0) {
                 upcomingMeeting = true;
                 timeToMeeting = timeDifference;
+                upcomingAppointmentId = a.getAppointmentId();
+                upcomingAppointmentTime = a.getStartTime().toLocalTime();
+                upcomingAppointmentDate = a.getStartTime().toLocalDate();
             }
         }
 
         if (upcomingMeeting) {
-            alert.setContentText(appointmentAlert + " " + timeToMeeting + " " + minutes);
+            alert.setContentText(appointmentAlert + " " + timeToMeeting + " " + minutes + "\n" +
+                    appointmentId + ": " + upcomingAppointmentId + "\n" +
+                    time + ": " + upcomingAppointmentTime + "\n" +
+                    date + ": " + upcomingAppointmentDate);
         } else {
             alert.setContentText(noAppointments);
         }
