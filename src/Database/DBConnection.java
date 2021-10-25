@@ -14,8 +14,8 @@ public class DBConnection {
     // JDBC URL parts
     private static final String protocol = "jdbc";
     private static final String vendorName = ":mysql:";
-    private static final String ipAddress = "//wgudb.ucertify.com:3306/";
-    private static final String dbName = "WJ08AkY";
+    private static final String ipAddress = "//us-cdbr-east-04.cleardb.com/";
+    private static final String dbName = "heroku_e07515b59a68919";
 
     // JDBC URL
     private static final String jdbcURL = protocol + vendorName + ipAddress + dbName;
@@ -24,13 +24,14 @@ public class DBConnection {
     private static Connection conn = null;
 
     // User name and password
-    private static final String userName = "U08AkY";
-    private static final String password = "53689231354";
+    private static final String userName = "bd06261092d6da";
+    private static final String password = "786c1ce7";
 
 
-    /*public static Connection startConnectionDriverManager() {
+ /*   public static Connection startConnection() {
         try {
-            conn = DriverManager.getConnection(jdbcURL, userName, password);
+            conn = DriverManager.getConnection("jdbc:mysql://us-cdbr-east-04.cleardb.com:3306/heroku_e07515b59a68919",
+                    userName, password);
             System.out.println("Connection successful");
         } catch (SQLException e) {
             e.printStackTrace();

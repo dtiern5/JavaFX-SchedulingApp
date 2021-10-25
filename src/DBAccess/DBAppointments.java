@@ -109,7 +109,7 @@ public class DBAppointments {
                 "FROM users AS u\n" +
                 "LEFT JOIN appointments as a\n" +
                 "ON u.User_ID = a.User_ID\n" +
-                "WHERE a.start BETWEEN ? AND ?\n" +
+                "WHERE a.Start BETWEEN ? AND ?\n" +
                 "AND u.User_Name = ?\n" +
                 "ORDER BY Start;";
 
