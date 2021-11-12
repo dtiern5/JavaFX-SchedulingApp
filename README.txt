@@ -1,11 +1,3 @@
-Built with:
-IntelliJ IDEA 2020.3.2 (Community Edition)
-Java SE 11.0.10
-JavaFX-SDK-11.0.2
-mysql-connector-java:8.0.22
-
-
-
 Purpose:
     This application is designed for a fictional consulting organization. It allows for simple CRUD interaction with a connected database. 
     The organization operates in multiple time zones, and with multiple languages. This application ensures an ease of use for end users by displaying
