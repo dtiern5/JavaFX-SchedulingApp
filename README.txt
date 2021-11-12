@@ -1,9 +1,3 @@
-Desktop Scheduling Application
-C195 Course Version 4
-Daniel Tierney
-dtiern5@wgu.edu
-July 19, 2021
-
 Built with:
 IntelliJ IDEA 2020.3.2 (Community Edition)
 Java SE 11.0.10
@@ -13,9 +7,8 @@ mysql-connector-java:8.0.22
 
 
 Purpose:
-    This application is designed for a fictional consulting organization. It allows for simple interaction with a database,
-    including adding to, deleting, and modifying database records for Customers and Appointments. The organization operates
-    in multiple time zones, and with multiple languages. This application ensures an ease of use for end users by displaying
+    This application is designed for a fictional consulting organization. It allows for simple CRUD interaction with a connected database. 
+    The organization operates in multiple time zones, and with multiple languages. This application ensures an ease of use for end users by displaying
     all appointment times in the user's local time, and ensures integrity of data by storing those same appointment times
     in UTC. It also disallows scheduling outside of business hours (8am - 10pm EST) and weekends in order to reduce
     scheduling errors.
@@ -24,7 +17,6 @@ Purpose:
 Directions:
     Log in with username: test and password: test
     Log in screen will display in English or French based on the user's system default
-
 
     Main screen:
     Appointment table can display appointments by week or month by using the radio buttons. The week or month displayed is
@@ -67,6 +59,5 @@ Directions:
     The Contact Schedule Report screen allows the user to select a contact. All of that contact's associated appointments
     are then displayed.
 
-    The Customer Location Report is the third report of my choice outlined in A3f of the requirements. The user selects a
-    country, and the table displays a breakdown of how many customers are in each first level division of that country.
-    Empty divisions are not shown.
+    The Customer Location Report allows the user to select a country, and the table displays a breakdown of how many customers 
+    are in each first level division of that country. Empty divisions are not shown.
